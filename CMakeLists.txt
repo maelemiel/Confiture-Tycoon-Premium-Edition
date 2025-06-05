@@ -32,10 +32,31 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 
-# Source files
-set(SOURCE_FILES
-        src/main.cpp)
+# Collect all source files
+file(GLOB_RECURSE SOURCES
+"src/*.cpp"
+"src/*.hpp"
+"src/*.h"
+)
 
-# Executable setup
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+# Create executable
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+# Link raylib
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
+
+# Copy assets folder to build directory
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets")
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets" 
+         DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+endif()
+
+# Platform-specific configurations
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} winmm)
+endif()
+
+# Set output directory
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
