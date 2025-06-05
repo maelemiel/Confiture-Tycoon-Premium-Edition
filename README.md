@@ -10,10 +10,8 @@
 
 ### Compilation
 ```bash
-mkdir build
-cd build
-cmake ..
-make -j$(nproc)
+cmake --build .
+./bin/UltraDualDeathRun2DeluxeEditionRemastered
 ```
 
 ### Lancement
