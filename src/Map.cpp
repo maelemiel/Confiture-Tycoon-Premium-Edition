@@ -13,6 +13,7 @@ namespace game {
         _scale(1.0f)
     {
         createTiles();
+        setOffsetToCenter();
 
         _grassTexture = raylib::Texture(
             "assets/textures/grass.png"
@@ -165,5 +166,13 @@ namespace game {
     const raylib::Texture &Map::getGrassTexture() const
     {
         return _grassTexture;
+    }
+
+    void Map::setOffsetToCenter()
+    {
+        setOffset(raylib::Vector2(
+            1920.0f * 0.5f - _size.x * Tile::size * 0.5f,
+            1080.0f * 0.5f - _size.y * Tile::size * 0.5f
+        ));
     }
 } // game
