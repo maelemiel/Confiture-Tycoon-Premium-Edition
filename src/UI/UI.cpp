@@ -8,8 +8,12 @@
 
 namespace game {
     void UI::draw() const {
+        float oxygenPercentage = 0.5f;
+        Rectangle sourceRect = {0, -1, 86 * oxygenPercentage, 21};
+        Rectangle destRect = {barOxyPosition.x, barOxyPosition.y, barOxySize * 86 * oxygenPercentage, barOxySize * 19};
+
         oxygenFrame.Draw(oxyFramePosition, 0, barOxySize);
-        barOxy.Draw(barOxyPosition, 0, barOxySize);
+        DrawTexturePro(barOxy, sourceRect, destRect, {0, 0}, 0, WHITE);
         logoOxy.Draw(logoOxyPosition, 0, logoOxySize);
 
         populationFrame.Draw(populationFramePosition, 0, populationFrameSize);
