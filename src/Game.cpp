@@ -12,6 +12,7 @@ namespace game
     {
         _window = std::make_unique<Window>(windowSize);
         _map = std::make_unique<Map>(raylib::Vector2(10, 10));
+        _resourceManager = std::make_unique<ResourceManager>();
     }
 
     void Game::handleInput()
@@ -49,6 +50,8 @@ namespace game
         } else {
             _map->setHoveredTile(nullptr);
         }
+        float deltaTime = GetFrameTime();
+        _resourceManager->update(deltaTime);
     }
 
     void Game::draw() const

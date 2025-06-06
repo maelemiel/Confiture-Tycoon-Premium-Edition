@@ -43,6 +43,8 @@ set(SOURCES
         src/Tile.hpp
         src/Window.cpp
         src/Window.hpp
+        src/ResourceManager.cpp
+        src/ResourceManager.hpp
         src/Structures/Abstracts/IStructure.hpp
         src/Structures/Abstracts/AHabitation.hpp
         src/Structures/Abstracts/AHabitation.cpp

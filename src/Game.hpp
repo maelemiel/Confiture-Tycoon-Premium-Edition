@@ -10,6 +10,7 @@
 
     #include "Map.hpp"
     #include "Window.hpp"
+    #include "ResourceManager.hpp"
 
 namespace game
 {
@@ -17,6 +18,7 @@ namespace game
     {
         std::unique_ptr<Window> _window;
         std::unique_ptr<Map> _map;
+        std::unique_ptr<ResourceManager> _resourceManager;
 
         // --- Input ---
         bool _isMouseInWindow;
