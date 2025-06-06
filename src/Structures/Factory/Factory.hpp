@@ -12,12 +12,12 @@ public:
     Factory();
     ~Factory() = default;
 
-    Structure::IStructure &createStructure(const std::string& type)
+    std::shared_ptr<Structure::IStructure> getStructure(const std::string& type)
     {
         if (_structureMap.find(type) == _structureMap.end()) {
             throw std::runtime_error("Structure type not found: " + type);
         }
-        return *_structureMap[type];
+        return _structureMap[type];
     }
 
     void registerStructure(const std::string& type, std::shared_ptr<Structure::IStructure> structure)
