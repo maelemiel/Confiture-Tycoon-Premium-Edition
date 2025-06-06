@@ -40,10 +40,8 @@ namespace game
         raylib::Vector2 _mouseScrollDelta;
         // Classes
         UI _ui;
-        std::string _selectedStruct;
+        std::string _selectedStructure;
         Structures::Factory _factory;
-
-        std::shared_ptr<Structure::IStructure> _selectedStructure;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
@@ -52,7 +50,7 @@ namespace game
         void update();
         void draw() const;
 
-        std::string getSelectedStruct() const;
+        std::string getSelectedStructure() const;
 
         [[nodiscard]] bool isRunning();
     };

@@ -19,7 +19,7 @@ namespace game
         _mouseButtonLeftPressed(false),
         _mouseButtonMiddlePressed(false),
         _mouseButtonRightPressed(false),
-        _selectedStructure(std::make_shared<Structure::House>())
+        _selectedStructure("House")
     {}
 
     void Game::handleInput()
@@ -40,6 +40,14 @@ namespace game
         _mouseButtonMiddleReleased = IsMouseButtonReleased(MOUSE_BUTTON_MIDDLE);
         _mouseButtonRightReleased = IsMouseButtonReleased(MOUSE_BUTTON_RIGHT);
 
+        if (IsKeyPressed(KEY_T)) {
+            _selectedStructure = "Tree";
+        } else if (IsKeyPressed(KEY_H)) {
+            _selectedStructure = "House";
+        } else if (IsKeyPressed(KEY_G)) {
+            _selectedStructure = "Generator";
+        }
+
         _mouseScrollDelta = GetMouseWheelMoveV();
     }
 
@@ -47,9 +55,10 @@ namespace game
     {
         const auto mouseWorldPosition = _map.getScreenPositionAsWorldPosition(_mousePosition);
         const std::shared_ptr<Tile> hoverTile = _map.getTileAtWorldPosition(mouseWorldPosition);
+        const auto structure = _factory.getStructure(_selectedStructure);
 
-        if (_selectedStructure != nullptr) {
-            _map.setHoverSize(_selectedStructure->getSize());
+        if (structure != nullptr) {
+            _map.setHoverSize(structure->getSize());
         } else {
             _map.setHoverSize(0);
         }
@@ -69,7 +78,7 @@ namespace game
         if (_mouseButtonLeftDown) {
             if (hoverTile != nullptr && !hoverTile->hasStructure()
                 && _map.areAllHoveredTilesEmpty()) {
-                hoverTile->setStructure(_selectedStructure);
+                hoverTile->setStructure(structure);
             }
         }
         if (_mouseButtonRightDown) {
@@ -102,9 +111,9 @@ namespace game
         return _window.isOpen();
     }
 
-    std::string Game::getSelectedStruct() const
+    std::string Game::getSelectedStructure() const
     {
-        return _selectedStruct;
+        return _selectedStructure;
     }
 
 } // game
