@@ -54,6 +54,7 @@ namespace game {
         [[nodiscard]] const raylib::Texture &getGrassTexture() const;
 
         void setOffsetToCenter();
+        [[nodiscard]] raylib::Vector2 getSize() const;
     };
 } // game
 
