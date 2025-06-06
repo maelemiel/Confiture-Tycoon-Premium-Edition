@@ -6,6 +6,8 @@
 
 #include <Rectangle.hpp>
 
+#include "Map.hpp"
+
 namespace game {
     Tile::Tile(Map &map, const raylib::Vector2 position) : m_map(map),
         m_position(position)
@@ -15,9 +17,10 @@ namespace game {
 
     void Tile::draw(Window &window) const
     {
+        const auto drawOffset = m_map.getOffset();
         const auto rect = raylib::Rectangle(
-            m_position.x * size,
-            m_position.y * size,
+            drawOffset.x + m_position.x * size,
+            drawOffset.y + m_position.y * size,
             size,
             size
         );

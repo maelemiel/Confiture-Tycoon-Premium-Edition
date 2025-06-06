@@ -33,4 +33,14 @@ namespace game {
             tile->draw(window);
         }
     }
+
+    raylib::Vector2 Map::getOffset() const
+    {
+        return m_offset;
+    }
+
+    void Map::setOffset(const raylib::Vector2 offset)
+    {
+        m_offset = offset;
+    }
 } // game

@@ -12,7 +12,25 @@ namespace game
         m_map = std::make_unique<Map>(raylib::Vector2(10, 10));
     }
 
-    void Game::update() const
+    void Game::handleInput()
+    {
+        m_lastMousePosition = m_mousePosition;
+        m_mousePosition = GetMousePosition();
+        m_mouseDelta = m_mousePosition - m_lastMousePosition;
+
+        m_mouseButtonLeftPressed = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+        m_mouseButtonMiddlePressed = IsMouseButtonDown(MOUSE_BUTTON_MIDDLE);
+        m_mouseButtonRightPressed = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
+    }
+
+    void Game::update()
+    {
+        if (m_mouseButtonMiddlePressed) {
+            m_map->setOffset(m_map->getOffset() + m_mouseDelta);
+        }
+    }
+
+    void Game::draw() const
     {
         raylib::Window &raylibWindow = m_window->getRaylibWindow();
 
