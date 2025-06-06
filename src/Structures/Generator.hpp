@@ -1,7 +1,7 @@
 #ifndef GENERATOR_HPP
 #define GENERATOR_HPP
 
-#include "AResourceProducer.hpp"
+#include "Abstracts/AResourceProducer.hpp"
 
 namespace Structure {
 class Generator : public AResourceProducer {

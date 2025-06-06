@@ -1,7 +1,7 @@
 #ifndef HOUSE_HPP
 #define HOUSE_HPP
 
-#include "AHabitation.hpp"
+#include "Abstracts/AHabitation.hpp"
 
 namespace Structure {
 class House : public AHabitation {

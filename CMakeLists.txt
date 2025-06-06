@@ -41,6 +41,8 @@ set(SOURCES
         src/Structures/Abstracts/AOxygenProducer.cpp
         src/Structures/Abstracts/AResourceProducer.hpp
         src/Structures/Abstracts/AResourceProducer.cpp
+        src/Structures/Factory/Factory.cpp
+        src/Structures/Factory/Factory.hpp
         src/Structures/Tree.hpp
         src/UI/UI.cpp
         src/UI/UI.hpp
@@ -60,7 +62,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Include headers directories
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/include")
+        "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # Link raylib
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
