@@ -52,6 +52,12 @@ set(SOURCES
         src/Tile.hpp
         src/Window.cpp
         src/Window.hpp
+        src/Events/EventManager.cpp
+        src/Events/EventManager.hpp
+        src/Events/IEvent.cpp
+        src/Events/IEvent.hpp
+        src/Events/MeteorEvent.cpp
+        src/Events/MeteorEvent.hpp
 )
 
 # Create executable
