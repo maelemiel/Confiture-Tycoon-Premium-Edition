@@ -15,18 +15,19 @@ namespace game
     class Ui
     {
     private:
-        Texture2D logoOxy;
-        Texture2D logoPeople;
-        Texture2D logoRessources;
-        Texture2D logoBuild;
-        Texture2D logoGrid;
-        Texture2D Oxy;
-        Texture2D People;
-        Texture2D Ressources;
-        Texture2D Build;
-        Texture2D Grid;
-        Texture2D barOxy;
-        Texture2D barPeople;
+        int _a;
+        raylib::Texture logoOxy;
+        raylib::Texture logoPeople;
+        raylib::Texture logoRessources;
+        raylib::Texture logoBuild;
+        raylib::Texture logoGrid;
+        raylib::Texture barOxy;
+        raylib::Texture barPeople;
+        raylib::Texture Oxy;
+        raylib::Texture People;
+        raylib::Texture Ressources;
+        raylib::Texture Build;
+        raylib::Texture Grid;
         //text nb people
 
         Vector2 OxyPosition;
@@ -46,15 +47,15 @@ namespace game
         void draw() const;
 
         // Variables
-        Ui() {
-            logoOxy = raylib::Texture2D("assets/oxygen_tank.png");
-            logoPeople = raylib::Texture2D("assets/population.png");
-            logoRessources = raylib::Texture2D("assets/jam.png");
-            logoBuild = raylib::Texture2D("assets/build.png");
-            logoGrid = raylib::Texture2D("assets/grid.png");
-            barOxy = raylib::Texture2D("assets/oxygen bar.png");
-            barPeople = raylib::Texture2D("assets/population bar.png");
-
+        Ui() :
+            logoOxy("assets/oxygen_tank.png"),
+            logoPeople("assets/people_tank.png"),
+            logoRessources("assets/jam.png"),
+            logoBuild("assets/build.png"),
+            logoGrid("assets/grid.png"),
+            barOxy("assets/oxygen bar.png"),
+            barPeople("assets/population bar.png")
+        {
             OxyPosition = { 10, 10 };
             PeoplePosition = { 10, 50 };
             RessourcesPosition = { 10, 90 };
