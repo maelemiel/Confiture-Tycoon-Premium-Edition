@@ -43,6 +43,14 @@ set(SOURCES
         src/Tile.hpp
         src/Window.cpp
         src/Window.hpp
+        src/Structures/Abstracts/IStructure.hpp
+        src/Structures/Abstracts/AHabitation.hpp
+        src/Structures/Abstracts/AHabitation.cpp
+        src/Structures/Abstracts/AOxygenProducer.hpp
+        src/Structures/Abstracts/AOxygenProducer.cpp
+        src/Structures/Abstracts/ARessourceProducer.hpp
+        src/Structures/Abstracts/ARessourceProducer.cpp
+        src/Structures/Tree.hpp
 )
 
 # Create executable

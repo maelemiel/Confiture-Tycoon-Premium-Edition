@@ -1,15 +1,15 @@
-#ifndef ISTRUCTURES_HPP
-#define ISTRUCTURES_HPP
+#ifndef ISTRUCTURE_HPP
+#define ISTRUCTURE_HPP
 
 #include <string>
 #include "raylib-cpp.hpp"
 
 using namespace std;
 
-namespace Structures {
-class IStructures {
+namespace Structure {
+class IStructure {
 public:
-    virtual ~IStructures() = default;
+    virtual ~IStructure() = default;
 
     virtual void drawIcon() = 0;
     virtual void drawIcon(raylib::Vector2) = 0;
@@ -35,4 +35,4 @@ protected:
 };
 }
 
-#endif // ISTRUCTURES_HPP
+#endif // ISTRUCTURE_HPP

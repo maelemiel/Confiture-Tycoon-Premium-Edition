@@ -1,13 +1,13 @@
-#ifndef AOXYGENPRODUCER_HPP
-#define AOXYGENPRODUCER_HPP
+#ifndef AHABITATION_HPP
+#define AHABITATION_HPP
 
-#include "IStructures.hpp"
+#include "IStructure.hpp"
 #include "raylib-cpp.hpp"
 
-namespace Structures {
-class AOxygenProducer : public IStructures {
+namespace Structure {
+class AHabitation : public IStructure {
 public:
-    virtual ~AOxygenProducer() = default;
+    virtual ~AHabitation() = default;
 
     void drawIcon();
     void drawIcon(raylib::Vector2 position);
@@ -24,15 +24,11 @@ public:
     int getPollutionEffect() { return _pollutionEffect; }
 
     // Abstract getters
-    int getOxygenProduction() const { return _oxigenProduction; }
-    int getRessourceConsomption() const { return _ressourceConsomption; }
-    int getHabitantNeeded() const { return _habitantNeeded; }
+    int getHabitationCap() const { return _habitantCap; }
 
 protected:
-    int _oxigenProduction;
-    int _ressourceConsomption;
-    int _habitantNeeded;
+    int _habitantCap;
 };
 }
 
-#endif // AOXYGENPRODUCER_HPP
+#endif // AHABITATION_HPP
