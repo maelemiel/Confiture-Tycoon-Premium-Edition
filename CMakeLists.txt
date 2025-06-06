@@ -34,6 +34,16 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 
 # Collect all source files
 set(SOURCES
+        src/Structures/Abstracts/IStructure.hpp
+        src/Structures/Abstracts/AHabitation.hpp
+        src/Structures/Abstracts/AHabitation.cpp
+        src/Structures/Abstracts/AOxygenProducer.hpp
+        src/Structures/Abstracts/AOxygenProducer.cpp
+        src/Structures/Abstracts/AResourceProducer.hpp
+        src/Structures/Abstracts/AResourceProducer.cpp
+        src/Structures/Factory/Factory.cpp
+        src/Structures/Factory/Factory.hpp
+        src/Structures/Tree.hpp
         src/UI/UI.cpp
         src/UI/UI.hpp
         src/Game.cpp
@@ -45,16 +55,6 @@ set(SOURCES
         src/Tile.hpp
         src/Window.cpp
         src/Window.hpp
-        src/ResourceManager.cpp
-        src/ResourceManager.hpp
-        src/Structures/Abstracts/IStructure.hpp
-        src/Structures/Abstracts/AHabitation.hpp
-        src/Structures/Abstracts/AHabitation.cpp
-        src/Structures/Abstracts/AOxygenProducer.hpp
-        src/Structures/Abstracts/AOxygenProducer.cpp
-        src/Structures/Abstracts/ARessourceProducer.hpp
-        src/Structures/Abstracts/ARessourceProducer.cpp
-        src/Structures/Tree.hpp
 )
 
 # Create executable
@@ -62,7 +62,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Include headers directories
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/include")
+        "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # Link raylib
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
