@@ -38,6 +38,8 @@ namespace game {
 
         [[nodiscard]] bool hasStructure() const;
         [[nodiscard]] Structure::IStructure &getStructure() const;
+        [[nodiscard]] std::shared_ptr<Structure::IStructure> getStructureSharedPtr() const;
+
         void setStructure(const std::shared_ptr<Structure::IStructure> &structure);
 
         [[nodiscard]] bool isEmpty();

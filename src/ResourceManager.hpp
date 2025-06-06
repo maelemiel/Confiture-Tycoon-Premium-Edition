@@ -5,6 +5,7 @@
 #include <vector>
 #include <raylib-cpp.hpp>
 #include "Structures/Abstracts/IStructure.hpp"
+#include "Map.hpp"
 
 namespace game
 {
@@ -32,6 +33,8 @@ public:
     void update(float deltaTime);
     void updateProduction(
         const std::vector<std::shared_ptr<Structure::IStructure>> &structures);
+    void RessourceUpdate(
+        const std::pmr::list<std::shared_ptr<Tile>> &tiles);
 
     // 🍯 SweetSweet Management
     int getSweetSweet() const
