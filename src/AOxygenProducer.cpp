@@ -53,4 +53,3 @@ Texture2D &AOxygenProducer::getSprite()
 }
 
 } // namespace Structures
-
