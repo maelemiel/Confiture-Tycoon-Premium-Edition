@@ -1,0 +1,38 @@
+#ifndef AOXYGENPRODUCER_HPP
+#define AOXYGENPRODUCER_HPP
+
+#include "IStructures.hpp"
+#include "raylib-cpp.hpp"
+
+namespace Structures {
+class AOxygenProducer : public IStructures {
+public:
+    virtual ~AOxygenProducer() = default;
+
+    void drawIcon();
+    void drawIcon(raylib::Vector2 position);
+    void drawSprite();
+    void drawSprite(raylib::Vector2 position);
+
+    // Interface getters
+    string &getName() { return _name; }
+    int getRessourceCost() { return _ressourceCost; }
+    int getOxygenCost() { return _oxygenCost; }
+    raylib::Vector2 getSize() { return _size; }
+    Texture2D &getIcon() { return _icon; }
+    Texture2D &getSprite() { return _sprite; }
+    int getPollutionEffect() { return _pollutionEffect; }
+
+    // Abstract getters
+    int getOxygenProduction() const { return _oxigenProduction; }
+    int getRessourceConsomption() const { return _ressourceConsomption; }
+    int getHabitantNeeded() const { return _habitantNeeded; }
+
+protected:
+    int _oxigenProduction;
+    int _ressourceConsomption;
+    int _habitantNeeded;
+};
+}
+
+#endif // AOXYGENPRODUCER_HPP
