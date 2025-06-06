@@ -14,12 +14,12 @@ namespace game
     Game::Game(const raylib::Vector2 windowSize) :
         _window(windowSize),
         _map(raylib::Vector2(10, 10)),
+        _resourceManager(std::make_unique<ResourceManager>()),
         _isMouseInWindow(false),
         _mouseButtonLeftPressed(false),
         _mouseButtonMiddlePressed(false),
         _mouseButtonRightPressed(false),
-        _selectedStructure(std::make_shared<Structure::House>()),
-        _resourceManager(std::make_unique<ResourceManager>())
+        _selectedStructure(std::make_shared<Structure::House>())
     {}
 
     void Game::handleInput()

@@ -1,7 +1,7 @@
 #include "ResourceManager.hpp"
 #include "Structures/Abstracts/AHabitation.hpp"
 #include "Structures/Abstracts/AOxygenProducer.hpp"
-#include "Structures/Abstracts/ARessourceProducer.hpp"
+#include "Structures/Abstracts/AResourceProducer.hpp"
 #include <iostream>
 
 namespace game
@@ -111,9 +111,9 @@ void ResourceManager::calculateProduction(
         }
 
         if (auto resourceProducer =
-                std::dynamic_pointer_cast<Structure::ARessourceProducer>(
+                std::dynamic_pointer_cast<Structure::AResourceProducer>(
                     structure)) {
-            _SweetSweetPerSecond += resourceProducer->getRessourceProduction();
+            _SweetSweetPerSecond += resourceProducer->getResourceProduction();
             _oxygenPerSecond -= resourceProducer->getOxygenConsumption();
         }
     }
