@@ -17,11 +17,13 @@ namespace game {
         std::pmr::list<std::shared_ptr<Tile>> _tiles;
         raylib::Vector2 _offset;
         float _scale;
-        std::optional<std::shared_ptr<Tile>> _hoveredTile;
+        std::shared_ptr<Tile> _hoveredTile;
+        raylib::Vector2 _hoverSize;
 
         raylib::Texture _grassTexture;
 
         void createTiles();
+        void highlightTiles() const;
 
     public:
         explicit Map(raylib::Vector2 size);
@@ -37,10 +39,14 @@ namespace game {
         [[nodiscard]] raylib::Vector2 getScreenPositionAsWorldPosition(
             raylib::Vector2 mousePosition) const;
 
+        [[nodiscard]] std::shared_ptr<Tile> getTile(raylib::Vector2 index) const;
         [[nodiscard]] std::shared_ptr<Tile> getTileAtWorldPosition(
             raylib::Vector2 worldPosition) const;
 
-        void setHoveredTile(const std::shared_ptr<Tile> &tile) const;
+        void setHoveredTile(const std::shared_ptr<Tile> &tile);
+        void setHoverSize(raylib::Vector2 size);
+        [[nodiscard]] std::list<std::shared_ptr<Tile>> getHoveredTiles() const;
+        [[nodiscard]] bool areAllHoveredTilesEmpty() const;
 
         [[nodiscard]] const raylib::Texture &getGrassTexture() const;
     };

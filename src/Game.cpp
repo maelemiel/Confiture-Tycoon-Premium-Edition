@@ -6,6 +6,7 @@
 
 #include <iostream>
 
+#include "Structures/House.hpp"
 #include "Structures/Tree.hpp"
 
 namespace game
@@ -16,7 +17,8 @@ namespace game
         _isMouseInWindow(false),
         _mouseButtonLeftPressed(false),
         _mouseButtonMiddlePressed(false),
-        _mouseButtonRightPressed(false)
+        _mouseButtonRightPressed(false),
+        _selectedStructure(std::make_shared<Structure::House>())
     {}
 
     void Game::handleInput()
@@ -45,6 +47,11 @@ namespace game
         const auto mouseWorldPosition = _map.getScreenPositionAsWorldPosition(_mousePosition);
         const std::shared_ptr<Tile> hoverTile = _map.getTileAtWorldPosition(mouseWorldPosition);
 
+        if (_selectedStructure != nullptr) {
+            _map.setHoverSize(_selectedStructure->getSize());
+        } else {
+            _map.setHoverSize(0);
+        }
         if (_mouseButtonMiddleDown) {
             _map.setOffset(_map.getOffset() + _mouseDelta / _map.getScale());
         }
@@ -60,8 +67,9 @@ namespace game
 
         _map.setHoveredTile(hoverTile);
         if (_mouseButtonLeftDown) {
-            if (hoverTile != nullptr && !hoverTile->hasStructure()) {
-                hoverTile->setStructure(std::make_unique<Structure::Tree>());
+            if (hoverTile != nullptr && !hoverTile->hasStructure()
+                && _map.areAllHoveredTilesEmpty()) {
+                hoverTile->setStructure(_selectedStructure);
             }
         }
         if (_mouseButtonRightDown) {
