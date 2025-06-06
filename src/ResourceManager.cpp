@@ -87,6 +87,27 @@ void ResourceManager::resetGame()
 
 }
 
+void ResourceManager::RessourceUpdate(
+    const std::pmr::list<std::shared_ptr<Tile>> &tiles)
+{
+    std::vector<std::shared_ptr<Structure::IStructure>> structures;
+
+    for (const auto &tile : tiles) {
+        if (tile->isEmpty())
+            continue;
+        if (tile->getLinkedTile() != nullptr) {
+            continue;
+        }
+        auto structure = tile->getStructureSharedPtr();
+        if (structure) {
+            structures.push_back(structure);
+        }
+    }
+    if (!structures.empty()) {
+        calculateProduction(structures);
+    }
+}
+
 void ResourceManager::calculateProduction(
     const std::vector<std::shared_ptr<Structure::IStructure>> &structures)
 {

@@ -88,6 +88,7 @@ namespace game
         }
         float deltaTime = GetFrameTime();
         _resourceManager->update(deltaTime);
+        _resourceManager->RessourceUpdate(_map.getTiles());
     }
 
     void Game::draw() const
