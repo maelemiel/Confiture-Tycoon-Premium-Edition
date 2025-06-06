@@ -52,7 +52,7 @@ set(SOURCES
         src/Structures/Abstracts/ARessourceProducer.cpp
         src/Structures/Tree.hpp
 )
-        
+
 # Create executable
 add_executable(${PROJECT_NAME} ${SOURCES})
 
