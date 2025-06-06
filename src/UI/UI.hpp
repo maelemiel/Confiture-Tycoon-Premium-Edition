@@ -34,11 +34,12 @@ namespace game
         Vector2 OxyPosition;
         Vector2 OxyFramePosition;
         Vector2 barOxyPosition;
+        Vector2 logoOxyPosition;
+        float logoOxySize;
         Vector2 PeoplePosition;
         Vector2 RessourcesPosition;
         Vector2 BuildPosition;
         Vector2 GridPosition;
-        Vector2 logoOxySize;
         Vector2 logoPeopleSize;
         Vector2 logoRessourcesSize;
         Vector2 logoBuildSize;
@@ -64,6 +65,9 @@ namespace game
             barOxyPosition = {25, 20};
             OxyFramePosition = {barOxyPosition.x - 2 * barOxySize, barOxyPosition.y - 2 * barOxySize};
             OxyPosition = { 10, 10 };
+            logoOxyPosition = {460, 15};
+            logoOxySize = 0.2;
+
             PeoplePosition = { 10, 50 };
             RessourcesPosition = { 10, 90 };
             BuildPosition = { 10, 130 };
