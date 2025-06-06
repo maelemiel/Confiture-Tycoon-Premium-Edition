@@ -93,6 +93,7 @@ void ResourceManager::calculateProduction(
 {
     _SweetSweetPerSecond = 0;
     _oxygenPerSecond = 0;
+    _population = 0;
 
     for (const auto &structure : structures) {
         if (!structure)
