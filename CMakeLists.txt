@@ -43,6 +43,7 @@ set(SOURCES
 set(HEADERS
         include/Game.hpp
         include/Window.hpp
+        src/UI/draw_ui.cpp
 )
 
 # Create executable
