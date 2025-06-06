@@ -36,6 +36,8 @@ namespace game
         // Classes
         UI _ui;
 
+        std::shared_ptr<Structure::IStructure> _selectedStructure;
+
     public:
         explicit Game(raylib::Vector2 windowSize);
 

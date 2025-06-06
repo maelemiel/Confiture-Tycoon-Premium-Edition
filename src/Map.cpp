@@ -5,6 +5,8 @@
 #include "Map.hpp"
 
 #include <algorithm>
+#include <iostream>
+#include <ostream>
 
 namespace game {
     Map::Map(const raylib::Vector2 size) : _size(size), _offset(0, 0),
@@ -34,10 +36,40 @@ namespace game {
         }
     }
 
+    void Map::highlightTiles() const
+    {
+        const auto targetTile =
+            _hoveredTile->getLinkedTile() != nullptr
+            ? _hoveredTile->getLinkedTile()
+            : _hoveredTile;
+        const auto hoverPosition = targetTile->getScreenPosition();
+        const auto hoverBounds = raylib::Rectangle(
+            hoverPosition.x,
+            hoverPosition.y,
+            _hoverSize.x * Tile::size * _scale,
+            _hoverSize.y * Tile::size * _scale
+        );
+
+        hoverBounds.DrawLines(
+            areAllHoveredTilesEmpty() ?
+                raylib::Color::White() : raylib::Color::SkyBlue(),
+            5.0f * _scale
+        );
+    }
+
     void Map::draw(const Window &window) const
     {
         for (const auto &tile : _tiles) {
-            tile->draw(window);
+            tile->drawBackground(window);
+        }
+        for (const auto &tile : _tiles) {
+            tile->drawForeground(window);
+        }
+        if (_hoveredTile != nullptr && _hoverSize.x > 0 && _hoverSize.y > 0) {
+            if (_hoveredTile->isEmpty() && !areAllHoveredTilesEmpty()) {
+                return;
+            }
+            highlightTiles();
         }
     }
 
@@ -70,6 +102,16 @@ namespace game {
         };
     }
 
+    std::shared_ptr<Tile> Map::getTile(const raylib::Vector2 index) const
+    {
+        for (auto &tile : _tiles) {
+            if (tile->getPosition() == index) {
+                return tile;
+            }
+        }
+        return nullptr;
+    }
+
     std::shared_ptr<Tile> Map::getTileAtWorldPosition(
         const raylib::Vector2 worldPosition) const
     {
@@ -81,11 +123,43 @@ namespace game {
         return nullptr;
     }
 
-    void Map::setHoveredTile(const std::shared_ptr<Tile> &tile) const
+    void Map::setHoveredTile(const std::shared_ptr<Tile> &tile)
     {
-        for (auto &itTile : _tiles) {
-            itTile->setHovered(itTile == tile);
+        _hoveredTile = tile;
+    }
+
+    std::list<std::shared_ptr<Tile>> Map::getHoveredTiles() const
+    {
+        std::list<std::shared_ptr<Tile>> list;
+
+        for (int x = 0; x < static_cast<int>(_hoverSize.x); x++) {
+            for (int y = 0; y < static_cast<int>(_hoverSize.y); y++) {
+                const auto tile = getTile(
+                    raylib::Vector2(
+                        _hoveredTile->getPosition().x + static_cast<float>(x),
+                        _hoveredTile->getPosition().y + static_cast<float>(y)
+                    )
+                );
+
+                list.push_back(tile);
+            }
         }
+        return list;
+    }
+
+    bool Map::areAllHoveredTilesEmpty() const
+    {
+        return ranges::all_of(getHoveredTiles(), [](const std::shared_ptr<Tile> &tile) {
+            if (tile == nullptr) {
+                return false;
+            }
+            return tile->isEmpty();
+        });
+    }
+
+    void Map::setHoverSize(const raylib::Vector2 size)
+    {
+        _hoverSize = size;
     }
 
     const raylib::Texture &Map::getGrassTexture() const
