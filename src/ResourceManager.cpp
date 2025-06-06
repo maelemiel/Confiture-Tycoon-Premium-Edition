@@ -108,7 +108,7 @@ void ResourceManager::calculateProduction(
                 std::dynamic_pointer_cast<Structure::AOxygenProducer>(
                     structure)) {
             _oxygenPerSecond += oxygenProducer->getOxygenProduction();
-            _SweetSweetPerSecond -= oxygenProducer->getRessourceConsomption();
+            _SweetSweetPerSecond -= oxygenProducer->getRessourceConsumption();
         }
 
         if (auto resourceProducer =
