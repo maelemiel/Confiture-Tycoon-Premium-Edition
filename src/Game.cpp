@@ -14,6 +14,7 @@ namespace game
     Game::Game(const raylib::Vector2 windowSize) :
         _window(windowSize),
         _map(raylib::Vector2(10, 10)),
+        _resourceManager(std::make_unique<ResourceManager>()),
         _isMouseInWindow(false),
         _mouseButtonLeftPressed(false),
         _mouseButtonMiddlePressed(false),
@@ -64,8 +65,7 @@ namespace game
 
             _map.setOffset(_map.getOffset() + (mouseOffset - oldMouseOffset));
         }
-
-        _map.setHoveredTile(hoverTile);
+                _map.setHoveredTile(hoverTile);
         if (_mouseButtonLeftDown) {
             if (hoverTile != nullptr && !hoverTile->hasStructure()
                 && _map.areAllHoveredTilesEmpty()) {
@@ -77,6 +77,8 @@ namespace game
                 hoverTile->setStructure(nullptr);
             }
         }
+        float deltaTime = GetFrameTime();
+        _resourceManager->update(deltaTime);
     }
 
     void Game::draw() const

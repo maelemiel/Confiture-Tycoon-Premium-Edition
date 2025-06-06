@@ -25,7 +25,7 @@ public:
 
     // Abstract getters
     int getOxygenProduction() const { return _oxigenProduction; }
-    int getRessourceConsomption() const { return _ressourceConsomption; }
+    int getRessourceConsumption() const { return _ressourceConsomption; }
     int getHabitantNeeded() const { return _habitantNeeded; }
 
 protected:
