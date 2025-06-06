@@ -1,6 +1,6 @@
 #include "ARessourceProducer.hpp"
 
-namespace Structures {
+namespace Structure {
 
 void ARessourceProducer::drawIcon()
 {
@@ -22,4 +22,4 @@ void ARessourceProducer::drawSprite(raylib::Vector2 position)
     DrawTexture(_sprite, position.x, position.y, WHITE);
 }
 
-} // namespace Structures
+} // namespace Structure

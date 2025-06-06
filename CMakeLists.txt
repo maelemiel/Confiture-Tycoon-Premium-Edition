@@ -35,24 +35,26 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 # Collect all source files
 set(SOURCES
         src/Game.cpp
+        src/Game.hpp
         src/main.cpp
         src/Map.cpp
+        src/Map.hpp
         src/Tile.cpp
+        src/Tile.hpp
         src/Window.cpp
-        src/UI/Ui.cpp
-)
-
-# Collect all header files
-set(HEADERS
-        include/Game.hpp
-        include/Map.hpp
-        include/Tile.hpp
-        include/Window.hpp
-        include/Ui.hpp
+        src/Window.hpp
+        src/Structures/Abstracts/IStructure.hpp
+        src/Structures/Abstracts/AHabitation.hpp
+        src/Structures/Abstracts/AHabitation.cpp
+        src/Structures/Abstracts/AOxygenProducer.hpp
+        src/Structures/Abstracts/AOxygenProducer.cpp
+        src/Structures/Abstracts/ARessourceProducer.hpp
+        src/Structures/Abstracts/ARessourceProducer.cpp
+        src/Structures/Tree.hpp
 )
 
 # Create executable
-add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Include headers directories
 target_include_directories(${PROJECT_NAME} PRIVATE
