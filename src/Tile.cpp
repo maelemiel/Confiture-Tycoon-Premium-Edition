@@ -19,10 +19,10 @@ namespace game {
     {
         const auto drawOffset = m_map.getOffset();
         const auto rect = raylib::Rectangle(
-            drawOffset.x + m_position.x * size,
-            drawOffset.y + m_position.y * size,
-            size,
-            size
+            (drawOffset.x + m_position.x * size) * m_map.getScale(),
+            (drawOffset.y + m_position.y * size) * m_map.getScale(),
+            size * m_map.getScale(),
+            size * m_map.getScale()
         );
 
         rect.DrawGradient(

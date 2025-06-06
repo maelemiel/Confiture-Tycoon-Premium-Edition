@@ -4,8 +4,10 @@
 
 #include "Map.hpp"
 
+#include <algorithm>
+
 namespace game {
-    Map::Map(const raylib::Vector2 size) : m_size(size)
+    Map::Map(const raylib::Vector2 size) : m_size(size), m_scale(1.0f)
     {
         createTiles();
     }
@@ -42,5 +44,15 @@ namespace game {
     void Map::setOffset(const raylib::Vector2 offset)
     {
         m_offset = offset;
+    }
+
+    float Map::getScale() const
+    {
+        return m_scale;
+    }
+
+    void Map::setScale(const float scale)
+    {
+        m_scale = std::ranges::clamp(scale, 0.05f, 10.0f);
     }
 } // game

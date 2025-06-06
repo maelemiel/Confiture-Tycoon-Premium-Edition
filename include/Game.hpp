@@ -17,12 +17,15 @@ namespace game
     {
         std::unique_ptr<Window> m_window;
         std::unique_ptr<Map> m_map;
+
+        // --- Input ---
         raylib::Vector2 m_mousePosition;
         raylib::Vector2 m_lastMousePosition;
         raylib::Vector2 m_mouseDelta;
         bool m_mouseButtonLeftPressed = false;
         bool m_mouseButtonMiddlePressed = false;
         bool m_mouseButtonRightPressed = false;
+        raylib::Vector2 m_mouseScrollDelta;
 
     public:
         explicit Game(raylib::Vector2 windowSize);

@@ -15,6 +15,7 @@ namespace game {
         raylib::Vector2 m_size;
         std::pmr::list<std::unique_ptr<Tile>> m_tiles;
         raylib::Vector2 m_offset;
+        float m_scale;
 
         void createTiles();
 
@@ -25,6 +26,9 @@ namespace game {
 
         [[nodiscard]] raylib::Vector2 getOffset() const;
         void setOffset(raylib::Vector2 offset);
+
+        [[nodiscard]] float getScale() const;
+        void setScale(float scale);
     };
 } // game
 

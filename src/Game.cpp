@@ -4,6 +4,8 @@
 
 #include "Game.hpp"
 
+#include <iostream>
+
 namespace game
 {
     Game::Game(raylib::Vector2 windowSize)
@@ -21,12 +23,18 @@ namespace game
         m_mouseButtonLeftPressed = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
         m_mouseButtonMiddlePressed = IsMouseButtonDown(MOUSE_BUTTON_MIDDLE);
         m_mouseButtonRightPressed = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
+
+        m_mouseScrollDelta = GetMouseWheelMoveV();
     }
 
     void Game::update()
     {
         if (m_mouseButtonMiddlePressed) {
-            m_map->setOffset(m_map->getOffset() + m_mouseDelta);
+            m_map->setOffset(m_map->getOffset() + m_mouseDelta / m_map->getScale());
+        }
+        if (m_mouseScrollDelta != Vector2Zero()) {
+            // TODO: Make the zoom centered on the mouse position.
+            m_map->setScale(m_map->getScale() + m_mouseScrollDelta.y * 0.05f);
         }
     }
 
