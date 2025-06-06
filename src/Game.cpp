@@ -36,8 +36,13 @@ namespace game
             _map->setOffset(_map->getOffset() + _mouseDelta / _map->getScale());
         }
         if (_mouseScrollDelta != Vector2Zero()) {
-            // TODO: Make the zoom centered on the mouse position.
+            const auto oldMouseOffset = _map->getScreenPositionAsWorldPosition(_mousePosition);
+
             _map->setScale(_map->getScale() + _mouseScrollDelta.y * 0.05f);
+
+            const auto mouseOffset = _map->getScreenPositionAsWorldPosition(_mousePosition);
+
+            _map->setOffset(_map->getOffset() + (mouseOffset - oldMouseOffset));
         }
         if (hoverTile.has_value()) {
             _map->setHoveredTile(hoverTile.value());
