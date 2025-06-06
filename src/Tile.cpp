@@ -22,12 +22,21 @@ namespace game {
     {
         const auto screenPosition = getScreenPosition();
         const float textureScale = size / 512.0f * _map.getScale();
+        auto tint = raylib::Color::White();
 
+        if (hasStructure()) {
+            if (Structure::IStructure &structure = getStructure();
+                structure.getPollutionEffect() < 0) {
+                tint = raylib::Color::Green();
+            } else if (structure.getPollutionEffect() > 0) {
+                tint = raylib::Color::Red();
+            }
+        }
         _map.getGrassTexture().Draw(
             screenPosition,
             0.0f,
             textureScale,
-            raylib::Color::White()
+            tint
         );
     }
 
@@ -119,6 +128,9 @@ namespace game {
 
     Structure::IStructure &Tile::getStructure() const
     {
+        if (_linkedTile != nullptr) {
+            return _linkedTile->getStructure();
+        }
         return *_structure;
     }
 
