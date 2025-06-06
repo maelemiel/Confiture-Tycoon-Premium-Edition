@@ -25,15 +25,19 @@ namespace game {
             screenSize.x,
             screenSize.y
         );
+        const auto textureScaleFactor = raylib::Vector2(
+            size / _map.getGrassTexture().GetSize().x * _map.getScale(),
+            size / _map.getGrassTexture().GetSize().y * _map.getScale()
+        );
 
-        rect.DrawGradient(
-            GREEN,
-            RED,
-            GREEN,
-            RED
+        _map.getGrassTexture().Draw(
+            screenPosition,
+            0.0f,
+            textureScaleFactor.x,
+            raylib::Color::White()
         );
         if (isHovered()) {
-            rect.DrawLines(WHITE, 5.0f * _map.getScale());
+            rect.DrawLines(WHITE, 3.0f * _map.getScale());
         }
     }
 

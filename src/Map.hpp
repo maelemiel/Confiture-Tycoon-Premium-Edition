@@ -19,6 +19,8 @@ namespace game {
         float _scale;
         std::optional<std::shared_ptr<Tile>> _hoveredTile;
 
+        raylib::Texture _grassTexture;
+
         void createTiles();
 
     public:
@@ -39,6 +41,8 @@ namespace game {
             getTileAtWorldPosition(raylib::Vector2 worldPosition) const;
 
         void setHoveredTile(const std::shared_ptr<Tile> &tile) const;
+
+        [[nodiscard]] const raylib::Texture &getGrassTexture() const;
     };
 } // game
 

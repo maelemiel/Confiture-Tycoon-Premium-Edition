@@ -11,6 +11,10 @@ namespace game {
         _scale(1.0f)
     {
         createTiles();
+
+        _grassTexture = raylib::Texture(
+            "assets/textures/grass.png"
+        );
     }
 
     void Map::createTiles()
@@ -82,5 +86,10 @@ namespace game {
         for (auto &itTile : _tiles) {
             itTile->setHovered(itTile == tile);
         }
+    }
+
+    const raylib::Texture &Map::getGrassTexture() const
+    {
+        return _grassTexture;
     }
 } // game
