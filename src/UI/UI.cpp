@@ -8,6 +8,7 @@
 
 namespace game {
     void UI::draw() const {
-
+        OxygenFrame.Draw(OxyFramePosition, 0, barOxySize);
+        barOxy.Draw(barOxyPosition, 0, barOxySize);
     }
 }
