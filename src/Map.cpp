@@ -175,4 +175,9 @@ namespace game {
             1080.0f * 0.5f - _size.y * Tile::size * 0.5f
         ));
     }
+
+    raylib::Vector2 Map::getSize() const
+    {
+        return _size;
+    }
 } // game
