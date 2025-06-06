@@ -16,8 +16,8 @@ namespace game
 {
     class Window
     {
-        std::unique_ptr<raylib::Window> m_window;
-        bool m_isOpen;
+        std::unique_ptr<raylib::Window> _window;
+        bool _isOpen;
 
     public:
         explicit Window(raylib::Vector2 size);

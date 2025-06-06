@@ -8,18 +8,32 @@
     #include <memory>
     #include <raylib-cpp.hpp>
 
+    #include "Map.hpp"
     #include "Window.hpp"
 
 namespace game
 {
     class Game
     {
-        std::unique_ptr<Window> m_window;
+        std::unique_ptr<Window> _window;
+        std::unique_ptr<Map> _map;
+
+        // --- Input ---
+        bool _isMouseInWindow;
+        raylib::Vector2 _mousePosition;
+        raylib::Vector2 _lastMousePosition;
+        raylib::Vector2 _mouseDelta;
+        bool _mouseButtonLeftPressed;
+        bool _mouseButtonMiddlePressed;
+        bool _mouseButtonRightPressed;
+        raylib::Vector2 _mouseScrollDelta;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
 
-        void update() const;
+        void handleInput();
+        void update();
+        void draw() const;
 
         [[nodiscard]] bool isRunning() const;
     };

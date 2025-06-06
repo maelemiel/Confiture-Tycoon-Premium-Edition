@@ -36,12 +36,16 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 set(SOURCES
         src/Game.cpp
         src/main.cpp
+        src/Map.cpp
+        src/Tile.cpp
         src/Window.cpp
 )
 
 # Collect all header files
 set(HEADERS
         include/Game.hpp
+        include/Map.hpp
+        include/Tile.hpp
         include/Window.hpp
         src/UI/draw_ui.cpp
 )
