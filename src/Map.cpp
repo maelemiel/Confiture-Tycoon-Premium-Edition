@@ -7,7 +7,8 @@
 #include <algorithm>
 
 namespace game {
-    Map::Map(const raylib::Vector2 size) : _size(size), _scale(1.0f)
+    Map::Map(const raylib::Vector2 size) : _size(size), _offset(0, 0),
+        _scale(1.0f)
     {
         createTiles();
     }
