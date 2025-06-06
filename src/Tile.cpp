@@ -33,7 +33,7 @@ namespace game {
             RED
         );
         if (isHovered()) {
-            rect.DrawLines(WHITE, 5.0f);
+            rect.DrawLines(WHITE, 5.0f * m_map.getScale());
         }
     }
 
