@@ -14,7 +14,6 @@ ResourceManager::ResourceManager()
       _population(0),
       _timeAccumulator(0.0f)
 {
-    std::cout << "ResourceManager initialized! Welcome to the SweetSweet Empire!" << std::endl;
 }
 
 void ResourceManager::update(float deltaTime)
