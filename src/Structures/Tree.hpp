@@ -1,12 +1,13 @@
 #include "AOxygenProducer.hpp"
+#include "Abstracts/AOxygenProducer.hpp"
 
 namespace Structure {
-class Tree : public AOxygenProducer {
+class Tree final : public AOxygenProducer {
 public:
     Tree()
     {
         _name = "Tree";
-        _ressourceCost = 10;
+        _resourceCost = 10;
         _oxygenCost = 5;
         _size = {1, 1};
         _icon = raylib::Texture2D("assets/OxigenProducer/tree_icon.png");

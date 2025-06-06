@@ -16,7 +16,7 @@ public:
 
     // Interface getters
     string &getName() { return _name; }
-    int getRessourceCost() { return _ressourceCost; }
+    int getResourceCost() { return _resourceCost; }
     int getOxygenCost() { return _oxygenCost; }
     raylib::Vector2 getSize() { return _size; }
     Texture2D &getIcon() { return _icon; }

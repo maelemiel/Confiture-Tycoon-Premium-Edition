@@ -17,7 +17,7 @@ public:
     virtual void drawSprite(raylib::Vector2) = 0;
 
     virtual string &getName() = 0;
-    virtual int getRessourceCost() = 0;
+    virtual int getResourceCost() = 0;
     virtual int getOxygenCost() = 0;
     virtual raylib::Vector2 getSize() = 0;
     virtual Texture2D &getIcon() = 0;
@@ -26,7 +26,7 @@ public:
 
 protected:
     string _name;
-    int _ressourceCost;
+    int _resourceCost;
     int _oxygenCost;
     raylib::Vector2 _size;
     Texture2D _icon;
