@@ -5,19 +5,22 @@
 #ifndef GAME_HPP
     #define GAME_HPP
 
-    #include <memory>
     #include <raylib-cpp.hpp>
+    #include <memory>
+    #include <string>
 
     #include "Map.hpp"
     #include "Window.hpp"
+    #include "UI/UI.hpp"
+    #include "Structures/Factory/Factory.hpp"
     #include "ResourceManager.hpp"
 
 namespace game
 {
     class Game
     {
-        std::unique_ptr<Window> _window;
-        std::unique_ptr<Map> _map;
+        Window _window;
+        Map _map;
         std::unique_ptr<ResourceManager> _resourceManager;
 
         // --- Input ---
@@ -25,10 +28,22 @@ namespace game
         raylib::Vector2 _mousePosition;
         raylib::Vector2 _lastMousePosition;
         raylib::Vector2 _mouseDelta;
+        bool _mouseButtonLeftDown;
+        bool _mouseButtonMiddleDown;
+        bool _mouseButtonRightDown;
         bool _mouseButtonLeftPressed;
         bool _mouseButtonMiddlePressed;
         bool _mouseButtonRightPressed;
+        bool _mouseButtonLeftReleased;
+        bool _mouseButtonMiddleReleased;
+        bool _mouseButtonRightReleased;
         raylib::Vector2 _mouseScrollDelta;
+        // Classes
+        UI _ui;
+        std::string _selectedStruct;
+        Structures::Factory _factory;
+
+        std::shared_ptr<Structure::IStructure> _selectedStructure;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
@@ -37,7 +52,9 @@ namespace game
         void update();
         void draw() const;
 
-        [[nodiscard]] bool isRunning() const;
+        std::string getSelectedStruct() const;
+
+        [[nodiscard]] bool isRunning();
     };
 } // game
 

@@ -8,6 +8,7 @@
     #include <Rectangle.hpp>
 
     #include "Window.hpp"
+#include "Structures/Abstracts/IStructure.hpp"
 
 namespace game {
     class Map;
@@ -15,14 +16,16 @@ namespace game {
     class Tile {
         Map &_map;
         raylib::Vector2 _position;
-        bool _hovered;
+        std::shared_ptr<Structure::IStructure> _structure;
+        std::shared_ptr<Tile> _linkedTile;
 
     public:
         static constexpr float size = 96.0f;
 
         explicit Tile(Map &map, raylib::Vector2 position);
 
-        void draw(Window &window) const;
+        void drawBackground(const Window &window) const;
+        void drawForeground(const Window &window) const;
 
         [[nodiscard]] raylib::Vector2 getPosition() const;
         [[nodiscard]] raylib::Vector2 getScreenPosition() const;
@@ -33,8 +36,14 @@ namespace game {
         [[nodiscard]] raylib::Rectangle getBounds() const;
         [[nodiscard]] raylib::Rectangle getScreenBounds() const;
 
-        [[nodiscard]] bool isHovered() const;
-        void setHovered(bool hovered);
+        [[nodiscard]] bool hasStructure() const;
+        [[nodiscard]] Structure::IStructure &getStructure() const;
+        void setStructure(const std::shared_ptr<Structure::IStructure> &structure);
+
+        [[nodiscard]] bool isEmpty();
+
+        [[nodiscard]] std::shared_ptr<Tile> getLinkedTile() const;
+        void setLinkedTile(const std::shared_ptr<Tile> &linkedTile);
     };
 } // game
 

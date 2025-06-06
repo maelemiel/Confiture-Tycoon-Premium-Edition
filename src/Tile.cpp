@@ -4,6 +4,8 @@
 
 #include "Tile.hpp"
 
+#include <cassert>
+#include <iostream>
 #include <Rectangle.hpp>
 
 #include "Map.hpp"
@@ -12,10 +14,24 @@ namespace game {
     Tile::Tile(Map &map, const raylib::Vector2 position) : _map(map),
         _position(position)
     {
-
+        _structure = nullptr;
+        _linkedTile = nullptr;
     }
 
-    void Tile::draw(Window &window) const
+    void Tile::drawBackground(const Window &window) const
+    {
+        const auto screenPosition = getScreenPosition();
+        const float textureScale = size / 512.0f * _map.getScale();
+
+        _map.getGrassTexture().Draw(
+            screenPosition,
+            0.0f,
+            textureScale,
+            raylib::Color::White()
+        );
+    }
+
+    void Tile::drawForeground(const Window &window) const
     {
         const auto screenPosition = getScreenPosition();
         const auto screenSize = getScreenSize();
@@ -25,15 +41,17 @@ namespace game {
             screenSize.x,
             screenSize.y
         );
+        const float textureScale = size / 512.0f * _map.getScale();
 
-        rect.DrawGradient(
-            GREEN,
-            RED,
-            GREEN,
-            RED
-        );
-        if (isHovered()) {
-            rect.DrawLines(WHITE, 5.0f * _map.getScale());
+        if (_structure != nullptr) {
+            const auto &texture = _structure->getSprite();
+
+            texture.Draw(
+                screenPosition,
+                0.0f,
+                textureScale,
+                raylib::Color::White()
+            );
         }
     }
 
@@ -91,13 +109,70 @@ namespace game {
         };
     }
 
-    bool Tile::isHovered() const
+    bool Tile::hasStructure() const
     {
-        return _hovered;
+        if (_linkedTile != nullptr) {
+            return _linkedTile->hasStructure();
+        }
+        return _structure != nullptr;
     }
 
-    void Tile::setHovered(const bool hovered)
+    Structure::IStructure &Tile::getStructure() const
     {
-        _hovered = hovered;
+        return *_structure;
+    }
+
+    void Tile::setStructure(const std::shared_ptr<Structure::IStructure> &structure)
+    {
+        if (_linkedTile != nullptr) {
+            _linkedTile->setStructure(structure);
+            return;
+        }
+
+        const auto self = _map.getTile(_position);
+
+        _structure = structure;
+
+        if (_structure == nullptr) {
+            return;
+        }
+        for (int x = 0; x < static_cast<int>(_structure->getSize().x); x++) {
+            for (int y = 0; y < static_cast<int>(_structure->getSize().y); y++) {
+                const auto neighborTile = _map.getTile(
+                    raylib::Vector2(
+                        _position.x + static_cast<float>(x),
+                        _position.y + static_cast<float>(y)
+                    )
+                );
+
+                if (neighborTile == self) {
+                    continue;
+                }
+                neighborTile->setLinkedTile(self);
+            }
+        }
+    }
+
+    bool Tile::isEmpty() // NOLINT(*-no-recursion)
+    {
+        if (_linkedTile != nullptr) {
+            if (_linkedTile->isEmpty()) {
+                _linkedTile = nullptr;
+                return true;
+            }
+            return false;
+        }
+        return _structure == nullptr;
+    }
+
+    std::shared_ptr<Tile> Tile::getLinkedTile() const
+    {
+        return _linkedTile;
+    }
+
+    void Tile::setLinkedTile(const std::shared_ptr<Tile> &linkedTile)
+    {
+        assert(linkedTile.get() != this);
+        _linkedTile = linkedTile;
     }
 } // game

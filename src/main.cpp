@@ -9,6 +9,5 @@ int main() {
         game.update();
         game.draw();
     }
-
     return 0;
 }

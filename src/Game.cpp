@@ -6,14 +6,21 @@
 
 #include <iostream>
 
+#include "Structures/House.hpp"
+#include "Structures/Tree.hpp"
+
 namespace game
 {
-    Game::Game(raylib::Vector2 windowSize)
-    {
-        _window = std::make_unique<Window>(windowSize);
-        _map = std::make_unique<Map>(raylib::Vector2(10, 10));
-        _resourceManager = std::make_unique<ResourceManager>();
-    }
+    Game::Game(const raylib::Vector2 windowSize) :
+        _window(windowSize),
+        _map(raylib::Vector2(10, 10)),
+        _isMouseInWindow(false),
+        _mouseButtonLeftPressed(false),
+        _mouseButtonMiddlePressed(false),
+        _mouseButtonRightPressed(false),
+        _selectedStructure(std::make_shared<Structure::House>()),
+        _resourceManager(std::make_unique<ResourceManager>())
+    {}
 
     void Game::handleInput()
     {
@@ -21,34 +28,54 @@ namespace game
         _mousePosition = GetMousePosition();
         _mouseDelta = _mousePosition - _lastMousePosition;
 
-        _mouseButtonLeftPressed = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
-        _mouseButtonMiddlePressed = IsMouseButtonDown(MOUSE_BUTTON_MIDDLE);
-        _mouseButtonRightPressed = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
+        _mouseButtonLeftDown = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddleDown = IsMouseButtonDown(MOUSE_BUTTON_MIDDLE);
+        _mouseButtonRightDown = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
+
+        _mouseButtonLeftPressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddlePressed = IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE);
+        _mouseButtonRightPressed = IsMouseButtonPressed(MOUSE_BUTTON_RIGHT);
+
+        _mouseButtonLeftReleased = IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddleReleased = IsMouseButtonReleased(MOUSE_BUTTON_MIDDLE);
+        _mouseButtonRightReleased = IsMouseButtonReleased(MOUSE_BUTTON_RIGHT);
 
         _mouseScrollDelta = GetMouseWheelMoveV();
     }
 
     void Game::update()
     {
-        const auto mouseWorldPosition = _map->getScreenPositionAsWorldPosition(_mousePosition);
-        const std::optional<std::shared_ptr<Tile>> hoverTile = _map->getTileAtWorldPosition(mouseWorldPosition);
+        const auto mouseWorldPosition = _map.getScreenPositionAsWorldPosition(_mousePosition);
+        const std::shared_ptr<Tile> hoverTile = _map.getTileAtWorldPosition(mouseWorldPosition);
 
-        if (_mouseButtonMiddlePressed) {
-            _map->setOffset(_map->getOffset() + _mouseDelta / _map->getScale());
+        if (_selectedStructure != nullptr) {
+            _map.setHoverSize(_selectedStructure->getSize());
+        } else {
+            _map.setHoverSize(0);
+        }
+        if (_mouseButtonMiddleDown) {
+            _map.setOffset(_map.getOffset() + _mouseDelta / _map.getScale());
         }
         if (_mouseScrollDelta != Vector2Zero()) {
-            const auto oldMouseOffset = _map->getScreenPositionAsWorldPosition(_mousePosition);
+            const auto oldMouseOffset = _map.getScreenPositionAsWorldPosition(_mousePosition);
 
-            _map->setScale(_map->getScale() + _mouseScrollDelta.y * 0.05f);
+            _map.setScale(_map.getScale() + _mouseScrollDelta.y * 0.05f);
 
-            const auto mouseOffset = _map->getScreenPositionAsWorldPosition(_mousePosition);
+            const auto mouseOffset = _map.getScreenPositionAsWorldPosition(_mousePosition);
 
-            _map->setOffset(_map->getOffset() + (mouseOffset - oldMouseOffset));
+            _map.setOffset(_map.getOffset() + (mouseOffset - oldMouseOffset));
         }
-        if (hoverTile.has_value()) {
-            _map->setHoveredTile(hoverTile.value());
-        } else {
-            _map->setHoveredTile(nullptr);
+                _map.setHoveredTile(hoverTile);
+        if (_mouseButtonLeftDown) {
+            if (hoverTile != nullptr && !hoverTile->hasStructure()
+                && _map.areAllHoveredTilesEmpty()) {
+                hoverTile->setStructure(_selectedStructure);
+            }
+        }
+        if (_mouseButtonRightDown) {
+            if (hoverTile != nullptr && hoverTile->hasStructure()) {
+                hoverTile->setStructure(nullptr);
+            }
         }
         float deltaTime = GetFrameTime();
         _resourceManager->update(deltaTime);
@@ -56,11 +83,11 @@ namespace game
 
     void Game::draw() const
     {
-        raylib::Window &raylibWindow = _window->getRaylibWindow();
+        raylib::Window &raylibWindow = _window.getRaylibWindow();
 
         raylibWindow.BeginDrawing();
         raylibWindow.ClearBackground(WHITE);
-        _map->draw(*_window);
+        _map.draw(_window);
         raylib::DrawText(
             "Idle JeuConfiture Tycoon (a Jamsoft game)",
             10,
@@ -68,11 +95,18 @@ namespace game
             20,
             BLACK
         );
+        _ui.draw();
         raylibWindow.EndDrawing();
     }
 
-    bool Game::isRunning() const
+    bool Game::isRunning()
     {
-        return _window->isOpen();
+        return _window.isOpen();
     }
+
+    std::string Game::getSelectedStruct() const
+    {
+        return _selectedStruct;
+    }
+
 } // game

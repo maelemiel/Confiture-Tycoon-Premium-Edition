@@ -34,6 +34,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 
 # Collect all source files
 set(SOURCES
+        src/UI/UI.cpp
+        src/UI/UI.hpp
         src/Game.cpp
         src/Game.hpp
         src/main.cpp
