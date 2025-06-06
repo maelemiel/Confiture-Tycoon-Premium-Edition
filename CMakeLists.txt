@@ -51,6 +51,8 @@ set(SOURCES
         src/main.cpp
         src/Map.cpp
         src/Map.hpp
+        src/ressourceManager.cpp
+        src/ressourceManager.hpp
         src/Tile.cpp
         src/Tile.hpp
         src/Window.cpp
