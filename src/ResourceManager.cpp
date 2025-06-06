@@ -87,6 +87,27 @@ void ResourceManager::resetGame()
 
 }
 
+void ResourceManager::RessourceUpdate(
+    const std::pmr::list<std::shared_ptr<Tile>> &tiles)
+{
+    std::vector<std::shared_ptr<Structure::IStructure>> structures;
+
+    for (const auto &tile : tiles) {
+        if (tile->isEmpty())
+            continue;
+        if (tile->getLinkedTile() != nullptr) {
+            continue;
+        }
+        auto structure = tile->getStructureSharedPtr();
+        if (structure) {
+            structures.push_back(structure);
+        }
+    }
+    if (!structures.empty()) {
+        calculateProduction(structures);
+    }
+}
+
 void ResourceManager::calculateProduction(
     const std::vector<std::shared_ptr<Structure::IStructure>> &structures)
 {
@@ -101,6 +122,8 @@ void ResourceManager::calculateProduction(
         if (auto habitation =
                 std::dynamic_pointer_cast<Structure::AHabitation>(structure)) {
             _population += habitation->getHabitationCap();
+            _SweetSweetPerSecond -= habitation->getResourceCost();
+            _oxygenPerSecond -= habitation->getOxygenCost();
         }
 
         if (auto oxygenProducer =
@@ -108,6 +131,7 @@ void ResourceManager::calculateProduction(
                     structure)) {
             _oxygenPerSecond += oxygenProducer->getOxygenProduction();
             _SweetSweetPerSecond -= oxygenProducer->getRessourceConsumption();
+            _population -= oxygenProducer->getHabitantNeeded();
         }
 
         if (auto resourceProducer =
@@ -115,10 +139,9 @@ void ResourceManager::calculateProduction(
                     structure)) {
             _SweetSweetPerSecond += resourceProducer->getResourceProduction();
             _oxygenPerSecond -= resourceProducer->getOxygenConsumption();
+            _population -= resourceProducer->getHabitantNeeded();
         }
     }
-
-    _oxygenPerSecond -= _population * 2;
 
     std::cout << "Production Update:" << std::endl;
     std::cout << "  SweetSweet/s: " << _SweetSweetPerSecond << std::endl;

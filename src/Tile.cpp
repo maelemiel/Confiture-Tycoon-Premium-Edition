@@ -134,6 +134,14 @@ namespace game {
         return *_structure;
     }
 
+    std::shared_ptr<Structure::IStructure> Tile::getStructureSharedPtr() const
+    {
+        if (_linkedTile != nullptr) {
+            return _linkedTile->getStructureSharedPtr();
+        }
+        return _structure;
+    }
+
     void Tile::setStructure(const std::shared_ptr<Structure::IStructure> &structure)
     {
         if (_linkedTile != nullptr) {
