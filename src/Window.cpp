@@ -11,7 +11,9 @@ namespace game {
     {
         _window = std::make_unique<raylib::Window>(
             size.x,
-            size.y
+            size.y,
+            "Idle Jeuconfiture Tycoon",
+            FLAG_WINDOW_RESIZABLE
         );
         _window->SetTargetFPS(120);
         raylib::Window::SetExitKey(KEY_NULL);
