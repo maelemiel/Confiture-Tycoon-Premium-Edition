@@ -5,9 +5,10 @@
 #ifndef TILE_HPP
     #define TILE_HPP
 
-    #include <Rectangle.hpp>
+#include <Rectangle.hpp>
+#include "PerlinNoise.hpp"
 
-    #include "Window.hpp"
+#include "Window.hpp"
 #include "Structures/Abstracts/IStructure.hpp"
 
 namespace game {
@@ -18,11 +19,12 @@ namespace game {
         raylib::Vector2 _position;
         std::shared_ptr<Structure::IStructure> _structure;
         std::shared_ptr<Tile> _linkedTile;
+        std::shared_ptr<raylib::Texture> _backgroundTexture;
 
     public:
         static constexpr float size = 64.0f;
 
-        explicit Tile(Map &map, raylib::Vector2 position);
+        explicit Tile(Map &map, raylib::Vector2 position, siv::PerlinNoise::value_type noise);
 
         void drawBackground(const Window &window) const;
         void drawForeground(const Window &window) const;

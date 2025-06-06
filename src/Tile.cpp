@@ -7,13 +7,21 @@
 #include <cassert>
 #include <iostream>
 #include <Rectangle.hpp>
+#include "PerlinNoise.hpp"
 
 #include "Map.hpp"
 
 namespace game {
-    Tile::Tile(Map &map, const raylib::Vector2 position) : _map(map),
+    Tile::Tile(Map &map, const raylib::Vector2 position, siv::PerlinNoise::value_type noise) : _map(map),
         _position(position)
     {
+
+        if (noise > 0.5) {
+            _backgroundTexture = _map.getGrassTexture();
+        } else {
+            _backgroundTexture = _map.getDirtTexture();
+        }
+
         _structure = nullptr;
         _linkedTile = nullptr;
     }
@@ -22,22 +30,22 @@ namespace game {
     {
         const auto screenPosition = getScreenPosition();
         const float textureScale = size / 512.0f * _map.getScale();
-        auto tint = raylib::Color::White();
 
-        if (hasStructure()) {
-            if (Structure::IStructure &structure = getStructure();
-                structure.getPollutionEffect() < 0) {
-                tint = raylib::Color::Green();
-            } else if (structure.getPollutionEffect() > 0) {
-                tint = raylib::Color::Red();
-            }
+        if (_backgroundTexture != nullptr) {
+            _backgroundTexture->Draw(
+                screenPosition,
+                0.0f,
+                textureScale,
+                raylib::Color::White()
+            );
+        } else {
+            raylib::Rectangle(
+                screenPosition.x,
+                screenPosition.y,
+                getScreenSize().x,
+                getScreenSize().y
+            ).Draw(raylib::Color::White());
         }
-        _map.getGrassTexture().Draw(
-            screenPosition,
-            0.0f,
-            textureScale,
-            tint
-        );
     }
 
     void Tile::drawForeground(const Window &window) const

@@ -13,7 +13,7 @@ namespace game
 {
     Game::Game(const raylib::Vector2 windowSize) :
         _window(windowSize),
-        _map(raylib::Vector2(16, 16)),
+        _map(raylib::Vector2(50, 50)),
         _resourceManager(std::make_unique<ResourceManager>()),
         _isMouseInWindow(false),
         _mouseButtonLeftPressed(false),
