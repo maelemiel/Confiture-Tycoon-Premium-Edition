@@ -19,8 +19,8 @@ public:
     int getResourceCost() { return _resourceCost; }
     int getOxygenCost() { return _oxygenCost; }
     raylib::Vector2 getSize() { return _size; }
-    Texture2D &getIcon() { return _icon; }
-    Texture2D &getSprite() { return _sprite; }
+    raylib::Texture &getIcon() { return _icon; }
+    raylib::Texture &getSprite() { return _sprite; }
     int getPollutionEffect() { return _pollutionEffect; }
 
     // Abstract getters

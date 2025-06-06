@@ -4,6 +4,7 @@
 
 #include "Tile.hpp"
 
+#include <iostream>
 #include <Rectangle.hpp>
 
 #include "Map.hpp"
@@ -12,7 +13,7 @@ namespace game {
     Tile::Tile(Map &map, const raylib::Vector2 position) : _map(map),
         _position(position)
     {
-
+        _structure = nullptr;
     }
 
     void Tile::draw(Window &window) const
@@ -25,17 +26,23 @@ namespace game {
             screenSize.x,
             screenSize.y
         );
-        const auto textureScaleFactor = raylib::Vector2(
-            size / _map.getGrassTexture().GetSize().x * _map.getScale(),
-            size / _map.getGrassTexture().GetSize().y * _map.getScale()
-        );
 
         _map.getGrassTexture().Draw(
             screenPosition,
             0.0f,
-            textureScaleFactor.x,
+            getTextureScaleFactor(_map.getGrassTexture()),
             raylib::Color::White()
         );
+        if (_structure != nullptr) {
+            const auto &texture = _structure->getSprite();
+
+            texture.Draw(
+                screenPosition,
+                0.0f,
+                getTextureScaleFactor(texture),
+                raylib::Color::White()
+            );
+        }
         if (isHovered()) {
             rect.DrawLines(WHITE, 3.0f * _map.getScale());
         }
@@ -103,5 +110,25 @@ namespace game {
     void Tile::setHovered(const bool hovered)
     {
         _hovered = hovered;
+    }
+
+    bool Tile::hasStructure() const
+    {
+        return _structure != nullptr;
+    }
+
+    Structure::IStructure &Tile::getStructure() const
+    {
+        return *_structure;
+    }
+
+    void Tile::setStructure(std::unique_ptr<Structure::IStructure> structure)
+    {
+        _structure = std::move(structure);
+    }
+
+    float Tile::getTextureScaleFactor(const raylib::Texture &texture) const
+    {
+        return size / texture.GetSize().x * _map.getScale();
     }
 } // game

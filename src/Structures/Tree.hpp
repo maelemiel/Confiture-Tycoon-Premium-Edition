@@ -12,8 +12,8 @@ public:
         _resourceCost = 10;
         _oxygenCost = 5;
         _size = raylib::Vector2(1, 1);
-        _icon = raylib::Texture2D("assets/OxigenProducer/tree_icon.png");
-        _sprite = raylib::Texture2D("assets/Oxigen_producer/tree_sprite.png");
+        _icon = raylib::Texture("assets/OxygenProducer/tree_icon.png");
+        _sprite = raylib::Texture("assets/OxygenProducer/tree_sprite.png");
         _pollutionEffect = -5;
         _oxigenProduction = 20;
         _ressourceConsomption = 0;

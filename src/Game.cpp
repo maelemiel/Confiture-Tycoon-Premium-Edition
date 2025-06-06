@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include "Structures/Tree.hpp"
+
 namespace game
 {
     Game::Game(raylib::Vector2 windowSize)
@@ -20,9 +22,17 @@ namespace game
         _mousePosition = GetMousePosition();
         _mouseDelta = _mousePosition - _lastMousePosition;
 
-        _mouseButtonLeftPressed = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
-        _mouseButtonMiddlePressed = IsMouseButtonDown(MOUSE_BUTTON_MIDDLE);
-        _mouseButtonRightPressed = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
+        _mouseButtonLeftDown = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddleDown = IsMouseButtonDown(MOUSE_BUTTON_MIDDLE);
+        _mouseButtonRightDown = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
+
+        _mouseButtonLeftPressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddlePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+        _mouseButtonRightPressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+
+        _mouseButtonLeftReleased = IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddleReleased = IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
+        _mouseButtonRightReleased = IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
 
         _mouseScrollDelta = GetMouseWheelMoveV();
     }
@@ -32,7 +42,7 @@ namespace game
         const auto mouseWorldPosition = _map->getScreenPositionAsWorldPosition(_mousePosition);
         const std::shared_ptr<Tile> hoverTile = _map->getTileAtWorldPosition(mouseWorldPosition);
 
-        if (_mouseButtonMiddlePressed) {
+        if (_mouseButtonMiddleDown) {
             _map->setOffset(_map->getOffset() + _mouseDelta / _map->getScale());
         }
         if (_mouseScrollDelta != Vector2Zero()) {
@@ -45,6 +55,16 @@ namespace game
             _map->setOffset(_map->getOffset() + (mouseOffset - oldMouseOffset));
         }
         _map->setHoveredTile(hoverTile);
+        if (_mouseButtonLeftDown) {
+            if (hoverTile != nullptr && !hoverTile->hasStructure()) {
+                hoverTile->setStructure(std::make_unique<Structure::Tree>());
+            }
+        }
+        if (_mouseButtonRightDown) {
+            if (hoverTile != nullptr && hoverTile->hasStructure()) {
+                hoverTile->setStructure(nullptr);
+            }
+        }
     }
 
     void Game::draw() const
