@@ -43,6 +43,7 @@ set(SOURCES
 set(HEADERS
         include/Game.hpp
         include/Window.hpp
+        include/Structures.hpp
 )
 
 # Create executable
