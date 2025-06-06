@@ -80,9 +80,10 @@ namespace game {
             static_cast<float>(_texture->GetTexture().height) /
                 _window->GetSize().y;
 
+        const auto mousePosition = GetMousePosition();
         return {
-            GetMousePosition().x * xScale,
-            GetMousePosition().y * yScale
+            mousePosition.x * xScale,
+            mousePosition.y * yScale
         };
     }
 
