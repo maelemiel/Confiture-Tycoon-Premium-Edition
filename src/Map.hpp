@@ -20,7 +20,9 @@ namespace game {
         std::shared_ptr<Tile> _hoveredTile;
         raylib::Vector2 _hoverSize;
 
-        raylib::Texture _grassTexture;
+        std::shared_ptr<raylib::Texture> _grassTexture;
+        std::shared_ptr<raylib::Texture> _dirtTexture;
+        std::shared_ptr<raylib::Texture> _concreteTexture;
 
         void createTiles();
         void highlightTiles() const;
@@ -51,7 +53,9 @@ namespace game {
         [[nodiscard]] std::list<std::shared_ptr<Tile>> getHoveredTiles() const;
         [[nodiscard]] bool areAllHoveredTilesEmpty() const;
 
-        [[nodiscard]] const raylib::Texture &getGrassTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getGrassTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getDirtTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getConcreteTexture() const;
 
         void setOffsetToCenter();
         [[nodiscard]] raylib::Vector2 getSize() const;

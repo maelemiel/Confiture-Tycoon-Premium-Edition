@@ -3,25 +3,39 @@
 //
 
 #include "Map.hpp"
+#include "PerlinNoise.hpp"
+
+#define NOISE_DONTKNOW 0.1f
 
 #include <algorithm>
 #include <iostream>
 #include <ostream>
+#include <chrono>
 
 namespace game {
     Map::Map(const raylib::Vector2 size) : _size(size), _offset(0, 0),
         _scale(1.0f)
     {
-        createTiles();
-        setOffsetToCenter();
-
-        _grassTexture = raylib::Texture(
+        _grassTexture = std::make_shared<raylib::Texture>(
             "assets/textures/grass.png"
         );
+        _dirtTexture = std::make_shared<raylib::Texture>(
+            "assets/textures/dirt.png"
+        );
+        _concreteTexture = std::make_shared<raylib::Texture>(
+            "assets/textures/concrete.png"
+        );
+
+        createTiles();
+        setOffsetToCenter();
     }
 
     void Map::createTiles()
     {
+        const siv::PerlinNoise::seed_type seed =
+            std::chrono::system_clock::now().time_since_epoch().count();
+        const siv::PerlinNoise perlin{ seed };
+
         for (int x = 0; x < static_cast<int>(_size.x); x++) {
             for (int y = 0; y < static_cast<int>(_size.y); y++) {
                 _tiles.push_back(
@@ -30,7 +44,8 @@ namespace game {
                         raylib::Vector2(
                             static_cast<float>(x),
                             static_cast<float>(y)
-                        )
+                        ),
+                        perlin.noise2D(x*NOISE_DONTKNOW, y*NOISE_DONTKNOW)
                     )
                 );
             }
@@ -163,9 +178,19 @@ namespace game {
         _hoverSize = size;
     }
 
-    const raylib::Texture &Map::getGrassTexture() const
+    std::shared_ptr<raylib::Texture> Map::getGrassTexture() const
     {
         return _grassTexture;
+    }
+
+    std::shared_ptr<raylib::Texture> Map::getDirtTexture() const
+    {
+        return _dirtTexture;
+    }
+
+    std::shared_ptr<raylib::Texture> Map::getConcreteTexture() const
+    {
+        return _concreteTexture;
     }
 
     void Map::setOffsetToCenter()
