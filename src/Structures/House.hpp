@@ -11,7 +11,7 @@ public:
         _name = "House";
         _resourceCost = 10;
         _oxygenCost = 5;
-        _size = raylib::Vector2(1, 1);
+        _size = raylib::Vector2(2, 2);
         _icon = raylib::Texture2D("assets/Habitation/house_icon.png");
         _sprite = raylib::Texture2D("assets/Habitation/house_sprite.png");
         _pollutionEffect = 0;
