@@ -42,6 +42,9 @@ namespace game {
         [[nodiscard]] std::shared_ptr<Tile> getTile(raylib::Vector2 index) const;
         [[nodiscard]] std::shared_ptr<Tile> getTileAtWorldPosition(
             raylib::Vector2 worldPosition) const;
+        [[nodiscard]] std::pmr::list<std::shared_ptr<Tile>> getTiles() const {
+            return _tiles;
+        }
 
         void setHoveredTile(const std::shared_ptr<Tile> &tile);
         void setHoverSize(raylib::Vector2 size);
