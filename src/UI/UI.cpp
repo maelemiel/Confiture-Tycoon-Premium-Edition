@@ -2,12 +2,12 @@
 // Created by esteban on 6/6/25.
 //
 
-#include "Ui.hpp"
+#include "UI.hpp"
 
 #include <raylib-cpp.hpp>
 
 namespace game {
-    void Ui::draw() const {
+    void UI::draw() const {
 
     }
 }

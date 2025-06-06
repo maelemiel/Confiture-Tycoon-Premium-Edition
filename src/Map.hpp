@@ -24,7 +24,7 @@ namespace game {
     public:
         explicit Map(raylib::Vector2 size);
 
-        void draw(Window &window) const;
+        void draw(const Window &window) const;
 
         [[nodiscard]] raylib::Vector2 getOffset() const;
         void setOffset(raylib::Vector2 offset);

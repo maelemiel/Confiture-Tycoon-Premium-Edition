@@ -30,7 +30,7 @@ namespace game {
         }
     }
 
-    void Map::draw(Window &window) const
+    void Map::draw(const Window &window) const
     {
         for (const auto &tile : _tiles) {
             tile->draw(window);

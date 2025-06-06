@@ -8,11 +8,11 @@
     #include <memory>
     #include <raylib-cpp.hpp>
 
-    #include "Ui.hpp"
+    #include "UI.hpp"
 
 namespace game
 {
-    class Ui
+    class UI
     {
     private:
         int _a;
@@ -47,7 +47,7 @@ namespace game
         void draw() const;
 
         // Variables
-        Ui() :
+        UI() :
             logoOxy("assets/oxygen_tank.png"),
             logoPeople("assets/people_tank.png"),
             logoRessources("assets/jam.png"),

@@ -34,6 +34,16 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 
 # Collect all source files
 set(SOURCES
+        src/Structures/Abstracts/IStructure.hpp
+        src/Structures/Abstracts/AHabitation.hpp
+        src/Structures/Abstracts/AHabitation.cpp
+        src/Structures/Abstracts/AOxygenProducer.hpp
+        src/Structures/Abstracts/AOxygenProducer.cpp
+        src/Structures/Abstracts/ARessourceProducer.hpp
+        src/Structures/Abstracts/ARessourceProducer.cpp
+        src/Structures/Tree.hpp
+        src/UI/UI.cpp
+        src/UI/UI.hpp
         src/Game.cpp
         src/Game.hpp
         src/main.cpp
@@ -43,14 +53,6 @@ set(SOURCES
         src/Tile.hpp
         src/Window.cpp
         src/Window.hpp
-        src/Structures/Abstracts/IStructure.hpp
-        src/Structures/Abstracts/AHabitation.hpp
-        src/Structures/Abstracts/AHabitation.cpp
-        src/Structures/Abstracts/AOxygenProducer.hpp
-        src/Structures/Abstracts/AOxygenProducer.cpp
-        src/Structures/Abstracts/ARessourceProducer.hpp
-        src/Structures/Abstracts/ARessourceProducer.cpp
-        src/Structures/Tree.hpp
 )
 
 # Create executable
