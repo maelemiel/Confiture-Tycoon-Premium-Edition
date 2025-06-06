@@ -1,6 +1,6 @@
 #include "AOxygenProducer.hpp"
 
-namespace Structures {
+namespace Structure {
 
 void AOxygenProducer::drawIcon()
 {
@@ -22,4 +22,4 @@ void AOxygenProducer::drawSprite(raylib::Vector2 position)
     DrawTexture(_sprite, position.x, position.y, WHITE);
 }
 
-} // namespace Structures
+} // namespace Structure
