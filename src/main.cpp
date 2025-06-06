@@ -6,7 +6,7 @@ int main() {
 
     SetTargetFPS(60);
 
-    while (!window.ShouldClose()) {
+    while (!raylib::Window::ShouldClose()) {
         if (IsKeyDown(KEY_W)) player.y -= 2;
         if (IsKeyDown(KEY_S)) player.y += 2;
         if (IsKeyDown(KEY_A)) player.x -= 2;
@@ -14,7 +14,7 @@ int main() {
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        ::DrawCircle(player.x, player.y, 20, RED);
+        DrawCircle(static_cast<int>(player.x), static_cast<int>(player.y), 20.0f, RED);
         DrawText("Ultra Death Run!", 10, 10, 20, BLACK);
         EndDrawing();
     }
