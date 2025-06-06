@@ -17,61 +17,64 @@ namespace game
     private:
         int _a;
         raylib::Texture logoOxy;
-        raylib::Texture OxygenFrame;
-        raylib::Texture logoPeople;
-        raylib::Texture logoRessources;
-        raylib::Texture logoBuild;
-        raylib::Texture logoGrid;
+        raylib::Texture oxygenFrame;
+        raylib::Texture populationFrame;
+        raylib::Texture logoPopulation;
+        raylib::Texture logoResources;
         raylib::Texture barOxy;
-        raylib::Texture barPeople;
-        raylib::Texture Oxy;
-        raylib::Texture People;
-        raylib::Texture Ressources;
-        raylib::Texture Build;
-        raylib::Texture Grid;
+        raylib::Texture resourcesFrame;
+        raylib::Texture resourcesLogo;
         //text nb people
 
-        Vector2 OxyPosition;
-        Vector2 OxyFramePosition;
+        Vector2 oxyPosition;
+        Vector2 oxyFramePosition;
         Vector2 barOxyPosition;
         Vector2 logoOxyPosition;
         float logoOxySize;
-        Vector2 PeoplePosition;
-        Vector2 RessourcesPosition;
-        Vector2 BuildPosition;
-        Vector2 GridPosition;
-        Vector2 logoPeopleSize;
-        Vector2 logoRessourcesSize;
-        Vector2 logoBuildSize;
-        Vector2 logoGridSize;
         float barOxySize;
-        Vector2 barPeopleSize;
+
+        float populationFrameSize;
+        Vector2 populationFramePosition;
+        Vector2 logoPopulationPosition;
+
+        float resourcesFrameSize;
+        float resourcesLogoSize;
+        Vector2 resourcesFramePosition;
+        Vector2 resourcesLogoPosition;
     
     public:
         void draw() const;
 
         // Variables
+
+        std::string population;
+        std::string resources;
         UI() :
-            logoOxy("assets/oxygen_tank.png"),
-            OxygenFrame("assets/UI/O2_frame.png"),
-            logoPeople("assets/population.png"),
-            logoRessources("assets/jam.png"),
-            logoBuild("assets/build.png"),
-           // logoGrid("assets/grid.png"),
-            barOxy("assets/UI/O2_bar.png")
-           // barPeople("assets/population bar.png")
+            logoOxy("assets/UI/oxygen_tank.png"),
+            oxygenFrame("assets/UI/O2_frame.png"),
+            populationFrame("assets/UI/population_frame.png"),
+            logoPopulation("assets/UI/population_logo.png"),
+            barOxy("assets/UI/O2_bar.png"),
+            resourcesFrame("assets/UI/resources_frame.png"),
+            resourcesLogo("assets/UI/resources_logo.png")
         {
             barOxySize = 5;
             barOxyPosition = {25, 20};
-            OxyFramePosition = {barOxyPosition.x - 2 * barOxySize, barOxyPosition.y - 2 * barOxySize};
-            OxyPosition = { 10, 10 };
-            logoOxyPosition = {460, 15};
+            oxyFramePosition = {barOxyPosition.x - 2 * barOxySize, barOxyPosition.y - 2 * barOxySize};
+            oxyPosition = { 10, 10 };
+            logoOxyPosition = {460, 20};
             logoOxySize = 0.2;
 
-            PeoplePosition = { 10, 50 };
-            RessourcesPosition = { 10, 90 };
-            BuildPosition = { 10, 130 };
-            GridPosition = { 10, 170 };
+            population = "0";
+            populationFramePosition = { 1920 - oxyFramePosition.x - 90 * barOxySize, oxyFramePosition.y};
+            populationFrameSize = barOxySize;
+            logoPopulationPosition = { populationFramePosition.x - 110, 20};
+
+            resources = "0";
+            resourcesFramePosition = { populationFramePosition.x + 200, 150};
+            resourcesFrameSize = barOxySize;
+            resourcesLogoPosition = { populationFramePosition.x + 120, 150};
+            resourcesLogoSize = 0.3;
         }
     };
 } // game
