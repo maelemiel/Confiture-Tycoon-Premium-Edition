@@ -80,8 +80,8 @@ void ResourceManager::resetGame()
 {
     _SweetSweet = 100;
     _SweetSweetPerSecond = 0;
-    _oxygenLevel = 100000;
-    _maxOxygenLevel = 1000;
+    _oxygenLevel = 1000;
+    _maxOxygenLevel = 100000;
     _oxygenPerSecond = 0;
     _population = 0;
     _timeAccumulator = 0.0f;
