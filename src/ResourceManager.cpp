@@ -72,7 +72,7 @@ void ResourceManager::consumeOxygen(int amount)
 {
     _oxygenLevel -= amount;
     if (_oxygenLevel < 0) {
-        std::cout << "Oxygen level critical! les gens commence à mourrir" << std::endl;
+        std::cout << "Oxygen level critical! People are starting to die" << std::endl;
     }
 }
 
