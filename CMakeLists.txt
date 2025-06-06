@@ -3,29 +3,22 @@ project(UltraDualDeathRun2DeluxeEditionRemastered)
 set(CMAKE_CXX_STANDARD 20)
 
 # Raylib
-find_package(raylib QUIET)
-if (NOT raylib_FOUND)
-    include(FetchContent)
-    FetchContent_Declare(
-            raylib
-            GIT_REPOSITORY https://github.com/raysan5/raylib.git
-            GIT_TAG 5e6cdf3
-            GIT_SHALLOW 1
-    )
-    FetchContent_MakeAvailable(raylib)
-endif()
+include(FetchContent)
+FetchContent_Declare(
+        raylib
+        GIT_REPOSITORY https://github.com/raysan5/raylib.git
+        GIT_TAG 5.5
+        GIT_SHALLOW 1
+)
+FetchContent_MakeAvailable(raylib)
 
 # Raylib C++
-find_package(raylib_cpp QUIET)
-if (NOT raylib_cpp_FOUND)
-    include(FetchContent)
-    FetchContent_Declare(
-            raylib_cpp
-            GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
-            GIT_TAG be2efd4
-    )
-    FetchContent_MakeAvailable(raylib_cpp)
-endif()
+FetchContent_Declare(
+        raylib_cpp
+        GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
+        GIT_TAG v5.5.0
+)
+FetchContent_MakeAvailable(raylib_cpp)
 
 # C++ Flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
@@ -44,6 +37,8 @@ set(SOURCES
         src/Structures/Factory/Factory.cpp
         src/Structures/Factory/Factory.hpp
         src/Structures/Tree.hpp
+        src/Structures/Generator.hpp
+        src/Structures/House.hpp
         src/UI/UI.cpp
         src/UI/UI.hpp
         src/Game.cpp
@@ -51,6 +46,8 @@ set(SOURCES
         src/main.cpp
         src/Map.cpp
         src/Map.hpp
+        src/ResourceManager.cpp
+        src/ResourceManager.hpp
         src/Tile.cpp
         src/Tile.hpp
         src/Window.cpp
@@ -69,7 +66,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
 
 # Copy assets folder to build directory
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets")
-    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets" 
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets"
          DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 

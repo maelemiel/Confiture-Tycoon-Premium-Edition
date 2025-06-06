@@ -20,7 +20,7 @@ namespace game {
             size.y
         );
         _window->SetTargetFPS(120);
-        raylib::Window::SetExitKey(KEY_NULL);
+        _window->SetExitKey(KEY_NULL);
         _isOpen = true;
     }
 
@@ -67,7 +67,7 @@ namespace game {
         if (!_isOpen) {
             return false;
         }
-        _isOpen = !raylib::Window::ShouldClose();
+        _isOpen = !_window->ShouldClose();
         return _isOpen;
     }
 
