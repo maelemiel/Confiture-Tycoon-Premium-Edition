@@ -13,11 +13,11 @@
 
 namespace game {
     class Map {
-        raylib::Vector2 m_size;
-        std::pmr::list<std::shared_ptr<Tile>> m_tiles;
-        raylib::Vector2 m_offset;
-        float m_scale;
-        std::optional<std::shared_ptr<Tile>> m_hoveredTile;
+        raylib::Vector2 _size;
+        std::pmr::list<std::shared_ptr<Tile>> _tiles;
+        raylib::Vector2 _offset;
+        float _scale;
+        std::optional<std::shared_ptr<Tile>> _hoveredTile;
 
         void createTiles();
 

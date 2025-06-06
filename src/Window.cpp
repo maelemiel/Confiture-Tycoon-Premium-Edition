@@ -9,26 +9,26 @@
 namespace game {
     Window::Window(raylib::Vector2 size)
     {
-        m_window = std::make_unique<raylib::Window>(
+        _window = std::make_unique<raylib::Window>(
             size.x,
             size.y
         );
-        m_window->SetTargetFPS(120);
+        _window->SetTargetFPS(120);
         raylib::Window::SetExitKey(KEY_NULL);
-        m_isOpen = true;
+        _isOpen = true;
     }
 
     bool Window::isOpen()
     {
-        if (!m_isOpen) {
+        if (!_isOpen) {
             return false;
         }
-        m_isOpen = !raylib::Window::ShouldClose();
-        return m_isOpen;
+        _isOpen = !raylib::Window::ShouldClose();
+        return _isOpen;
     }
 
     raylib::Window &Window::getRaylibWindow() const
     {
-        return *m_window;
+        return *_window;
     }
 } // game

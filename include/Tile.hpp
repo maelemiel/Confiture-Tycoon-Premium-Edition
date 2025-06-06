@@ -13,9 +13,9 @@ namespace game {
     class Map;
 
     class Tile {
-        Map &m_map;
-        raylib::Vector2 m_position;
-        bool m_hovered;
+        Map &_map;
+        raylib::Vector2 _position;
+        bool _hovered;
 
     public:
         static constexpr float size = 96.0f;

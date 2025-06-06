@@ -10,49 +10,49 @@ namespace game
 {
     Game::Game(raylib::Vector2 windowSize)
     {
-        m_window = std::make_unique<Window>(windowSize);
-        m_map = std::make_unique<Map>(raylib::Vector2(10, 10));
+        _window = std::make_unique<Window>(windowSize);
+        _map = std::make_unique<Map>(raylib::Vector2(10, 10));
     }
 
     void Game::handleInput()
     {
-        m_lastMousePosition = m_mousePosition;
-        m_mousePosition = GetMousePosition();
-        m_mouseDelta = m_mousePosition - m_lastMousePosition;
+        _lastMousePosition = _mousePosition;
+        _mousePosition = GetMousePosition();
+        _mouseDelta = _mousePosition - _lastMousePosition;
 
-        m_mouseButtonLeftPressed = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
-        m_mouseButtonMiddlePressed = IsMouseButtonDown(MOUSE_BUTTON_MIDDLE);
-        m_mouseButtonRightPressed = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
+        _mouseButtonLeftPressed = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddlePressed = IsMouseButtonDown(MOUSE_BUTTON_MIDDLE);
+        _mouseButtonRightPressed = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
 
-        m_mouseScrollDelta = GetMouseWheelMoveV();
+        _mouseScrollDelta = GetMouseWheelMoveV();
     }
 
     void Game::update()
     {
-        const auto mouseWorldPosition = m_map->getScreenPositionAsWorldPosition(m_mousePosition);
-        const std::optional<std::shared_ptr<Tile>> hoverTile = m_map->getTileAtWorldPosition(mouseWorldPosition);
+        const auto mouseWorldPosition = _map->getScreenPositionAsWorldPosition(_mousePosition);
+        const std::optional<std::shared_ptr<Tile>> hoverTile = _map->getTileAtWorldPosition(mouseWorldPosition);
 
-        if (m_mouseButtonMiddlePressed) {
-            m_map->setOffset(m_map->getOffset() + m_mouseDelta / m_map->getScale());
+        if (_mouseButtonMiddlePressed) {
+            _map->setOffset(_map->getOffset() + _mouseDelta / _map->getScale());
         }
-        if (m_mouseScrollDelta != Vector2Zero()) {
+        if (_mouseScrollDelta != Vector2Zero()) {
             // TODO: Make the zoom centered on the mouse position.
-            m_map->setScale(m_map->getScale() + m_mouseScrollDelta.y * 0.05f);
+            _map->setScale(_map->getScale() + _mouseScrollDelta.y * 0.05f);
         }
         if (hoverTile.has_value()) {
-            m_map->setHoveredTile(hoverTile.value());
+            _map->setHoveredTile(hoverTile.value());
         } else {
-            m_map->setHoveredTile(nullptr);
+            _map->setHoveredTile(nullptr);
         }
     }
 
     void Game::draw() const
     {
-        raylib::Window &raylibWindow = m_window->getRaylibWindow();
+        raylib::Window &raylibWindow = _window->getRaylibWindow();
 
         raylibWindow.BeginDrawing();
         raylibWindow.ClearBackground(WHITE);
-        m_map->draw(*m_window);
+        _map->draw(*_window);
         raylib::DrawText(
             "Idle JeuConfiture Tycoon (a Jamsoft game)",
             10,
@@ -65,6 +65,6 @@ namespace game
 
     bool Game::isRunning() const
     {
-        return m_window->isOpen();
+        return _window->isOpen();
     }
 } // game

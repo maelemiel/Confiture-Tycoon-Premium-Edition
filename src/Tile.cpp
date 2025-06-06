@@ -9,8 +9,8 @@
 #include "Map.hpp"
 
 namespace game {
-    Tile::Tile(Map &map, const raylib::Vector2 position) : m_map(map),
-        m_position(position)
+    Tile::Tile(Map &map, const raylib::Vector2 position) : _map(map),
+        _position(position)
     {
 
     }
@@ -33,22 +33,22 @@ namespace game {
             RED
         );
         if (isHovered()) {
-            rect.DrawLines(WHITE, 5.0f * m_map.getScale());
+            rect.DrawLines(WHITE, 5.0f * _map.getScale());
         }
     }
 
     raylib::Vector2 Tile::getPosition() const
     {
-        return m_position;
+        return _position;
     }
 
     raylib::Vector2 Tile::getScreenPosition() const
     {
-        const auto drawOffset = m_map.getOffset();
+        const auto drawOffset = _map.getOffset();
 
         return {
-            (drawOffset.x + m_position.x * size) * m_map.getScale(),
-            (drawOffset.y + m_position.y * size) * m_map.getScale()
+            (drawOffset.x + _position.x * size) * _map.getScale(),
+            (drawOffset.y + _position.y * size) * _map.getScale()
         };
     }
 
@@ -63,16 +63,16 @@ namespace game {
     raylib::Vector2 Tile::getScreenSize() const
     {
         return {
-            size * m_map.getScale(),
-            size * m_map.getScale()
+            size * _map.getScale(),
+            size * _map.getScale()
         };
     }
 
     raylib::Rectangle Tile::getBounds() const
     {
         return {
-            m_position.x * size,
-            m_position.y * size,
+            _position.x * size,
+            _position.y * size,
             size,
             size
         };
@@ -93,11 +93,11 @@ namespace game {
 
     bool Tile::isHovered() const
     {
-        return m_hovered;
+        return _hovered;
     }
 
     void Tile::setHovered(const bool hovered)
     {
-        m_hovered = hovered;
+        _hovered = hovered;
     }
 } // game

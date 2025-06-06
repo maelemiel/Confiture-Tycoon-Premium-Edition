@@ -7,16 +7,16 @@
 #include <algorithm>
 
 namespace game {
-    Map::Map(const raylib::Vector2 size) : m_size(size), m_scale(1.0f)
+    Map::Map(const raylib::Vector2 size) : _size(size), _scale(1.0f)
     {
         createTiles();
     }
 
     void Map::createTiles()
     {
-        for (int x = 0; x < static_cast<int>(m_size.x); x++) {
-            for (int y = 0; y < static_cast<int>(m_size.y); y++) {
-                m_tiles.push_back(
+        for (int x = 0; x < static_cast<int>(_size.x); x++) {
+            for (int y = 0; y < static_cast<int>(_size.y); y++) {
+                _tiles.push_back(
                     std::make_shared<Tile>(
                         *this,
                         raylib::Vector2(
@@ -31,44 +31,44 @@ namespace game {
 
     void Map::draw(Window &window) const
     {
-        for (const auto &tile : m_tiles) {
+        for (const auto &tile : _tiles) {
             tile->draw(window);
         }
     }
 
     raylib::Vector2 Map::getOffset() const
     {
-        return m_offset;
+        return _offset;
     }
 
     void Map::setOffset(const raylib::Vector2 offset)
     {
-        m_offset = offset;
+        _offset = offset;
     }
 
     float Map::getScale() const
     {
-        return m_scale;
+        return _scale;
     }
 
     void Map::setScale(const float scale)
     {
-        m_scale = std::ranges::clamp(scale, 0.05f, 10.0f);
+        _scale = std::ranges::clamp(scale, 0.05f, 10.0f);
     }
 
     raylib::Vector2 Map::getScreenPositionAsWorldPosition(
         const raylib::Vector2 mousePosition) const
     {
         return {
-            mousePosition.x / m_scale - m_offset.x,
-            mousePosition.y / m_scale - m_offset.y
+            mousePosition.x / _scale - _offset.x,
+            mousePosition.y / _scale - _offset.y
         };
     }
 
     std::optional<std::shared_ptr<Tile>> Map::getTileAtWorldPosition(
         const raylib::Vector2 worldPosition) const
     {
-        for (auto &tile : m_tiles) {
+        for (auto &tile : _tiles) {
             if (tile->getBounds().CheckCollision(worldPosition)) {
                 return tile;
             }
@@ -78,7 +78,7 @@ namespace game {
 
     void Map::setHoveredTile(const std::shared_ptr<Tile> &tile) const
     {
-        for (auto &itTile : m_tiles) {
+        for (auto &itTile : _tiles) {
             itTile->setHovered(itTile == tile);
         }
     }
