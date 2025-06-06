@@ -1,4 +1,6 @@
-#include "AOxygenProducer.hpp"
+#ifndef STRUCTURE_TREE_HPP
+#define STRUCTURE_TREE_HPP
+
 #include "Abstracts/AOxygenProducer.hpp"
 
 namespace Structure {
@@ -9,7 +11,7 @@ public:
         _name = "Tree";
         _resourceCost = 10;
         _oxygenCost = 5;
-        _size = {1, 1};
+        _size = raylib::Vector2(1, 1);
         _icon = raylib::Texture2D("assets/OxigenProducer/tree_icon.png");
         _sprite = raylib::Texture2D("assets/Oxigen_producer/tree_sprite.png");
         _pollutionEffect = -5;
@@ -21,3 +23,5 @@ public:
     ~Tree() override = default;
 };
 } // namespace Structure
+
+#endif // STRUCTURE_TREE_HPP
