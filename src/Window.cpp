@@ -40,8 +40,8 @@ namespace game {
         const auto destRect = raylib::Rectangle(
             0,
             0,
-            static_cast<float>(raylib::Window::GetWidth()),
-            static_cast<float>(raylib::Window::GetHeight())
+            static_cast<float>(_window->GetWidth()),
+            static_cast<float>(_window->GetHeight())
         );
 
         _texture->EndMode();
@@ -75,15 +75,15 @@ namespace game {
     {
         const auto xScale =
             static_cast<float>(_texture->GetTexture().width) /
-                raylib::Window::GetSize().x;
+                _window->GetSize().x;
         const auto yScale =
             static_cast<float>(_texture->GetTexture().height) /
-                raylib::Window::GetSize().y;
+                _window->GetSize().y;
 
-        return raylib::Vector2(
+        return {
             GetMousePosition().x * xScale,
             GetMousePosition().y * yScale
-        );
+        };
     }
 
     raylib::Window &Window::getRaylibWindow() const
