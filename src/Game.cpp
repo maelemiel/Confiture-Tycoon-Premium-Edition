@@ -29,12 +29,20 @@ namespace game
 
     void Game::update()
     {
+        const auto mouseWorldPosition = m_map->getScreenPositionAsWorldPosition(m_mousePosition);
+        const std::optional<std::shared_ptr<Tile>> hoverTile = m_map->getTileAtWorldPosition(mouseWorldPosition);
+
         if (m_mouseButtonMiddlePressed) {
             m_map->setOffset(m_map->getOffset() + m_mouseDelta / m_map->getScale());
         }
         if (m_mouseScrollDelta != Vector2Zero()) {
             // TODO: Make the zoom centered on the mouse position.
             m_map->setScale(m_map->getScale() + m_mouseScrollDelta.y * 0.05f);
+        }
+        if (hoverTile.has_value()) {
+            m_map->setHoveredTile(hoverTile.value());
+        } else {
+            m_map->setHoveredTile(nullptr);
         }
     }
 

@@ -17,7 +17,7 @@ namespace game {
         for (int x = 0; x < static_cast<int>(m_size.x); x++) {
             for (int y = 0; y < static_cast<int>(m_size.y); y++) {
                 m_tiles.push_back(
-                    std::make_unique<Tile>(
+                    std::make_shared<Tile>(
                         *this,
                         raylib::Vector2(
                             static_cast<float>(x),
@@ -54,5 +54,32 @@ namespace game {
     void Map::setScale(const float scale)
     {
         m_scale = std::ranges::clamp(scale, 0.05f, 10.0f);
+    }
+
+    raylib::Vector2 Map::getScreenPositionAsWorldPosition(
+        const raylib::Vector2 mousePosition) const
+    {
+        return {
+            mousePosition.x / m_scale - m_offset.x,
+            mousePosition.y / m_scale - m_offset.y
+        };
+    }
+
+    std::optional<std::shared_ptr<Tile>> Map::getTileAtWorldPosition(
+        const raylib::Vector2 worldPosition) const
+    {
+        for (auto &tile : m_tiles) {
+            if (tile->getBounds().CheckCollision(worldPosition)) {
+                return tile;
+            }
+        }
+        return std::nullopt;
+    }
+
+    void Map::setHoveredTile(const std::shared_ptr<Tile> &tile) const
+    {
+        for (auto &itTile : m_tiles) {
+            itTile->setHovered(itTile == tile);
+        }
     }
 } // game

@@ -5,6 +5,8 @@
 #ifndef TILE_HPP
     #define TILE_HPP
 
+    #include <Rectangle.hpp>
+
     #include "Window.hpp"
 
 namespace game {
@@ -13,6 +15,7 @@ namespace game {
     class Tile {
         Map &m_map;
         raylib::Vector2 m_position;
+        bool m_hovered;
 
     public:
         static constexpr float size = 96.0f;
@@ -20,6 +23,18 @@ namespace game {
         explicit Tile(Map &map, raylib::Vector2 position);
 
         void draw(Window &window) const;
+
+        [[nodiscard]] raylib::Vector2 getPosition() const;
+        [[nodiscard]] raylib::Vector2 getScreenPosition() const;
+
+        [[nodiscard]] raylib::Vector2 getSize() const;
+        [[nodiscard]] raylib::Vector2 getScreenSize() const;
+
+        [[nodiscard]] raylib::Rectangle getBounds() const;
+        [[nodiscard]] raylib::Rectangle getScreenBounds() const;
+
+        [[nodiscard]] bool isHovered() const;
+        void setHovered(bool hovered);
     };
 } // game
 

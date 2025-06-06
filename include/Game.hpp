@@ -19,12 +19,13 @@ namespace game
         std::unique_ptr<Map> m_map;
 
         // --- Input ---
+        bool m_isMouseInWindow;
         raylib::Vector2 m_mousePosition;
         raylib::Vector2 m_lastMousePosition;
         raylib::Vector2 m_mouseDelta;
-        bool m_mouseButtonLeftPressed = false;
-        bool m_mouseButtonMiddlePressed = false;
-        bool m_mouseButtonRightPressed = false;
+        bool m_mouseButtonLeftPressed;
+        bool m_mouseButtonMiddlePressed;
+        bool m_mouseButtonRightPressed;
         raylib::Vector2 m_mouseScrollDelta;
 
     public:
