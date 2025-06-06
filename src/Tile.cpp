@@ -11,17 +11,43 @@
 #include "Map.hpp"
 
 namespace game {
-    Tile::Tile(Map &map, const raylib::Vector2 position) : _map(map),
-        _position(position)
+    std::unique_ptr<particle::ParticleSystem> Tile::_getParticleSystem() const
     {
-        _structure = nullptr;
-        _linkedTile = nullptr;
+        auto particleSystem = std::make_unique<particle::ParticleSystem>(
+            _map.getCamera(),
+            _position * getSize() + getSize() * 0.5f
+        );
+        particleSystem->setVelocity(
+            raylib::Vector2(-0.2f, -1.0f),
+            raylib::Vector2(0.2f, 0.0f)
+        );
+        particleSystem->setLifetime(100, 300);
+        particleSystem->setColor(
+            raylib::Color::LightGray(),
+            raylib::Color::DarkGray()
+        );
+
+        return std::move(particleSystem);
     }
+
+    void Tile::_onStructureChange()
+    {
+        if (_structure != nullptr && _structure->getPollutionEffect() > 0) {
+            _particleSystem = _getParticleSystem();
+            return;
+        }
+        _particleSystem = nullptr;
+    }
+
+    Tile::Tile(Map &map, const raylib::Vector2 position) : _map(map),
+        _position(position), _structure(nullptr), _linkedTile(nullptr),
+        _particleSystem(nullptr)
+    {}
 
     void Tile::drawBackground(const Window &window) const
     {
         const auto screenPosition = getScreenPosition();
-        const float textureScale = size / 512.0f * _map.getScale();
+        const float textureScale = _map.getCamera().getScaledValue(size / 512.0f);
         auto tint = raylib::Color::White();
 
         if (hasStructure()) {
@@ -43,15 +69,12 @@ namespace game {
     void Tile::drawForeground(const Window &window) const
     {
         const auto screenPosition = getScreenPosition();
-        const auto screenSize = getScreenSize();
-        const auto rect = raylib::Rectangle(
-            screenPosition.x,
-            screenPosition.y,
-            screenSize.x,
-            screenSize.y
-        );
-        const float textureScale = size / 512.0f * _map.getScale();
+        const float textureScale = _map.getCamera().getScaledValue(size / 512.0f);
 
+        if (_particleSystem != nullptr) {
+            _particleSystem->update(1);
+            _particleSystem->draw();
+        }
         if (_structure != nullptr) {
             const auto &texture = _structure->getSprite();
 
@@ -71,12 +94,10 @@ namespace game {
 
     raylib::Vector2 Tile::getScreenPosition() const
     {
-        const auto drawOffset = _map.getOffset();
-
-        return {
-            (drawOffset.x + _position.x * size) * _map.getScale(),
-            (drawOffset.y + _position.y * size) * _map.getScale()
-        };
+        return _map.getCamera().getWorldPositionAsScreenPosition(raylib::Vector2(
+            _position.x * size,
+            _position.y * size
+        ));
     }
 
     raylib::Vector2 Tile::getSize() const
@@ -90,8 +111,8 @@ namespace game {
     raylib::Vector2 Tile::getScreenSize() const
     {
         return {
-            size * _map.getScale(),
-            size * _map.getScale()
+            _map.getCamera().getScaledValue(size),
+            _map.getCamera().getScaledValue(size)
         };
     }
 
@@ -144,6 +165,7 @@ namespace game {
         const auto self = _map.getTile(_position);
 
         _structure = structure;
+        _onStructureChange();
 
         if (_structure == nullptr) {
             return;
@@ -161,6 +183,7 @@ namespace game {
                     continue;
                 }
                 neighborTile->setLinkedTile(self);
+                neighborTile->_onStructureChange();
             }
         }
     }

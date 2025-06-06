@@ -9,6 +9,7 @@
     #include <memory>
     #include <string>
 
+    #include "Camera.hpp"
     #include "Map.hpp"
     #include "Window.hpp"
     #include "UI/UI.hpp"
@@ -20,6 +21,7 @@ namespace game
     class Game
     {
         Window _window;
+        Camera _camera;
         Map _map;
         std::unique_ptr<ResourceManager> _resourceManager;
 

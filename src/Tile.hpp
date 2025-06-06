@@ -8,6 +8,7 @@
     #include <Rectangle.hpp>
 
     #include "Window.hpp"
+#include "Particle/ParticleSystem.hpp"
 #include "Structures/Abstracts/IStructure.hpp"
 
 namespace game {
@@ -18,6 +19,12 @@ namespace game {
         raylib::Vector2 _position;
         std::shared_ptr<Structure::IStructure> _structure;
         std::shared_ptr<Tile> _linkedTile;
+        std::unique_ptr<particle::ParticleSystem> _particleSystem;
+
+        [[nodiscard]] std::unique_ptr<particle::ParticleSystem>
+            _getParticleSystem() const;
+
+        void _onStructureChange();
 
     public:
         static constexpr float size = 64.0f;

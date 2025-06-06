@@ -13,7 +13,7 @@ namespace game
 {
     Game::Game(const raylib::Vector2 windowSize) :
         _window(windowSize),
-        _map(raylib::Vector2(16, 16)),
+        _map(_camera, raylib::Vector2(16, 16)),
         _resourceManager(std::make_unique<ResourceManager>()),
         _isMouseInWindow(false),
         _mouseButtonLeftPressed(false),
@@ -53,7 +53,7 @@ namespace game
 
     void Game::update()
     {
-        const auto mouseWorldPosition = _map.getScreenPositionAsWorldPosition(_mousePosition);
+        const auto mouseWorldPosition = _camera.getScreenPositionAsWorldPosition(_mousePosition);
         const std::shared_ptr<Tile> hoverTile = _map.getTileAtWorldPosition(mouseWorldPosition);
         const auto structure = _factory.getStructure(_selectedStructure);
 
@@ -63,16 +63,16 @@ namespace game
             _map.setHoverSize(0);
         }
         if (_mouseButtonMiddleDown) {
-            _map.setOffset(_map.getOffset() + _mouseDelta / _map.getScale());
+            _camera.setOffset(_camera.getOffset() + _mouseDelta / _camera.getZoom());
         }
         if (_mouseScrollDelta != Vector2Zero()) {
-            const auto oldMouseOffset = _map.getScreenPositionAsWorldPosition(_mousePosition);
+            const auto oldMouseOffset = _camera.getScreenPositionAsWorldPosition(_mousePosition);
 
-            _map.setScale(_map.getScale() + _mouseScrollDelta.y * 0.05f);
+            _camera.setZoom(_camera.getZoom() + _mouseScrollDelta.y * 0.05f);
 
-            const auto mouseOffset = _map.getScreenPositionAsWorldPosition(_mousePosition);
+            const auto mouseOffset = _camera.getScreenPositionAsWorldPosition(_mousePosition);
 
-            _map.setOffset(_map.getOffset() + (mouseOffset - oldMouseOffset));
+            _camera.setOffset(_camera.getOffset() + (mouseOffset - oldMouseOffset));
         }
         _map.setHoveredTile(hoverTile);
         if (_mouseButtonLeftDown) {
@@ -86,7 +86,9 @@ namespace game
                 hoverTile->setStructure(nullptr);
             }
         }
-        float deltaTime = GetFrameTime();
+
+        const float deltaTime = GetFrameTime();
+
         _resourceManager->update(deltaTime);
     }
 
@@ -103,6 +105,7 @@ namespace game
             BLACK
         );
         _ui.draw();
+        _window.getRaylibWindow().DrawFPS();
         _window.endDraw();
     }
 

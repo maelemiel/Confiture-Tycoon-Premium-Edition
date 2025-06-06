@@ -9,8 +9,8 @@
 #include <ostream>
 
 namespace game {
-    Map::Map(const raylib::Vector2 size) : _size(size), _offset(0, 0),
-        _scale(1.0f)
+    Map::Map(Camera &camera, const raylib::Vector2 size) :
+        _camera(camera), _size(size)
     {
         createTiles();
         setOffsetToCenter();
@@ -47,14 +47,14 @@ namespace game {
         const auto hoverBounds = raylib::Rectangle(
             hoverPosition.x,
             hoverPosition.y,
-            _hoverSize.x * Tile::size * _scale,
-            _hoverSize.y * Tile::size * _scale
+            _camera.getScaledValue(_hoverSize.x * Tile::size),
+            _camera.getScaledValue(_hoverSize.y * Tile::size)
         );
 
         hoverBounds.DrawLines(
             areAllHoveredTilesEmpty() ?
                 raylib::Color::White() : raylib::Color::SkyBlue(),
-            5.0f * _scale
+            _camera.getScaledValue(5.0f)
         );
     }
 
@@ -72,35 +72,6 @@ namespace game {
             }
             highlightTiles();
         }
-    }
-
-    raylib::Vector2 Map::getOffset() const
-    {
-        return _offset;
-    }
-
-    void Map::setOffset(const raylib::Vector2 offset)
-    {
-        _offset = offset;
-    }
-
-    float Map::getScale() const
-    {
-        return _scale;
-    }
-
-    void Map::setScale(const float scale)
-    {
-        _scale = std::ranges::clamp(scale, 0.05f, 10.0f);
-    }
-
-    raylib::Vector2 Map::getScreenPositionAsWorldPosition(
-        const raylib::Vector2 mousePosition) const
-    {
-        return {
-            mousePosition.x / _scale - _offset.x,
-            mousePosition.y / _scale - _offset.y
-        };
     }
 
     std::shared_ptr<Tile> Map::getTile(const raylib::Vector2 index) const
@@ -170,9 +141,14 @@ namespace game {
 
     void Map::setOffsetToCenter()
     {
-        setOffset(raylib::Vector2(
+        _camera.setOffset(raylib::Vector2(
             1920.0f * 0.5f - _size.x * Tile::size * 0.5f,
             1080.0f * 0.5f - _size.y * Tile::size * 0.5f
         ));
+    }
+
+    Camera &Map::getCamera()
+    {
+        return _camera;
     }
 } // game

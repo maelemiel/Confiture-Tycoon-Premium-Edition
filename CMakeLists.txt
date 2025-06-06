@@ -27,6 +27,10 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 
 # Collect all source files
 set(SOURCES
+        src/Particle/ParticleSystem.cpp
+        src/Particle/ParticleSystem.hpp
+        src/Particle/Particle.cpp
+        src/Particle/Particle.hpp
         src/Structures/Abstracts/IStructure.hpp
         src/Structures/Abstracts/AHabitation.hpp
         src/Structures/Abstracts/AHabitation.cpp
@@ -52,6 +56,8 @@ set(SOURCES
         src/Tile.hpp
         src/Window.cpp
         src/Window.hpp
+        src/Camera.cpp
+        src/Camera.hpp
 )
 
 # Create executable

@@ -9,14 +9,14 @@
 #include <optional>
     #include <raylib-cpp.hpp>
 
+    #include "Camera.hpp"
     #include "Tile.hpp"
 
 namespace game {
     class Map {
+        Camera &_camera;
         raylib::Vector2 _size;
         std::pmr::list<std::shared_ptr<Tile>> _tiles;
-        raylib::Vector2 _offset;
-        float _scale;
         std::shared_ptr<Tile> _hoveredTile;
         raylib::Vector2 _hoverSize;
 
@@ -26,18 +26,9 @@ namespace game {
         void highlightTiles() const;
 
     public:
-        explicit Map(raylib::Vector2 size);
+        explicit Map(Camera &camera, raylib::Vector2 size);
 
         void draw(const Window &window) const;
-
-        [[nodiscard]] raylib::Vector2 getOffset() const;
-        void setOffset(raylib::Vector2 offset);
-
-        [[nodiscard]] float getScale() const;
-        void setScale(float scale);
-
-        [[nodiscard]] raylib::Vector2 getScreenPositionAsWorldPosition(
-            raylib::Vector2 mousePosition) const;
 
         [[nodiscard]] std::shared_ptr<Tile> getTile(raylib::Vector2 index) const;
         [[nodiscard]] std::shared_ptr<Tile> getTileAtWorldPosition(
@@ -51,6 +42,8 @@ namespace game {
         [[nodiscard]] const raylib::Texture &getGrassTexture() const;
 
         void setOffsetToCenter();
+
+        Camera &getCamera();
     };
 } // game
 
