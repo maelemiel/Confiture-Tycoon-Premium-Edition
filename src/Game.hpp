@@ -6,10 +6,13 @@
     #define GAME_HPP
 
     #include <raylib-cpp.hpp>
+    #include <memory>
+    #include <string>
 
     #include "Map.hpp"
     #include "Window.hpp"
     #include "UI/UI.hpp"
+    #include "Structures/Factory/Factory.hpp"
 
 namespace game
 {
@@ -35,6 +38,8 @@ namespace game
         raylib::Vector2 _mouseScrollDelta;
         // Classes
         UI _ui;
+        std::string _selectedStruct;
+        Structures::Factory _factory;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
@@ -43,6 +48,7 @@ namespace game
         void update();
         void draw() const;
 
+        std::string getSelectedStruct() const;
 
         [[nodiscard]] bool isRunning();
     };

@@ -93,4 +93,10 @@ namespace game
     {
         return _window.isOpen();
     }
+
+    std::string Game::getSelectedStruct() const
+    {
+        return _selectedStruct;
+    }
+
 } // game
