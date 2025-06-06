@@ -3,12 +3,13 @@
 //
 
 #include "UI.hpp"
-
 #include <raylib-cpp.hpp>
+#include "ResourceManager.hpp"
 
 namespace game {
     void UI::draw() const {
-        float oxygenPercentage = 0.5f;
+        float oxygenPercentage = resourceManager.getOxygenLevel();
+        printf("%d\n", resourceManager.getOxygenLevel());
         Rectangle sourceRect = {0, -1, 86 * oxygenPercentage, 21};
         Rectangle destRect = {barOxyPosition.x, barOxyPosition.y, barOxySize * 86 * oxygenPercentage, barOxySize * 19};
 

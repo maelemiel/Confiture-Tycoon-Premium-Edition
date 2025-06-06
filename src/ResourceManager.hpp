@@ -51,6 +51,7 @@ public:
     // 🌬️ Oxygen Management
     int getOxygenLevel() const
     {
+        printf("\nLA  %d\n", _oxygenLevel);
         return _oxygenLevel;
     }
     int getMaxOxygenLevel() const

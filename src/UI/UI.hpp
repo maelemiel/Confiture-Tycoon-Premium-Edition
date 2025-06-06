@@ -8,6 +8,7 @@
     #include <memory>
     #include <raylib-cpp.hpp>
 
+#include "ResourceManager.hpp"
     #include "UI.hpp"
 
 namespace game
@@ -43,6 +44,7 @@ namespace game
         Vector2 resourcesLogoPosition;
     
     public:
+        ResourceManager resourceManager;
         void draw() const;
 
         // Variables
