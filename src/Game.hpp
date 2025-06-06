@@ -5,18 +5,18 @@
 #ifndef GAME_HPP
     #define GAME_HPP
 
-    #include <memory>
     #include <raylib-cpp.hpp>
 
     #include "Map.hpp"
     #include "Window.hpp"
+    #include "UI/UI.hpp"
 
 namespace game
 {
     class Game
     {
-        std::unique_ptr<Window> _window;
-        std::unique_ptr<Map> _map;
+        Window _window;
+        Map _map;
 
         // --- Input ---
         bool _isMouseInWindow;
@@ -33,6 +33,8 @@ namespace game
         bool _mouseButtonMiddleReleased;
         bool _mouseButtonRightReleased;
         raylib::Vector2 _mouseScrollDelta;
+        // Classes
+        UI _ui;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
@@ -41,7 +43,8 @@ namespace game
         void update();
         void draw() const;
 
-        [[nodiscard]] bool isRunning() const;
+
+        [[nodiscard]] bool isRunning();
     };
 } // game
 

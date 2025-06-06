@@ -42,6 +42,8 @@ set(SOURCES
         src/Structures/Abstracts/AResourceProducer.hpp
         src/Structures/Abstracts/AResourceProducer.cpp
         src/Structures/Tree.hpp
+        src/UI/UI.cpp
+        src/UI/UI.hpp
         src/Game.cpp
         src/Game.hpp
         src/main.cpp

@@ -24,7 +24,7 @@ namespace game {
 
         explicit Tile(Map &map, raylib::Vector2 position);
 
-        void draw(Window &window) const;
+        void draw(const Window &window) const;
 
         [[nodiscard]] raylib::Vector2 getPosition() const;
         [[nodiscard]] raylib::Vector2 getScreenPosition() const;

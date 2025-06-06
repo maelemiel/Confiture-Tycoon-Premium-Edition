@@ -16,7 +16,7 @@ namespace game {
         _structure = nullptr;
     }
 
-    void Tile::draw(Window &window) const
+    void Tile::draw(const Window &window) const
     {
         const auto screenPosition = getScreenPosition();
         const auto screenSize = getScreenSize();
