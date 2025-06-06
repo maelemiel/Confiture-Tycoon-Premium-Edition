@@ -1,11 +1,11 @@
 #ifndef ARESSOURCEPRODUCER_HPP
 #define ARESSOURCEPRODUCER_HPP
 
-#include "IStructures.hpp"
+#include "IStructure.hpp"
 #include "raylib-cpp.hpp"
 
-namespace Structures {
-class ARessourceProducer : public IStructures {
+namespace Structure {
+class ARessourceProducer : public IStructure {
 public:
     virtual ~ARessourceProducer() = default;
 
