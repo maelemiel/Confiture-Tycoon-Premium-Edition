@@ -45,7 +45,7 @@ namespace game
         const auto mouseWorldPosition = _map.getScreenPositionAsWorldPosition(_mousePosition);
         const std::shared_ptr<Tile> hoverTile = _map.getTileAtWorldPosition(mouseWorldPosition);
 
-        if (_mouseButtonMiddlePressed) {
+        if (_mouseButtonMiddleDown) {
             _map.setOffset(_map.getOffset() + _mouseDelta / _map.getScale());
         }
         if (_mouseScrollDelta != Vector2Zero()) {
