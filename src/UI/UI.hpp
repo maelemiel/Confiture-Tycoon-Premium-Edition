@@ -9,13 +9,13 @@
     #include <raylib-cpp.hpp>
 
 #include "ResourceManager.hpp"
-    #include "UI.hpp"
 
 namespace game
 {
     class UI
     {
     private:
+        ResourceManager& _resourceManagerRef;
         int _a;
         raylib::Texture logoOxy;
         raylib::Texture oxygenFrame;
@@ -25,7 +25,6 @@ namespace game
         raylib::Texture barOxy;
         raylib::Texture resourcesFrame;
         raylib::Texture resourcesLogo;
-        //text nb people
 
         Vector2 oxyPosition;
         Vector2 oxyFramePosition;
@@ -44,14 +43,8 @@ namespace game
         Vector2 resourcesLogoPosition;
     
     public:
-        ResourceManager resourceManager;
-        void draw() const;
-
-        // Variables
-
-        std::string population;
-        std::string resources;
-        UI() :
+        explicit UI(ResourceManager& rm) :
+            _resourceManagerRef(rm),
             logoOxy("assets/UI/oxygen_tank.png"),
             oxygenFrame("assets/UI/O2_frame.png"),
             populationFrame("assets/UI/population_frame.png"),
@@ -78,8 +71,13 @@ namespace game
             resourcesLogoPosition = { populationFramePosition.x + 120, 150};
             resourcesLogoSize = 0.3;
         }
+
+        void draw() const;
+
+        std::string population;
+        std::string resources;
     };
 } // game
 
 
-#endif //GAME_HPP
+#endif //UI_HPP

@@ -15,6 +15,7 @@ namespace game
         _window(windowSize),
         _map(raylib::Vector2(16, 16)),
         _resourceManager(std::make_unique<ResourceManager>()),
+        _ui(*_resourceManager),
         _isMouseInWindow(false),
         _mouseButtonLeftPressed(false),
         _mouseButtonMiddlePressed(false),

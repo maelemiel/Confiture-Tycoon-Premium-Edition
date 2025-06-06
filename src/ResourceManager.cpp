@@ -9,8 +9,8 @@ namespace game
 
 ResourceManager::ResourceManager()
     : _SweetSweet(100),
-      _SweetSweetPerSecond(0), _oxygenLevel(1000),
-      _maxOxygenLevel(100000), _oxygenPerSecond(0),
+      _SweetSweetPerSecond(0), _oxygenLevel(0),
+      _maxOxygenLevel(10000), _oxygenPerSecond(0),
       _population(0),
       _timeAccumulator(0.0f)
 {
