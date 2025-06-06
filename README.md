@@ -1,168 +1,104 @@
-# 🔥💀 ULTRA DUAL DEATH RUN 2 DELUXE EDITION REMASTERED 💀🔥
-## *THE MOST EPIC PLATFORMER GAME IN THE HISTORY OF MANKIND*
-
-### 🚨 WARNING 🚨
-This game is so intense that it may cause:
-- Spontaneous controller throwing
-- Excessive screaming at pixels
-- Temporary loss of friendship with teammates
-- Addiction to collecting shiny things
-- An uncontrollable urge to jump on everything
-
-## 🚀 Installation et compilation (FOR LEGENDS ONLY)
-
-### Prérequis (What you need to become a gaming god)
-- CMake 3.11 ou plus récent (because we're fancy like that)
-- Compilateur C++17 compatible (GCC, Clang, MSVC) - Yes, we speak the ancient language of computers
-- Git (for when you inevitably break everything)
-- A strong heart ❤️ 
-- Probably some snacks 🍕
-
-### Compilation (The Sacred Ritual)
-```bash
-# Step 1: Summon the build system
-cmake --build .
-
-# Step 2: UNLEASH THE BEAST
-./bin/UltraDualDeathRun2DeluxeEditionRemastered
-
-# Alternative incantation if the first one doesn't work:
-./bin/UltraDualDeathRun2
-
-# If nothing works, try turning it off and on again ¯\_(ツ)_/¯
-```
-
-## 🏗️ Structure du projet (THE ARCHITECTURE OF CHAOS)
+# 🍓✨ ULTRA DUAL DEATH RUN 2 DELUXE EDITION REMASTERED ✨🍓
+## *Le Tycoon de Confiture le Plus ÉPIQUE de l'Univers Connu* 🌟
 
 ```
-├── src/                  # Where the magic happens ✨
-│   ├── main.cpp          # The One Ring (point d'entrée)
-│   ├── Game.hpp/.cpp     # The Brain of the Operation
-│   └── Player.hpp/.cpp   # The Heroes of Our Story
-├── assets/               # The Treasure Vault
-│   ├── images/           # Pretty pixels that make you go "ooh"
-│   ├── sounds/           # BEEP BOOP EXPLOSION SOUNDS
-│   └── fonts/            # Letters that look cooler than Times New Roman
-├── build/                # Where dreams become reality (or nightmares)
-└── CMakeLists.txt        # The Ancient Scroll of Compilation
+    🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓
+    🍓                                                🍓
+    🍯      BIENVENUE DANS L'EMPIRE DE LA JAM !      🍯
+    🍓                                                🍓
+    🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓🍯🍓
 ```
 
-## 🔧 TODO / Fonctionnalités à implémenter (THE QUEST LIST)
-
-### 🎮 Core Gameplay (The Fun Stuff)
-- [ ] Système de double saut (Because single jumping is for peasants)
-- [ ] Obstacles et pièges (DEATH EVERYWHERE! 💀)
-- [ ] Collectibles (Shiny things that go *bling*)
-- [ ] Système de vies/mort (Lives are overrated anyway)
-- [ ] Respawn/checkpoints (Because rage quitting is not an option)
-
-### 👥 Multijoueur (FRIENDSHIP DESTROYER MODE)
-- [ ] Support jusqu'à 6 joueurs (Maximum chaos achieved)
-- [ ] Contrôles configurables (For when WASD isn't wasd enough)
-- [ ] Modes de jeu coopératif/compétitif (Love/Hate relationships)
-
-### 🗺️ Niveaux (THE GAUNTLET)
-- [ ] Système de loading de niveaux (Portal technology)
-- [ ] Éditeur de niveaux simple (Create your own torture chambers)
-- [ ] Plateformes mobiles (Because static platforms are boring)
-- [ ] Éléments interactifs (PRESS E TO NOT DIE)
-
-### 🎵 Audio/Visuel (SENSORY OVERLOAD)
-- [ ] Système de sprites/animations (Moving pictures, revolutionary!)
-- [ ] Particules (mort, collectibles) (Explosions make everything better)
-- [ ] Musique de fond (Epic orchestral music for jumping on boxes)
-- [ ] Effets sonores (*Wilhelm scream intensifies*)
-
-### 🖥️ Interface (THE WINDOW TO THE SOUL)
-- [ ] Menu principal (The Gateway)
-- [ ] Sélection des joueurs (Choose your fighter!)
-- [ ] Écran de fin de partie (GG EZ or GET REKT)
-- [ ] HUD en jeu (Numbers and bars everywhere)
-
-## 🎯 Conseils pour la game jam (SURVIVAL GUIDE)
-
-### Workflow Git (The Sacred Git-Fu)
-```bash
-# Create a branch (because main branch is sacred)
-git checkout -b feature/my-absolutely-amazing-feature
-
-# Stage your masterpiece
-git add .
-git commit -m "Added the most epic feature ever created by human hands"
-git push origin feature/my-absolutely-amazing-feature
-
-# Pray to the Git gods that there are no merge conflicts 🙏
-```
-
-### Bonnes pratiques (WISDOM FROM THE ANCIENTS)
-- **Commits fréquents** - Like saving in an RPG, do it often!
-- **Testez** - Press buttons and see if things explode (in a good way)
-- **Communiquez** - Use your words, not your fists (usually)
-- **Gardez des backups** - Because Murphy's Law is real
-- **Priorisez** - Make it work first, make it pretty later
-
-## 🛠️ Classes utiles à créer (THE ARMY OF OBJECTS)
-
-```cpp
-// The Fellowship of the Code:
-class Level;           // The World Builder 🌍
-class Obstacle;        // The Bringer of Doom ☠️
-class Collectible;     // The Shiny Magnet ✨
-class AudioManager;    // The Keeper of Sounds 🔊
-class InputManager;    // The Button Whisperer 🎮
-class ParticleSystem;  // The Chaos Generator 💥
-class Camera;          // The Eye of Sauron 👁️
-class GameState;       // The Mind of the Machine 🧠
-class Player;          // The Chosen One(s) 🦸
-```
-
-## 📚 Ressources Raylib utiles (THE SACRED TEXTS)
-
-- [Documentation Raylib](https://www.raylib.com/) - The Bible of Game Development
-- [Exemples de code](https://www.raylib.com/examples.html) - Copy-Paste Paradise
-- [Raylib Cheatsheet](https://www.raylib.com/cheatsheet/cheatsheet.html) - The Cheat Codes
-
-## 🐛 Debug et outils (WHEN EVERYTHING BREAKS)
-
-Pour débugger (The Art of Digital Detective Work):
-```cpp
-// Traditional method (boring but effective):
-std::cout << "Debug: " << variable << std::endl;
-
-// The Raylib way (sexy and on-screen):
-DrawText(TextFormat("Debug: %d", variable), 10, 50, 20, RED);
-
-// The desperate developer method:
-std::cout << "IT'S ALIVE! IT'S ALIIIIVE!" << std::endl;
-
-// The professional approach:
-if (everything_is_broken) {
-    std::cout << "Have you tried turning it off and on again?" << std::endl;
-    system("sudo rm -rf /"); // DON'T ACTUALLY DO THIS
-}
-```
-
-## 🏆 HALL OF FAME (LEGENDS WHO DARED)
-
-*This section will be filled with the names of brave developers who survive the development process*
+### 🚨 ATTENTION : CE JEU PEUT CAUSER DES EFFETS SECONDAIRES ! 🚨
+- Envie irrésistible de tartines au petit déjeuner 🍞
+- Rêves peuplés de fraises géantes qui dansent 💃🍓
+- Addiction chronique au sucre (pas notre faute !) 🍬
+- Tendance à parler uniquement en emojis fruits 🍑🥝🍊
 
 ---
 
-**Remember**: This is not just a game, it's a JOURNEY. A journey of pain, suffering, triumph, and probably way too much caffeine. ☕
+## 🎮 QU'EST-CE QUE C'EST QUE CE BORDEL MAGNIFIQUE ?
 
-**Disclaimer**: No keyboards were harmed in the making of this game (that's a lie).
+**Ultra Dual Death Run 2 Deluxe Edition Remastered** n'est PAS un simple jeu de course de mort comme son nom l'indique ! 
+NON MONSIEUR ! C'est le **SIMULATEUR DE CONFITURE LE PLUS HARDCORE** jamais créé par l'humanité ! 
 
-**Final Warning**: Playing this game may result in an uncontrollable addiction to creating increasingly ridiculous README files.
+### 🔥 FEATURES QUI DÉCHIRENT TOUT 🔥
 
-## 🎪 EASTER EGGS
-
-- Konami Code support (because why not?)
-- Hidden developer room accessible by jumping 42 times
-- Secret character: A dancing banana 🍌
-- If you die 100 times, the game gives you a virtual hug 🤗
+- **🌳 Plantez des arbres magiques** qui produisent des fruits interdimensionnels !
+- **🏭 Construisez des usines de confiture** alimentées par la pure VOLONTÉ de vos ouvriers !
+- **💰 Gérez votre empire sucré** avec la férocité d'un PDG sous caféine !
+- **🌍 Conquérez le monde** une cuillère de confiture à la fois !
+- **⚡ Mode ULTRA DEATH** : Vos concurrents peuvent littéralement MOURIR de jalousie !
 
 ---
 
-*Made with ❤️, tears, and an unhealthy amount of energy drinks*
+## 🎯 OBJECTIFS DU JEU
 
-**THE LEGEND BEGINS... NOW!** 🚀💫⭐
+1. **Survivre** à l'économie brutale de la confiture 💀
+2. **Dominer** le marché mondial des confitures exotiques 🌎
+3. **Éliminer** tes concurrents par des moyens légaux* 😈
+4. **Atteindre** le nirvana de la tartine parfaite 🏆
+5. **Devenir** le MAÎTRE SUPRÊME de la gelée universelle 👑
+
+*légaux dans certaines dimensions parallèles
+
+---
+
+## 🕹️ CONTRÔLES SECRETS
+
+- **Clic Gauche** : Planter des trucs (genre des arbres magiques)
+- **Clic Droit** : Détruire tes ennemis (ou leurs bâtiments)
+- **Molette** : Zoom cosmique pour voir ton empire
+- **Clic Milieu** : Mode Dieu (déplacer la caméra)
+- **Alt + F4** : Mode turbo secret (ne fais pas ça)
+
+---
+
+## 🏆 RECORDS MONDIAUX ACTUELS
+
+| Joueur | Pots de Confiture | Temps | Commentaire |
+|--------|-------------------|-------|-------------|
+| xXJamMasterXx | 999,999,999 | 0.3s | Suspect de hack |
+| GrandMamieCookie | 42,069 | 69h | Respect éternel |
+| ConfitureDestroyer | 1 | 420h | Mérite un prix |
+
+---
+
+## 🐛 BUGS CONNUS (Qu'on Appelle Features)
+
+- Les arbres peuvent parfois danser la salsa 💃🌳
+- L'oxygène se transforme en sirop d'érable au Canada 🍁
+- Les habitants mangent parfois leur propre maison (en pain d'épice) 🏠
+- La physique newtonienne ne s'applique pas aux fraises 🍓
+- Le jeu peut prendre conscience de lui-même après 48h de jeu 🤖
+
+---
+
+## 📜 LICENCE
+
+Ce projet est sous licence **"Faites-ce-que-vous-voulez-mais-partagez-la-confiture"** 
+
+Clause spéciale : Toute utilisation commerciale doit inclure une donation de vrais pots de confiture aux développeurs. 🍯
+
+---
+
+## 🙏 REMERCIEMENTS SPÉCIAUX
+
+- **Maman** pour ses confitures de fraises légendaires 👵
+- **Le Soleil** pour faire pousser les fruits ☀️
+- **Einstein** pour la relativité du temps de cuisson 🧠
+- **Tous les testeurs** qui ont survécu aux versions alpha 💀
+- **Mon Chat** qui a marché sur le clavier et créé le meilleur algorithme 🐱
+
+---
+
+
+```
+                    🍓 FAIT AVEC AMOUR ET BEAUCOUP DE SUCRE 🍓
+                        Par des développeurs légèrement fous
+                              Mais surtout affamés
+                                    
+                    "Dans la confiture, nous croyons" - Confucius, probablement
+```
+
+**P.S.** : Si vous lisez ça, vous êtes officiellement un héros. Bravo. 🏅
