@@ -13,7 +13,7 @@ namespace game
 {
     Game::Game(const raylib::Vector2 windowSize) :
         _window(windowSize),
-        _map(raylib::Vector2(10, 10)),
+        _map(raylib::Vector2(16, 16)),
         _resourceManager(std::make_unique<ResourceManager>()),
         _isMouseInWindow(false),
         _mouseButtonLeftPressed(false),
@@ -25,7 +25,7 @@ namespace game
     void Game::handleInput()
     {
         _lastMousePosition = _mousePosition;
-        _mousePosition = GetMousePosition();
+        _mousePosition = _window.getMousePosition();
         _mouseDelta = _mousePosition - _lastMousePosition;
 
         _mouseButtonLeftDown = IsMouseButtonDown(MOUSE_BUTTON_LEFT);
@@ -65,7 +65,7 @@ namespace game
 
             _map.setOffset(_map.getOffset() + (mouseOffset - oldMouseOffset));
         }
-                _map.setHoveredTile(hoverTile);
+        _map.setHoveredTile(hoverTile);
         if (_mouseButtonLeftDown) {
             if (hoverTile != nullptr && !hoverTile->hasStructure()
                 && _map.areAllHoveredTilesEmpty()) {
@@ -83,10 +83,8 @@ namespace game
 
     void Game::draw() const
     {
-        raylib::Window &raylibWindow = _window.getRaylibWindow();
-
-        raylibWindow.BeginDrawing();
-        raylibWindow.ClearBackground(WHITE);
+        _window.beginDraw();
+        _window.clear(raylib::Color::White());
         _map.draw(_window);
         raylib::DrawText(
             "Idle JeuConfiture Tycoon (a Jamsoft game)",
@@ -96,7 +94,7 @@ namespace game
             BLACK
         );
         _ui.draw();
-        raylibWindow.EndDrawing();
+        _window.endDraw();
     }
 
     bool Game::isRunning()

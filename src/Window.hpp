@@ -5,6 +5,8 @@
 #ifndef WINDOW_HPP
     #define WINDOW_HPP
 
+    #include <raylib-cpp.hpp>
+
     #include <memory>
     #include <Vector2.hpp>
 
@@ -17,12 +19,20 @@ namespace game
     class Window
     {
         std::unique_ptr<raylib::Window> _window;
+        std::unique_ptr<raylib::RenderTexture> _texture;
         bool _isOpen;
 
     public:
         explicit Window(raylib::Vector2 size);
 
+        void beginDraw() const;
+        void endDraw() const;
+
+        void clear(raylib::Color color) const;
+
         [[nodiscard]] bool isOpen();
+
+        [[nodiscard]] raylib::Vector2 getMousePosition() const;
 
         [[nodiscard]] raylib::Window &getRaylibWindow() const;
     };

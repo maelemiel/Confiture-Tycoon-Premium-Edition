@@ -20,7 +20,7 @@ namespace game {
         std::shared_ptr<Tile> _linkedTile;
 
     public:
-        static constexpr float size = 96.0f;
+        static constexpr float size = 64.0f;
 
         explicit Tile(Map &map, raylib::Vector2 position);
 

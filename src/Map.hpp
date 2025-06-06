@@ -49,6 +49,8 @@ namespace game {
         [[nodiscard]] bool areAllHoveredTilesEmpty() const;
 
         [[nodiscard]] const raylib::Texture &getGrassTexture() const;
+
+        void setOffsetToCenter();
     };
 } // game
 
