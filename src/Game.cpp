@@ -65,6 +65,7 @@ namespace game
             20,
             BLACK
         );
+        _ui.draw();
         raylibWindow.EndDrawing();
     }
 

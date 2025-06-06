@@ -39,6 +39,7 @@ set(SOURCES
         src/Map.cpp
         src/Tile.cpp
         src/Window.cpp
+        src/UI/Ui.cpp
 )
 
 # Collect all header files
@@ -47,7 +48,7 @@ set(HEADERS
         include/Map.hpp
         include/Tile.hpp
         include/Window.hpp
-        src/UI/draw_ui.cpp
+        include/Ui.hpp
 )
 
 # Create executable

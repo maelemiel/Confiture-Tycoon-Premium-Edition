@@ -9,6 +9,7 @@
     #include <raylib-cpp.hpp>
 
     #include "Map.hpp"
+    #include "Ui.hpp"
     #include "Window.hpp"
 
 namespace game
@@ -27,6 +28,8 @@ namespace game
         bool _mouseButtonMiddlePressed;
         bool _mouseButtonRightPressed;
         raylib::Vector2 _mouseScrollDelta;
+        // Classes
+        UI _ui;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
@@ -34,6 +37,7 @@ namespace game
         void handleInput();
         void update();
         void draw() const;
+
 
         [[nodiscard]] bool isRunning() const;
     };
