@@ -22,6 +22,7 @@ public:
     virtual raylib::Vector2 getSize() = 0;
     virtual Texture2D &getIcon() = 0;
     virtual Texture2D &getSprite() = 0;
+    virtual int getPollutionEffect() = 0;
 
 protected:
     string _name;
@@ -30,6 +31,7 @@ protected:
     raylib::Vector2 _size;
     Texture2D _icon;
     Texture2D _sprite;
+    int _pollutionEffect;
 };
 }
 

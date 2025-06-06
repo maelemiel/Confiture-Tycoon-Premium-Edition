@@ -14,20 +14,23 @@ public:
     void drawSprite();
     void drawSprite(raylib::Vector2 position);
 
-    string &getName();
-    int getRessourceCost();
-    int getOxygenCost();
-    raylib::Vector2 getSize();
-    Texture2D &getIcon();
-    Texture2D &getSprite();
+    // Interface getters
+    string &getName() { return _name; }
+    int getRessourceCost() { return _ressourceCost; }
+    int getOxygenCost() { return _oxygenCost; }
+    raylib::Vector2 getSize() { return _size; }
+    Texture2D &getIcon() { return _icon; }
+    Texture2D &getSprite() { return _sprite; }
+    int getPollutionEffect() { return _pollutionEffect; }
 
-    int getOxygenProductionRate() const { return _oxigenProductionRate; }
-    int getRessourceCost() const { return _ressourceCost; }
+    // Abstract getters
+    int getOxygenProduction() const { return _oxigenProduction; }
+    int getRessourceConsomption() const { return _ressourceConsomption; }
     int getHabitantNeeded() const { return _habitantNeeded; }
 
 protected:
-    int _oxigenProductionRate;
-    int _ressourceCost;
+    int _oxigenProduction;
+    int _ressourceConsomption;
     int _habitantNeeded;
 };
 }
