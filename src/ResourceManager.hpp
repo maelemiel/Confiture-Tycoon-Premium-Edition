@@ -59,7 +59,6 @@ public:
         return _oxygenPerSecond;
     }
     float getOxygenPercentage() const;
-    bool isOxygenCritical() const;
     void addOxygen(int amount);
     void consumeOxygen(int amount);
 
@@ -68,9 +67,6 @@ public:
     {
         return _population;
     }
-    void addPopulationCapacity(int capacity);
-    void removePopulationCapacity(int capacity);
-
     void resetGame();
 
 private:
