@@ -11,6 +11,10 @@ namespace game {
         _scale(1.0f)
     {
         createTiles();
+
+        _grassTexture = raylib::Texture(
+            "assets/textures/grass.png"
+        );
     }
 
     void Map::createTiles()
@@ -66,7 +70,7 @@ namespace game {
         };
     }
 
-    std::optional<std::shared_ptr<Tile>> Map::getTileAtWorldPosition(
+    std::shared_ptr<Tile> Map::getTileAtWorldPosition(
         const raylib::Vector2 worldPosition) const
     {
         for (auto &tile : _tiles) {
@@ -74,7 +78,7 @@ namespace game {
                 return tile;
             }
         }
-        return std::nullopt;
+        return nullptr;
     }
 
     void Map::setHoveredTile(const std::shared_ptr<Tile> &tile) const
@@ -82,5 +86,10 @@ namespace game {
         for (auto &itTile : _tiles) {
             itTile->setHovered(itTile == tile);
         }
+    }
+
+    const raylib::Texture &Map::getGrassTexture() const
+    {
+        return _grassTexture;
     }
 } // game

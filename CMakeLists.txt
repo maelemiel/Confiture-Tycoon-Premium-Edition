@@ -39,8 +39,8 @@ set(SOURCES
         src/Structures/Abstracts/AHabitation.cpp
         src/Structures/Abstracts/AOxygenProducer.hpp
         src/Structures/Abstracts/AOxygenProducer.cpp
-        src/Structures/Abstracts/ARessourceProducer.hpp
-        src/Structures/Abstracts/ARessourceProducer.cpp
+        src/Structures/Abstracts/AResourceProducer.hpp
+        src/Structures/Abstracts/AResourceProducer.cpp
         src/Structures/Tree.hpp
         src/UI/UI.cpp
         src/UI/UI.hpp
