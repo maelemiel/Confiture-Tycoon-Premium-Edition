@@ -11,7 +11,6 @@
     #include "Ui.hpp"
 
 namespace game
-    class Ui;
 {
     class Ui
     {
@@ -41,12 +40,14 @@ namespace game
         Vector2 logoBuildSize = { 32, 32 };
         Vector2 logoGridSize = { 32, 32 };
         Vector2 barOxySize = { 50, 10 };
-        Vector2 barpeopleSize = { 50, 50 };
+        Vector2 barPeopleSize = { 50, 50 };
     
     public:
-        Ui();
+        void draw() const;
+
+        // Variables
         Ui() {
-            logoOxy = raylib::Texture2D("assets/oxygen tank.png");
+            logoOxy = raylib::Texture2D("assets/oxygen_tank.png");
             logoPeople = raylib::Texture2D("assets/population.png");
             logoRessources = raylib::Texture2D("assets/jam.png");
             logoBuild = raylib::Texture2D("assets/build.png");
@@ -59,10 +60,8 @@ namespace game
             RessourcesPosition = { 10, 90 };
             BuildPosition = { 10, 130 };
             GridPosition = { 10, 170 };
-            barOxyPosition = { 50, 10 };
-            barPeoplePosition = { 50, 50 };
         }
-    }
+    };
 } // game
 
 

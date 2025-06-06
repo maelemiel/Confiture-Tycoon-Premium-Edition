@@ -29,7 +29,7 @@ namespace game
         bool _mouseButtonRightPressed;
         raylib::Vector2 _mouseScrollDelta;
         // Classes
-        UI _ui;
+        Ui _ui;
 
     public:
         explicit Game(raylib::Vector2 windowSize);

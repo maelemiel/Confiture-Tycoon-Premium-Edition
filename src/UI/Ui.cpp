@@ -7,8 +7,7 @@
 #include <raylib-cpp.hpp>
 
 namespace game {
-    void UI::draw() const {
-        raylib::
-    }
+    void Ui::draw() const {
 
+    }
 }
