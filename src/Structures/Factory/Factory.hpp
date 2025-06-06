@@ -17,7 +17,7 @@ public:
         if (_structureMap.find(type) == _structureMap.end()) {
             throw std::runtime_error("Structure type not found: " + type);
         }
-        return _structureMap[type];
+        return _structureMap.at(type);
     }
 
     void registerStructure(const std::string& type, std::shared_ptr<Structure::IStructure> structure)
