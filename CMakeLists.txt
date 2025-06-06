@@ -33,14 +33,24 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 
 # Collect all source files
-file(GLOB_RECURSE SOURCES
-"src/*.cpp"
-"src/*.hpp"
-"src/*.h"
+set(SOURCES
+        src/Game.cpp
+        src/main.cpp
+        src/Window.cpp
+)
+
+# Collect all header files
+set(HEADERS
+        include/Game.hpp
+        include/Window.hpp
 )
 
 # Create executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
+
+# Include headers directories
+target_include_directories(${PROJECT_NAME} PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 # Link raylib
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
