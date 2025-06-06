@@ -27,12 +27,12 @@ namespace game
         _mouseButtonRightDown = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
 
         _mouseButtonLeftPressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
-        _mouseButtonMiddlePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
-        _mouseButtonRightPressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddlePressed = IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE);
+        _mouseButtonRightPressed = IsMouseButtonPressed(MOUSE_BUTTON_RIGHT);
 
         _mouseButtonLeftReleased = IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
-        _mouseButtonMiddleReleased = IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
-        _mouseButtonRightReleased = IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
+        _mouseButtonMiddleReleased = IsMouseButtonReleased(MOUSE_BUTTON_MIDDLE);
+        _mouseButtonRightReleased = IsMouseButtonReleased(MOUSE_BUTTON_RIGHT);
 
         _mouseScrollDelta = GetMouseWheelMoveV();
     }
