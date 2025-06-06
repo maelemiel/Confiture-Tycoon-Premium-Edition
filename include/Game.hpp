@@ -8,6 +8,7 @@
     #include <memory>
     #include <raylib-cpp.hpp>
 
+    #include "Map.hpp"
     #include "Window.hpp"
 
 namespace game
@@ -15,6 +16,7 @@ namespace game
     class Game
     {
         std::unique_ptr<Window> m_window;
+        std::unique_ptr<Map> m_map;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
