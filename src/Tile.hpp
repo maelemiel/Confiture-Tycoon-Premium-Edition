@@ -8,6 +8,7 @@
     #include <Rectangle.hpp>
 
     #include "Window.hpp"
+#include "Structures/Abstracts/IStructure.hpp"
 
 namespace game {
     class Map;
@@ -16,6 +17,7 @@ namespace game {
         Map &_map;
         raylib::Vector2 _position;
         bool _hovered;
+        std::unique_ptr<Structure::IStructure> _structure;
 
     public:
         static constexpr float size = 96.0f;
@@ -35,6 +37,12 @@ namespace game {
 
         [[nodiscard]] bool isHovered() const;
         void setHovered(bool hovered);
+
+        [[nodiscard]] bool hasStructure() const;
+        [[nodiscard]] Structure::IStructure &getStructure() const;
+        void setStructure(std::unique_ptr<Structure::IStructure> structure);
+
+        float getTextureScaleFactor(const raylib::Texture &texture) const;
     };
 } // game
 
