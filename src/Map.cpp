@@ -70,7 +70,7 @@ namespace game {
         };
     }
 
-    std::optional<std::shared_ptr<Tile>> Map::getTileAtWorldPosition(
+    std::shared_ptr<Tile> Map::getTileAtWorldPosition(
         const raylib::Vector2 worldPosition) const
     {
         for (auto &tile : _tiles) {
@@ -78,7 +78,7 @@ namespace game {
                 return tile;
             }
         }
-        return std::nullopt;
+        return nullptr;
     }
 
     void Map::setHoveredTile(const std::shared_ptr<Tile> &tile) const

@@ -30,7 +30,7 @@ namespace game
     void Game::update()
     {
         const auto mouseWorldPosition = _map->getScreenPositionAsWorldPosition(_mousePosition);
-        const std::optional<std::shared_ptr<Tile>> hoverTile = _map->getTileAtWorldPosition(mouseWorldPosition);
+        const std::shared_ptr<Tile> hoverTile = _map->getTileAtWorldPosition(mouseWorldPosition);
 
         if (_mouseButtonMiddlePressed) {
             _map->setOffset(_map->getOffset() + _mouseDelta / _map->getScale());
@@ -44,11 +44,7 @@ namespace game
 
             _map->setOffset(_map->getOffset() + (mouseOffset - oldMouseOffset));
         }
-        if (hoverTile.has_value()) {
-            _map->setHoveredTile(hoverTile.value());
-        } else {
-            _map->setHoveredTile(nullptr);
-        }
+        _map->setHoveredTile(hoverTile);
     }
 
     void Game::draw() const
