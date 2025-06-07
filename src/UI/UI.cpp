@@ -54,5 +54,34 @@ namespace game {
             };
             ::DrawText(resourcesRateText.c_str(), static_cast<int>(resourcesRateTextPos.x), static_cast<int>(resourcesRateTextPos.y), rateFontSize, resourcesRateColor);
         }
+
+        // Wood UI
+        frameWood.Draw(woodFramePosition, 0, woodFrameSize);
+        logoWood.Draw(logoWoodPosition, 0, logoWoodSize);
+        DrawText(woodAmountText.c_str(), woodFramePosition.x + 20, woodFramePosition.y + 15, resourcesValueFontSize, BLACK);
+
+        if (!woodRateText.empty()) {
+            int textWidth = MeasureText(woodRateText.c_str(), rateFontSize);
+            float logoWoodScaledHeight = logoWood.height * logoWoodSize;
+            raylib::Vector2 woodRateTextPos = {
+                logoWoodPosition.x - textWidth - 10,
+                logoWoodPosition.y + (logoWoodScaledHeight / 2) - (rateFontSize / 2.0f)
+            };
+            ::DrawText(woodRateText.c_str(), static_cast<int>(woodRateTextPos.x), static_cast<int>(woodRateTextPos.y), rateFontSize, woodRateColor);
+        }
+
+        frameStone.Draw(stoneFramePosition, 0, stoneFrameSize);
+        logoStone.Draw(logoStonePosition, 0, logoStoneSize);
+        DrawText(stoneAmountText.c_str(), stoneFramePosition.x + 20, stoneFramePosition.y + 15, resourcesValueFontSize, BLACK);
+
+        if (!stoneRateText.empty()) {
+            int textWidth = MeasureText(stoneRateText.c_str(), rateFontSize);
+            float logoStoneScaledHeight = logoStone.height * logoStoneSize;
+            raylib::Vector2 stoneRateTextPos = {
+                logoStonePosition.x - textWidth - 10,
+                logoStonePosition.y + (logoStoneScaledHeight / 2) - (rateFontSize / 2.0f) 
+            };
+            ::DrawText(stoneRateText.c_str(), static_cast<int>(stoneRateTextPos.x), static_cast<int>(stoneRateTextPos.y), rateFontSize, stoneRateColor);
+        }
     }
 }
