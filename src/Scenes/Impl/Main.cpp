@@ -6,10 +6,15 @@
 #include "Game.hpp"
 
 namespace game::scene {
-    Main::Main(Game &game) : AScene(game),
-                             _map(game.getCamera(), raylib::Vector2(50, 50)), _resourceManager(game),
-                             _eventManager(_map), _ui(game, _resourceManager),
-                             _selectedStructure("House") {
+    Main::Main(Game &game) :
+        AScene(game),
+        _map(game.getCamera(), raylib::Vector2(50, 50)),
+        _resourceManager(game),
+        _eventManager(_map),
+        _ui(game, _resourceManager),
+        _selectedStructure("House"),
+        _background("assets/background.png")
+    {
         _ui.setDrawerClickCallback([this](const std::string &structureName) {
             _selectedStructure = structureName;
         });
@@ -36,8 +41,10 @@ namespace game::scene {
         }
         if (structure != nullptr) {
             _map.setHoverSize(structure->getSize());
+            _map.setCurrentStructure(structure);
         } else {
             _map.setHoverSize(0);
+            _map.setCurrentStructure(nullptr);
         }
         _map.setHoveredTile(hoverTile);
         if (game.isMouseButtonMiddleDown()) {
@@ -69,11 +76,10 @@ namespace game::scene {
     void Main::_placeStructure(Game &game, std::shared_ptr<Tile> hoverTile,
         std::shared_ptr<Structure::IStructure> structure) {
         if (game.isMouseButtonLeftDown() && _verifyResources(structure)) {
-            if (hoverTile != nullptr && !hoverTile->hasStructure()
-                && _map.areAllHoveredTilesEmpty()) {
+            if (hoverTile != nullptr && _map.canPlaceStructureOnHoveredTiles(structure)) {
                 _takeResources(structure);
                 hoverTile->setStructure(structure);
-                }
+            }
         }
     }
 
@@ -134,7 +140,7 @@ namespace game::scene {
         auto &game = getGame();
         const auto &window = game.getWindow();
 
-        window.clear(raylib::Color::White());
+        _background.Draw();
         _map.draw(window);
         _eventManager.draw(window);
         _ui.draw();

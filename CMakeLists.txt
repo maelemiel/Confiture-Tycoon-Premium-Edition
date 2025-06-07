@@ -68,6 +68,8 @@ set(SOURCES
         src/Camera.hpp
         src/Scenes/AScene.cpp
         src/Scenes/AScene.hpp
+        src/Scenes/Impl/DeathScreen.cpp
+        src/Scenes/Impl/DeathScreen.hpp
         src/Scenes/Impl/Main.cpp
         src/Scenes/Impl/Main.hpp
         src/Scenes/Impl/Splashscreen.cpp

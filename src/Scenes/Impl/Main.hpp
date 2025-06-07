@@ -21,6 +21,7 @@ namespace game::scene
         UI _ui;
         std::string _selectedStructure;
         Structures::Factory _factory;
+        raylib::Texture _background;
 
         void _placeStructure(Game &game, std::shared_ptr<Tile> hoverTile,
         std::shared_ptr<Structure::IStructure> structure);

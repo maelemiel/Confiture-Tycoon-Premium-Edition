@@ -23,6 +23,10 @@ namespace game {
         std::shared_ptr<raylib::Texture> _backgroundTexture;
         std::unique_ptr<particle::ParticleSystem> _particleSystem;
         bool _shouldRemoveParticleSystem;
+        
+        // Pollution system
+        int _pollutionLevel;
+        raylib::Color _tileColor;
 
         [[nodiscard]] std::unique_ptr<particle::ParticleSystem>
             _getBadParticleSystem() const;
@@ -59,6 +63,15 @@ namespace game {
 
         [[nodiscard]] std::shared_ptr<Tile> getLinkedTile() const;
         void setLinkedTile(const std::shared_ptr<Tile> &linkedTile);
+        
+        // Pollution management
+        [[nodiscard]] int getPollutionLevel() const;
+        void setPollutionLevel(int level);
+        void addPollution(int amount);
+        [[nodiscard]] bool isPolluted() const;
+        [[nodiscard]] bool canPlaceOxygenProducer() const;
+        void updateTileColor();
+        void propagatePollutionToNeighbors();
     };
 } // game
 
