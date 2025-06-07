@@ -79,9 +79,16 @@ namespace game {
             float logoStoneScaledHeight = logoStone.height * logoStoneSize;
             raylib::Vector2 stoneRateTextPos = {
                 logoStonePosition.x - textWidth - 10,
-                logoStonePosition.y + (logoStoneScaledHeight / 2) - (rateFontSize / 2.0f) 
+                logoStonePosition.y + (logoStoneScaledHeight / 2) - (rateFontSize / 2.0f)
             };
             ::DrawText(stoneRateText.c_str(), static_cast<int>(stoneRateTextPos.x), static_cast<int>(stoneRateTextPos.y), rateFontSize, stoneRateColor);
         }
+
+        _dualityBar.draw();
+    }
+
+    ui::DualityBar & UI::getDualityBar()
+    {
+        return _dualityBar;
     }
 }

@@ -43,8 +43,8 @@ namespace game
         explicit Game(raylib::Vector2 windowSize);
 
         void handleInput();
-        void update() const;
-        void draw() const;
+        void update();
+        void draw();
 
         [[nodiscard]] bool isRunning();
 

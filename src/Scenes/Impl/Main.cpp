@@ -63,12 +63,10 @@ namespace game::scene {
             }
         }
 
-        const float deltaTime = GetFrameTime();
-
-        _resourceManager.update(deltaTime);
-        _eventManager.update(deltaTime);
+        _resourceManager.update(dt);
+        _eventManager.update(dt);
         _resourceManager.RessourceUpdate(_map.getTiles());
-        _map.update(deltaTime);
+        _map.update(dt);
 
         _ui.population = std::to_string(_resourceManager.getPopulation());
         _ui.resources = std::to_string(_resourceManager.getSweetSweet());
@@ -90,6 +88,8 @@ namespace game::scene {
         int stoneRate = _resourceManager.getStonePerSecond();
         _ui.stoneRateText = (stoneRate >= 0 ? "+" : "") + std::to_string(stoneRate) + "/s";
         _ui.stoneRateColor = (stoneRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
+
+        _ui.getDualityBar().setLevel(_resourceManager.getDualityScore());
     }
 
     void Main::draw() const

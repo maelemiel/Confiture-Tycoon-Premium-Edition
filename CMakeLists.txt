@@ -70,6 +70,8 @@ set(SOURCES
         src/Scenes/Impl/Main.hpp
         src/Scenes/Impl/Splashscreen.cpp
         src/Scenes/Impl/Splashscreen.hpp
+        src/UI/DualityBar.cpp
+        src/UI/DualityBar.hpp
 )
 
 # Create executable

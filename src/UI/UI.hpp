@@ -8,7 +8,8 @@
     #include <memory>
     #include <raylib-cpp.hpp>
 
-#include "ResourceManager.hpp"
+    #include "DualityBar.hpp"
+    #include "ResourceManager.hpp"
 
 namespace game
 {
@@ -16,7 +17,7 @@ namespace game
     {
     private:
         ResourceManager& _resourceManagerRef;
-        int _a;
+        int _a; // This member seems unused. Consider removing if not needed.
         raylib::Texture logoOxy;
         raylib::Texture oxygenFrame;
         raylib::Texture populationFrame;
@@ -58,7 +59,9 @@ namespace game
         float logoStoneSize;
         Vector2 stoneFramePosition;
         Vector2 logoStonePosition;
-    
+
+        ui::DualityBar _dualityBar;
+
     public:
         explicit UI(ResourceManager& rm) :
             _resourceManagerRef(rm),
@@ -118,6 +121,8 @@ namespace game
         }
 
         void draw() const;
+
+        ui::DualityBar &getDualityBar();
 
         std::string population;
         std::string resources;

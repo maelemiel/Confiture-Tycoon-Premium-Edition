@@ -45,7 +45,7 @@ namespace game::scene {
     void Splashscreen::draw() const
     {
         auto &game = getGame();
-        const auto &window = game.getWindow();
+        auto &window = game.getWindow();
         const auto windowSize = window.getSize();
         const raylib::Rectangle background = {
             0,
