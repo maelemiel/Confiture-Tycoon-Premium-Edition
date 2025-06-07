@@ -6,16 +6,11 @@
     #define GAME_HPP
 
     #include <raylib-cpp.hpp>
-    #include <memory>
-    #include <string>
 
     #include "Camera.hpp"
-    #include "Map.hpp"
     #include "Window.hpp"
-    #include "UI/UI.hpp"
-    #include "Structures/Factory/Factory.hpp"
-    #include "ResourceManager.hpp"
-    #include "Events/EventManager.hpp"
+    #include "Scenes/AScene.hpp"
+    #include "Scenes/Impl/Main.hpp"
 
 namespace game
 {
@@ -23,12 +18,8 @@ namespace game
     {
         Window _window;
         Camera _camera;
-        Map _map;
-        std::unique_ptr<ResourceManager> _resourceManager;
-        EventManager _eventManager;
 
         // --- Input ---
-        bool _isMouseInWindow;
         raylib::Vector2 _mousePosition;
         raylib::Vector2 _lastMousePosition;
         raylib::Vector2 _mouseDelta;
@@ -42,21 +33,39 @@ namespace game
         bool _mouseButtonMiddleReleased;
         bool _mouseButtonRightReleased;
         raylib::Vector2 _mouseScrollDelta;
-        // Classes
-        UI _ui;
-        std::string _selectedStructure;
-        Structures::Factory _factory;
+
+        // --- Scenes ---
+        scene::AScene &_currentScene;
+        scene::Main _mainScene;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
 
         void handleInput();
-        void update();
+        void update() const;
         void draw() const;
 
-        std::string getSelectedStructure() const;
-
         [[nodiscard]] bool isRunning();
+
+        [[nodiscard]] Window &getWindow();
+        [[nodiscard]] Camera &getCamera();
+
+        [[nodiscard]] raylib::Vector2 getMousePosition() const;
+        [[nodiscard]] raylib::Vector2 getMouseDelta() const;
+
+        [[nodiscard]] bool isMouseButtonLeftDown() const;
+        [[nodiscard]] bool isMouseButtonMiddleDown() const;
+        [[nodiscard]] bool isMouseButtonRightDown() const;
+
+        [[nodiscard]] bool isMouseButtonLeftPressed() const;
+        [[nodiscard]] bool isMouseButtonMiddlePressed() const;
+        [[nodiscard]] bool isMouseButtonRightPressed() const;
+
+        [[nodiscard]] bool isMouseButtonLeftReleased() const;
+        [[nodiscard]] bool isMouseButtonMiddleReleased() const;
+        [[nodiscard]] bool isMouseButtonRightReleased() const;
+
+        [[nodiscard]] raylib::Vector2 getMouseScrollDelta() const;
     };
 } // game
 
