@@ -1,31 +1,38 @@
 #ifndef DRAWER_HPP
 #define DRAWER_HPP
 
+#include <functional>
 #include <raylib-cpp.hpp>
 #include <string>
 
-namespace game
+#include "DrawerButton.hpp"
+
+namespace game::ui
 {
     class Drawer
     {
     public:
         Drawer();
 
-        void Update();
-        void Draw() const;
+        void update(float dt);
+        void draw() const;
 
-        std::string* selectedStructurePtr = nullptr;
+        void setOnClickCallback(std::function<void(const std::string &)> callback);
+        [[nodiscard]] raylib::Rectangle getBounds() const;
 
     private:
-        bool _is_clicked;
-        raylib::Texture logoDrawer;
-        raylib::Texture priceButton;
-        raylib::Texture menuFrame;
-        raylib::Texture generatorButton;
-        raylib::Texture treeButton;
-        raylib::Texture houseButton;
-        Vector2 DrawerPosition;
-        float logoDrawerSize;
+        Vector2 _position;
+        float _logoSize;
+        bool _isOpen;
+        raylib::Texture _logoDrawer;
+        raylib::Texture _helpPanel;
+        raylib::Texture _menuFrame;
+
+        DrawerButton _generatorButton;
+        DrawerButton _treeButton;
+        DrawerButton _houseButton;
+
+        std::function<void(const std::string &)> _onClickCallback;
     };
 }
 

@@ -86,28 +86,29 @@ namespace game {
         }
 
         _dualityBar.draw();
-
-        // if (_guiTempTexture.id > 0) {
-        //     Rectangle sourceRec = { 0.0f, 0.0f, (float)_guiTempTexture.width, (float)_guiTempTexture.height };
-        //     Rectangle destRec = { 
-        //         _guiTempPosition.x, 
-        //         _guiTempPosition.y, 
-        //         _guiTempTexture.width * _guiTempScale, 
-        //         _guiTempTexture.height * _guiTempScale 
-        //     };
-        //     Vector2 origin = { 0.0f, 0.0f };
-
-        //     DrawTexturePro(_guiTempTexture, sourceRec, destRec, origin, 0.0f, WHITE);
-        // }
-        _drawer.Draw();
+        _drawer.draw();
     }
 
     void UI::update() {
-        _drawer.Update();
+        _drawer.update(0.0f);
     }
 
     ui::DualityBar & UI::getDualityBar()
     {
         return _dualityBar;
+    }
+
+    bool UI::isInBounds(const raylib::Vector2 &point) const
+    {
+        if (_drawer.getBounds().CheckCollision(point)) {
+            return true;
+        }
+        return false;
+    }
+
+    void UI::setDrawerClickCallback(
+        const std::function<void(const std::string &)> &callback)
+    {
+        _drawer.setOnClickCallback(callback);
     }
 }

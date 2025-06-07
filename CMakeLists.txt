@@ -74,6 +74,8 @@ set(SOURCES
         src/Scenes/Impl/Splashscreen.hpp
         src/UI/DualityBar.cpp
         src/UI/DualityBar.hpp
+        src/UI/DrawerButton.cpp
+        src/UI/DrawerButton.hpp
 )
 
 # Create executable

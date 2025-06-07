@@ -27,6 +27,8 @@ namespace game::scene
         void _takeResources(std::shared_ptr<Structure::IStructure> structure);
         bool _verifyResources(std::shared_ptr<Structure::IStructure> structure);
 
+        void _updateMouse(float dt);
+
     public:
         explicit Main(Game &game);
 

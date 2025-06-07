@@ -16,8 +16,7 @@ namespace game
 {
     class UI
     {
-    private:
-        Drawer _drawer;
+        ui::Drawer _drawer;
         std::string selectedStructure = "House";
         ResourceManager& _resourceManagerRef;
         int _a; // This member seems unused. Consider removing if not needed.
@@ -97,9 +96,6 @@ namespace game
             stoneRateText(""),
             stoneRateColor(BLACK)
         {
-            
-            _drawer.selectedStructurePtr = &selectedStructure;
-            
             barOxySize = 5;
             barOxyPosition = {25, 20};
             oxyFramePosition = {barOxyPosition.x - 2 * barOxySize, barOxyPosition.y - 2 * barOxySize};
@@ -139,6 +135,10 @@ namespace game
         ui::DualityBar &getDualityBar() const;
 
         ui::DualityBar &getDualityBar();
+
+        [[nodiscard]] bool isInBounds(const raylib::Vector2 &point) const;
+
+        void setDrawerClickCallback(const std::function<void(const std::string &)> &callback);
 
         std::string population;
         std::string resources;

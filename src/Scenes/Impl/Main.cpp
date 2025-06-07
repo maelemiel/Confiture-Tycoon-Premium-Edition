@@ -11,7 +11,11 @@ namespace game::scene {
         _map(game.getCamera(), raylib::Vector2(50, 50)),
         _eventManager(_map), _ui(_resourceManager),
         _selectedStructure("House")
-    {}
+    {
+        _ui.setDrawerClickCallback([this](const std::string &structureName) {
+            _selectedStructure = structureName;
+        });
+    }
 
     bool Main::_verifyResources(std::shared_ptr<Structure::IStructure> structure) {
         if (structure->getResourceCost() > _resourceManager.getSweetSweet() ||
@@ -19,6 +23,43 @@ namespace game::scene {
             structure->getWoodCost() > _resourceManager.getWood())
             return false;
         return true;
+    }
+
+    void Main::_updateMouse([[maybe_unused]] float dt)
+    {
+        auto &game = getGame();
+        auto &camera = game.getCamera();
+        const auto mouseWorldPosition = camera.getScreenPositionAsWorldPosition(game.getMousePosition());
+        const std::shared_ptr<Tile> hoverTile = _map.getTileAtWorldPosition(mouseWorldPosition);
+        const auto structure = _factory.getStructure(_selectedStructure);
+
+        if (_ui.isInBounds(game.getMousePosition())) {
+            return;
+        }
+        if (structure != nullptr) {
+            _map.setHoverSize(structure->getSize());
+        } else {
+            _map.setHoverSize(0);
+        }
+        _map.setHoveredTile(hoverTile);
+        if (game.isMouseButtonMiddleDown()) {
+            camera.setOffset(camera.getOffset() + game.getMouseDelta() / camera.getZoom());
+        }
+        if (game.getMouseScrollDelta() != Vector2Zero()) {
+            const auto oldMouseOffset = camera.getScreenPositionAsWorldPosition(game.getMousePosition());
+
+            camera.setZoom(camera.getZoom() + game.getMouseScrollDelta().y * 0.05f);
+
+            const auto mouseOffset = camera.getScreenPositionAsWorldPosition(game.getMousePosition());
+
+            camera.setOffset(camera.getOffset() + (mouseOffset - oldMouseOffset));
+        }
+        _placeStructure(game, hoverTile, structure);
+        if (game.isMouseButtonRightDown()) {
+            if (hoverTile != nullptr && hoverTile->hasStructure()) {
+                hoverTile->setStructure(nullptr);
+            }
+        }
     }
 
     void Main::_takeResources(std::shared_ptr<Structure::IStructure> structure) {
@@ -58,30 +99,7 @@ namespace game::scene {
             _selectedStructure = "Grange";
         }
 
-        if (structure != nullptr) {
-            _map.setHoverSize(structure->getSize());
-        } else {
-            _map.setHoverSize(0);
-        }
-        if (game.isMouseButtonMiddleDown()) {
-            camera.setOffset(camera.getOffset() + game.getMouseDelta() / camera.getZoom());
-        }
-        if (game.getMouseScrollDelta() != Vector2Zero()) {
-            const auto oldMouseOffset = camera.getScreenPositionAsWorldPosition(game.getMousePosition());
-
-            camera.setZoom(camera.getZoom() + game.getMouseScrollDelta().y * 0.05f);
-
-            const auto mouseOffset = camera.getScreenPositionAsWorldPosition(game.getMousePosition());
-
-            camera.setOffset(camera.getOffset() + (mouseOffset - oldMouseOffset));
-        }
-        _map.setHoveredTile(hoverTile);
-        _placeStructure(game, hoverTile, structure);
-        if (game.isMouseButtonRightDown()) {
-            if (hoverTile != nullptr && hoverTile->hasStructure()) {
-                hoverTile->setStructure(nullptr);
-            }
-        }
+        _updateMouse(dt);
 
         _resourceManager.update(dt);
         _eventManager.update(dt);

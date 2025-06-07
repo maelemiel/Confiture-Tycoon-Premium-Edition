@@ -1,87 +1,88 @@
 #include "Drawer.hpp"
-#include <cstdio>
 
-namespace game
+namespace game::ui
 {
-    Drawer::Drawer()
-    : _is_clicked(false),
-      logoDrawer("assets/button/menu_button.png"),
-      menuFrame("assets/UI/opened_menu_frame.png"),
-      generatorButton("assets/button/generator_button.png"),
-      treeButton("assets/button/tree_button.png"),
-      houseButton("assets/button/menu_button.png"),
-      priceButton("assets/UI/guitemp.png"),
-      DrawerPosition{50, 885},
-      logoDrawerSize(0.3f)
-{}
-
-    void Drawer::Update()
+    Drawer::Drawer() :
+        _position{50, 885},
+        _logoSize(0.3f),
+        _isOpen(false),
+        _logoDrawer("assets/button/menu_button.png"),
+        _helpPanel("assets/UI/guitemp.png"),
+        _menuFrame("assets/UI/opened_menu_frame.png"),
+        _generatorButton({
+            225 + 30, 885
+        }, "assets/button/generator_button.png"),
+        _treeButton({
+            225 + 200, 885
+        }, "assets/button/tree_button.png"),
+        _houseButton({
+            225 + 370, 885
+        }, "assets/button/house_button.png")
     {
-        Vector2 menuPos = {225, 885};
-        if (CheckCollisionPointRec(GetMousePosition(),
-                {DrawerPosition.x, DrawerPosition.y,
-                 static_cast<float>(logoDrawer.GetWidth() * logoDrawerSize),
-                 static_cast<float>(logoDrawer.GetHeight() * logoDrawerSize)}) &&
-            IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        {
-            _is_clicked = !_is_clicked;
+        _generatorButton.setOnClickCallback([this] {
+           _onClickCallback("Generator");
+        });
+        _treeButton.setOnClickCallback([this] {
+           _onClickCallback("Tree");
+        });
+        _houseButton.setOnClickCallback([this] {
+           _onClickCallback("House");
+        });
+    }
+
+    void Drawer::update(const float dt)
+    {
+        if (CheckCollisionPointRec(
+            GetMousePosition(),
+            {
+                _position.x,
+                _position.y,
+                (static_cast<float>(_logoDrawer.GetWidth()) * _logoSize),
+                (static_cast<float>(_logoDrawer.GetHeight()) * _logoSize)
+            }) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            _isOpen = !_isOpen;
         }
 
-        if (_is_clicked) {
-            Vector2 genPos = {menuPos.x + 30, menuPos.y + 17};
-            float genScale = 0.7f;
-            Rectangle genRect = {
-                genPos.x, genPos.y,
-                static_cast<float>(generatorButton.GetWidth() * genScale),
-                static_cast<float>(generatorButton.GetHeight() * genScale)
-            };
-            if (CheckCollisionPointRec(GetMousePosition(), genRect) &&
-                IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && selectedStructurePtr)
-            {
-                *selectedStructurePtr = "Generator";
-                _is_clicked = false;
-            }
-
-            Vector2 treePos = {menuPos.x + 200, menuPos.y + 17};
-            float treeScale = 0.7f;
-            Rectangle treeRect = {
-                treePos.x, treePos.y,
-                static_cast<float>(treeButton.GetWidth() * treeScale),
-                static_cast<float>(treeButton.GetHeight() * treeScale)
-            };
-            if (CheckCollisionPointRec(GetMousePosition(), treeRect) &&
-                IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && selectedStructurePtr)
-            {
-                *selectedStructurePtr = "Tree";
-                _is_clicked = false;
-            }
-
-            Vector2 housePos = {menuPos.x + 370, menuPos.y + 17};
-            float houseScale = 0.7f;
-            Rectangle houseRect = {
-                housePos.x, housePos.y,
-                static_cast<float>(houseButton.GetWidth() * houseScale),
-                static_cast<float>(houseButton.GetHeight() * houseScale)
-            };
-            if (CheckCollisionPointRec(GetMousePosition(), houseRect) &&
-                IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && selectedStructurePtr)
-            {
-                *selectedStructurePtr = "House";
-                _is_clicked = false;
-            }
+        if (_isOpen) {
+            _generatorButton.update(dt);
+            _treeButton.update(dt);
+            _houseButton.update(dt);
         }
     }
 
-    void Drawer::Draw() const
+    void Drawer::draw() const
     {
-        Vector2 menuPos = {225, 885};
-        logoDrawer.Draw(DrawerPosition, 0.0f, logoDrawerSize, WHITE);
-        if (_is_clicked) {
-            priceButton.Draw({menuPos.x + 900, menuPos.y - 25}, 0.0f, 0.7f, WHITE);
-            menuFrame.Draw(menuPos, 0.0f, 0.6f, WHITE);
-            generatorButton.Draw({menuPos.x + 30, menuPos.y + 18}, 0.0f, 0.7f, WHITE);
-            treeButton.Draw({menuPos.x + 200, menuPos.y + 18}, 0.0f, 0.7f, WHITE);
-            houseButton.Draw({menuPos.x + 370, menuPos.y + 18}, 0.0f, 0.3f, WHITE);
+        _logoDrawer.Draw(_position, 0.0f, _logoSize, WHITE);
+        if (_isOpen) {
+            constexpr Vector2 menuPos = {225.0f, 868.0f};
+
+            _menuFrame.Draw(menuPos, 0.0f, 0.6f, WHITE);
+            _helpPanel.Draw(
+                {menuPos.x + 1170.0f, menuPos.y - 20.0f},
+                0.0f,
+                0.7f,
+                WHITE
+            );
+
+            _generatorButton.draw();
+            _treeButton.draw();
+            _houseButton.draw();
         }
+    }
+
+    void Drawer::setOnClickCallback(
+        std::function<void(const std::string &)> callback)
+    {
+        _onClickCallback = std::move(callback);
+    }
+
+    raylib::Rectangle Drawer::getBounds() const
+    {
+        return {
+            0.0f,
+            850.0f,
+            _isOpen ? 1920.0f : 275.0f,
+            230.0f
+        };
     }
 }
