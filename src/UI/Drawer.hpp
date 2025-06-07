@@ -37,6 +37,8 @@ namespace game::ui
         DrawerButton _generatorButton;
         DrawerButton _treeButton;
         DrawerButton _houseButton;
+        DrawerButton _mineButton;
+        DrawerButton _farmButton;
 
         std::function<void(const std::string &)> _onClickCallback;
     };

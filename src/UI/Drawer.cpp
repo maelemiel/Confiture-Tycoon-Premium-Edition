@@ -20,7 +20,13 @@ namespace game::ui
         }, "assets/button/tree_button.png"),
         _houseButton(_game, {
             225 + 370, 885
-        }, "assets/button/house_button.png")
+        }, "assets/button/house_button.png"),
+        _mineButton(_game, {
+            225 + 540, 885
+        }, "assets/button/mine_button.png"),
+        _farmButton(_game, {
+            225 + 710, 885
+        }, "assets/button/farm_button.png")
     {
         _generatorButton.setOnClickCallback([this] {
             _onClickCallback("Generator");
@@ -30,6 +36,12 @@ namespace game::ui
         });
         _houseButton.setOnClickCallback([this] {
             _onClickCallback("House");
+        });
+        _mineButton.setOnClickCallback([this] {
+            _onClickCallback("Mine");
+        });
+        _farmButton.setOnClickCallback([this] {
+           _onClickCallback("Grange");
         });
     }
 
@@ -50,6 +62,8 @@ namespace game::ui
             _generatorButton.update(dt);
             _treeButton.update(dt);
             _houseButton.update(dt);
+            _mineButton.update(dt);
+            _farmButton.update(dt);
         }
     }
 
@@ -70,6 +84,8 @@ namespace game::ui
             _generatorButton.draw();
             _treeButton.draw();
             _houseButton.draw();
+            _mineButton.draw();
+            _farmButton.draw();
         }
     }
 
