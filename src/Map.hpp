@@ -6,7 +6,6 @@
     #define MAP_HPP
 
     #include <list>
-#include <optional>
     #include <raylib-cpp.hpp>
 
     #include "Camera.hpp"
@@ -20,7 +19,9 @@ namespace game {
         std::shared_ptr<Tile> _hoveredTile;
         raylib::Vector2 _hoverSize;
 
-        raylib::Texture _grassTexture;
+        std::shared_ptr<raylib::Texture> _grassTexture;
+        std::shared_ptr<raylib::Texture> _dirtTexture;
+        std::shared_ptr<raylib::Texture> _concreteTexture;
 
         void _createTiles();
         void _highlightTiles() const;
@@ -31,6 +32,11 @@ namespace game {
         void update(float dt) const;
         void draw(const Window &window) const;
 
+        [[nodiscard]] raylib::Vector2 getSize() const;
+
+        [[nodiscard]] std::pmr::list<std::shared_ptr<Tile>> getTiles() const {
+            return _tiles;
+        }
         [[nodiscard]] std::shared_ptr<Tile> getTile(raylib::Vector2 index) const;
         [[nodiscard]] std::shared_ptr<Tile> getTileAtWorldPosition(
             raylib::Vector2 worldPosition) const;
@@ -40,7 +46,9 @@ namespace game {
         [[nodiscard]] std::list<std::shared_ptr<Tile>> getHoveredTiles() const;
         [[nodiscard]] bool areAllHoveredTilesEmpty() const;
 
-        [[nodiscard]] const raylib::Texture &getGrassTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getGrassTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getDirtTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getConcreteTexture() const;
 
         void setOffsetToCenter();
 

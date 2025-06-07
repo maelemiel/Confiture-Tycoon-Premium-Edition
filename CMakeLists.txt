@@ -27,6 +27,12 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 
 # Collect all source files
 set(SOURCES
+        src/Events/EventManager.cpp
+        src/Events/EventManager.hpp
+        src/Events/IEvent.cpp
+        src/Events/IEvent.hpp
+        src/Events/MeteorEvent.cpp
+        src/Events/MeteorEvent.hpp
         src/Particle/ParticleSystem.cpp
         src/Particle/ParticleSystem.hpp
         src/Particle/Particle.cpp

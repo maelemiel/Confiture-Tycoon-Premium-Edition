@@ -15,6 +15,7 @@
     #include "UI/UI.hpp"
     #include "Structures/Factory/Factory.hpp"
     #include "ResourceManager.hpp"
+    #include "Events/EventManager.hpp"
 
 namespace game
 {
@@ -24,6 +25,7 @@ namespace game
         Camera _camera;
         Map _map;
         std::unique_ptr<ResourceManager> _resourceManager;
+        EventManager _eventManager;
 
         // --- Input ---
         bool _isMouseInWindow;

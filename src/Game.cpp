@@ -13,8 +13,9 @@ namespace game
 {
     Game::Game(const raylib::Vector2 windowSize) :
         _window(windowSize),
-        _map(_camera, raylib::Vector2(16, 16)),
+        _map(_camera, raylib::Vector2(50, 50)),
         _resourceManager(std::make_unique<ResourceManager>()),
+        _eventManager(_map),
         _isMouseInWindow(false),
         _mouseButtonLeftPressed(false),
         _mouseButtonMiddlePressed(false),
@@ -90,6 +91,8 @@ namespace game
         const float deltaTime = GetFrameTime();
 
         _resourceManager->update(deltaTime);
+        _eventManager.update(deltaTime);
+        _resourceManager->RessourceUpdate(_map.getTiles());
         _map.update(deltaTime);
     }
 
@@ -98,6 +101,7 @@ namespace game
         _window.beginDraw();
         _window.clear(raylib::Color::White());
         _map.draw(_window);
+        _eventManager.draw(_window);
         raylib::DrawText(
             "Idle JeuConfiture Tycoon (a Jamsoft game)",
             10,
