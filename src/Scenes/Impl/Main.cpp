@@ -60,6 +60,18 @@ namespace game::scene {
 
         _resourceManager.update(dt);
         _eventManager.update(dt);
+        _ui.population = std::to_string(_resourceManager.getPopulation());
+        _ui.resources = std::to_string(_resourceManager.getSweetSweet());
+
+        const int oxygenRate = _resourceManager.getOxygenPerSecond();
+
+        _ui.oxygenRateText = (oxygenRate >= 0 ? "+" : "") + std::to_string(oxygenRate) + "/s";
+        _ui.oxygenRateColor = (oxygenRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
+
+        const int sweetSweetRate = _resourceManager.getSweetSweetPerSecond();
+
+        _ui.resourcesRateText = (sweetSweetRate >= 0 ? "+" : "") + std::to_string(sweetSweetRate) + "/s";
+        _ui.resourcesRateColor = (sweetSweetRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
         _resourceManager.RessourceUpdate(_map.getTiles());
         _map.update(dt);
     }
