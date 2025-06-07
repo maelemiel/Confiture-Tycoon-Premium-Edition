@@ -9,7 +9,9 @@ public:
     Grange()
     {
         _name = "Grange";
-        _resourceCost = 25;
+        _resourceCost = 0;
+        _woodCost = 20;
+        _stoneCost = 20;
         _oxygenCost = 20;
         _size = raylib::Vector2(3, 3);
         _icon = raylib::Texture("assets/Grange/grange.png");
@@ -17,7 +19,7 @@ public:
         _pollutionEffect = 0;
 
         _producedBasicResourceType = BasicResourceType::WOOD;
-        _basicResourceProductionAmount = 1;
+        _basicResourceProductionAmount = 5;
         _oxygenConsumption = 2;
         _habitantNeeded = 1;
     }

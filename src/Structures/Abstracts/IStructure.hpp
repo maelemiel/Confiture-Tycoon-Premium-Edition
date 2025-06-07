@@ -18,6 +18,8 @@ public:
 
     virtual string &getName() = 0;
     virtual int getResourceCost() = 0;
+    virtual int getWoodCost() = 0;
+    virtual int getStoneCost() = 0;
     virtual int getOxygenCost() = 0;
     virtual raylib::Vector2 getSize() = 0;
     virtual raylib::Texture &getIcon() = 0;
@@ -27,6 +29,8 @@ public:
 protected:
     string _name;
     int _resourceCost;
+    int _stoneCost;
+    int _woodCost;
     int _oxygenCost;
     raylib::Vector2 _size;
     raylib::Texture _icon;
