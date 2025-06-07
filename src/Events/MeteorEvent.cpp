@@ -123,12 +123,13 @@ namespace game {
             return;
         }
 
-        float desiredMeteorScreenWidth = Tile::size * _map.getScale() * 2.0f;
+        auto camera = _map.getCamera();
+        float desiredMeteorScreenWidth = Tile::size * camera.getZoom() * 2.0f;
         float textureDrawScale = desiredMeteorScreenWidth / static_cast<float>(_meteorTexture.width);
 
         raylib::Vector2 meteorCenterScreenPos = {
-            (_map.getOffset().x + _meteorWorldPos.x) * _map.getScale(),
-            (_map.getOffset().y + _meteorWorldPos.y) * _map.getScale()
+            (camera.getOffset().x + _meteorWorldPos.x) * camera.getZoom(),
+            (camera.getOffset().y + _meteorWorldPos.y) * camera.getZoom()
         };
 
         float actualMeteorTextureScaledWidth = static_cast<float>(_meteorTexture.width) * textureDrawScale;
