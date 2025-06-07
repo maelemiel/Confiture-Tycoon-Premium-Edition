@@ -11,7 +11,7 @@ namespace game::particle
         ParticleSystem &particleSystem,
         const raylib::Vector2 position,
         const raylib::Vector2 velocity,
-        const long long lifetime,
+        const float lifetime,
         const raylib::Color color,
         const float antiLag
     ) :
@@ -23,7 +23,7 @@ namespace game::particle
     void Particle::update(const float dt)
     {
         _position += _velocity * dt;
-        _lifetime--;
+        _lifetime -= dt;
     }
 
     void Particle::draw() const
@@ -50,7 +50,7 @@ namespace game::particle
         screenRectangle.DrawRounded(5.0f, 1, _color);
     }
 
-    long long Particle::getLifetime() const
+    float Particle::getLifetime() const
     {
         return _lifetime;
     }

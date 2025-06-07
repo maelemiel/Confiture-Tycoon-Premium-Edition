@@ -16,7 +16,7 @@ namespace game::particle
         ParticleSystem &_particleSystem;
         raylib::Vector2 _position;
         raylib::Vector2 _velocity;
-        long long _lifetime;
+        float _lifetime;
         raylib::Color _color;
         float _antiLag;
 
@@ -25,7 +25,7 @@ namespace game::particle
             ParticleSystem &particleSystem,
             raylib::Vector2 position,
             raylib::Vector2 velocity,
-            long long lifetime,
+            float lifetime,
             raylib::Color color,
             float antiLag = 1.0f
         );
@@ -33,7 +33,7 @@ namespace game::particle
         void update(float dt);
         void draw() const;
 
-        [[nodiscard]] long long getLifetime() const;
+        [[nodiscard]] float getLifetime() const;
     };
 } // game::particle
 

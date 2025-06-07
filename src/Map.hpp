@@ -22,12 +22,13 @@ namespace game {
 
         raylib::Texture _grassTexture;
 
-        void createTiles();
-        void highlightTiles() const;
+        void _createTiles();
+        void _highlightTiles() const;
 
     public:
         explicit Map(Camera &camera, raylib::Vector2 size);
 
+        void update(float dt) const;
         void draw(const Window &window) const;
 
         [[nodiscard]] std::shared_ptr<Tile> getTile(raylib::Vector2 index) const;

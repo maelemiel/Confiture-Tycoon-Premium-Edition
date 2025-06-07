@@ -20,8 +20,8 @@ namespace game::particle
 
     ParticleSystem::ParticleSystem(const Camera &camera,
         const raylib::Vector2 position) :
-        _camera(camera), _position(position), _minLifetime(0),
-        _maxLifetime(100), _randomGenerator(getRandomSeed())
+        _camera(camera), _position(position), _isSpawning(true),
+        _minLifetime(0), _maxLifetime(100), _randomGenerator(getRandomSeed())
     {}
 
     void ParticleSystem::_computeDistributions()
@@ -34,7 +34,7 @@ namespace game::particle
             _minVelocity.y,
             _maxVelocity.y
         );
-        _lifetimeDistribution = std::uniform_int_distribution(
+        _lifetimeDistribution = std::uniform_real_distribution(
             _minLifetime,
             _maxLifetime
         );
@@ -53,7 +53,7 @@ namespace game::particle
         };
     }
 
-    long long ParticleSystem::_getRandomLifetime()
+    float ParticleSystem::_getRandomLifetime()
     {
         return _lifetimeDistribution(_randomGenerator);
     }
@@ -85,14 +85,16 @@ namespace game::particle
 
     void ParticleSystem::update(const float dt)
     {
-        _particles.emplace_front(
-            *this,
-            _position,
-            _getRandomVelocity(),
-            _getRandomLifetime(),
-            _getRandomColor(),
-            _getRandomRenderDistance()
-        );
+        if (_isSpawning) {
+            _particles.emplace_front(
+                *this,
+                _position,
+                _getRandomVelocity(),
+                _getRandomLifetime(),
+                _getRandomColor(),
+                _getRandomRenderDistance()
+            );
+        }
         for (auto &particle : _particles) {
             particle.update(dt);
         }
@@ -118,6 +120,21 @@ namespace game::particle
         _position = position;
     }
 
+    size_t ParticleSystem::getParticlesCount() const
+    {
+        return _particles.size();
+    }
+
+    bool ParticleSystem::isSpawning() const
+    {
+        return _isSpawning;
+    }
+
+    void ParticleSystem::setSpawning(const bool spawning)
+    {
+        _isSpawning = spawning;
+    }
+
     void ParticleSystem::setVelocity(const raylib::Vector2 minVelocity,
         const raylib::Vector2 maxVelocity)
     {
@@ -136,19 +153,19 @@ namespace game::particle
         setVelocity(_minVelocity, maxVelocity);
     }
 
-    void ParticleSystem::setLifetime(long long minLifetime, long long maxLifetime)
+    void ParticleSystem::setLifetime(float minLifetime, float maxLifetime)
     {
         _minLifetime = minLifetime;
         _maxLifetime = maxLifetime;
         _computeDistributions();
     }
 
-    void ParticleSystem::setMinLifetime(const long long minLifetime)
+    void ParticleSystem::setMinLifetime(float minLifetime)
     {
         setLifetime(minLifetime, _maxLifetime);
     }
 
-    void ParticleSystem::setMaxLifetime(const long long maxLifetime)
+    void ParticleSystem::setMaxLifetime(float maxLifetime)
     {
         setLifetime(_minLifetime, maxLifetime);
     }

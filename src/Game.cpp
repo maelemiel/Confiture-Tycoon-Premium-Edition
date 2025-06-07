@@ -90,6 +90,7 @@ namespace game
         const float deltaTime = GetFrameTime();
 
         _resourceManager->update(deltaTime);
+        _map.update(deltaTime);
     }
 
     void Game::draw() const

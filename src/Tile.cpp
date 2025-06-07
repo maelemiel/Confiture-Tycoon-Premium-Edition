@@ -5,7 +5,6 @@
 #include "Tile.hpp"
 
 #include <cassert>
-#include <iostream>
 #include <Rectangle.hpp>
 
 #include "Map.hpp"
@@ -18,10 +17,10 @@ namespace game {
             _position * getSize() + getSize() * 0.5f
         );
         particleSystem->setVelocity(
-            raylib::Vector2(-0.2f, -1.0f),
-            raylib::Vector2(0.2f, 0.0f)
+            raylib::Vector2(-10.0f, -80.0f),
+            raylib::Vector2(10.0f, -10.0f)
         );
-        particleSystem->setLifetime(100, 300);
+        particleSystem->setLifetime(1.0f, 3.0f);
         particleSystem->setColor(
             raylib::Color::LightGray(),
             raylib::Color::DarkGray()
@@ -34,15 +33,33 @@ namespace game {
     {
         if (_structure != nullptr && _structure->getPollutionEffect() > 0) {
             _particleSystem = _getParticleSystem();
+            _particleSystem->setSpawning(true);
+            _shouldRemoveParticleSystem = true;
             return;
         }
-        _particleSystem = nullptr;
+        _shouldRemoveParticleSystem = true;
+        if (_particleSystem != nullptr) {
+            _particleSystem->setSpawning(false);
+        }
     }
 
     Tile::Tile(Map &map, const raylib::Vector2 position) : _map(map),
         _position(position), _structure(nullptr), _linkedTile(nullptr),
-        _particleSystem(nullptr)
+        _particleSystem(nullptr), _shouldRemoveParticleSystem(false)
     {}
+
+    void Tile::update(const float dt)
+    {
+        if (_particleSystem != nullptr) {
+            _particleSystem->update(dt);
+            if (_shouldRemoveParticleSystem) {
+                if (_particleSystem->getParticlesCount() == 0) {
+                    _particleSystem = nullptr;
+                    _shouldRemoveParticleSystem = false;
+                }
+            }
+        }
+    }
 
     void Tile::drawBackground(const Window &window) const
     {
@@ -72,7 +89,6 @@ namespace game {
         const float textureScale = _map.getCamera().getScaledValue(size / 512.0f);
 
         if (_particleSystem != nullptr) {
-            _particleSystem->update(1);
             _particleSystem->draw();
         }
         if (_structure != nullptr) {

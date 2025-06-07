@@ -19,10 +19,11 @@ namespace game::particle
         const Camera &_camera;
         raylib::Vector2 _position;
         std::pmr::list<Particle> _particles;
+        bool _isSpawning;
         raylib::Vector2 _minVelocity;
         raylib::Vector2 _maxVelocity;
-        long long _minLifetime;
-        long long _maxLifetime;
+        float _minLifetime;
+        float _maxLifetime;
         raylib::Color _minColor;
         raylib::Color _maxColor;
 
@@ -30,14 +31,14 @@ namespace game::particle
         std::default_random_engine _randomGenerator;
         std::uniform_real_distribution<float> _xVelocityDistribution;
         std::uniform_real_distribution<float> _yVelocityDistribution;
-        std::uniform_int_distribution<long long> _lifetimeDistribution;
+        std::uniform_real_distribution<float> _lifetimeDistribution;
         std::uniform_real_distribution<float> _colorDistribution;
         std::uniform_real_distribution<float> _renderDistanceDistribution;
 
         void _computeDistributions();
 
         [[nodiscard]] raylib::Vector2 _getRandomVelocity();
-        [[nodiscard]] long long _getRandomLifetime();
+        [[nodiscard]] float _getRandomLifetime();
         [[nodiscard]] raylib::Color _getRandomColor();
         [[nodiscard]] float _getRandomRenderDistance();
 
@@ -51,14 +52,19 @@ namespace game::particle
         [[nodiscard]] raylib::Vector2 getPosition() const;
         void setPosition(raylib::Vector2 position);
 
+        [[nodiscard]] size_t getParticlesCount() const;
+
+        [[nodiscard]] bool isSpawning() const;
+        void setSpawning(bool spawning);
+
         void setVelocity(raylib::Vector2 minVelocity,
             raylib::Vector2 maxVelocity);
         void setMinVelocity(raylib::Vector2 minVelocity);
         void setMaxVelocity(raylib::Vector2 maxVelocity);
 
-        void setLifetime(long long minLifetime, long long maxLifetime);
-        void setMinLifetime(long long minLifetime);
-        void setMaxLifetime(long long maxLifetime);
+        void setLifetime(float minLifetime, float maxLifetime);
+        void setMinLifetime(float minLifetime);
+        void setMaxLifetime(float maxLifetime);
 
         void setColor(raylib::Color color);
         void setColor(raylib::Color minColor, raylib::Color maxColor);

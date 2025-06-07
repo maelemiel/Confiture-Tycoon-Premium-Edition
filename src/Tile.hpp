@@ -20,6 +20,7 @@ namespace game {
         std::shared_ptr<Structure::IStructure> _structure;
         std::shared_ptr<Tile> _linkedTile;
         std::unique_ptr<particle::ParticleSystem> _particleSystem;
+        bool _shouldRemoveParticleSystem;
 
         [[nodiscard]] std::unique_ptr<particle::ParticleSystem>
             _getParticleSystem() const;
@@ -31,6 +32,7 @@ namespace game {
 
         explicit Tile(Map &map, raylib::Vector2 position);
 
+        void update(float dt);
         void drawBackground(const Window &window) const;
         void drawForeground(const Window &window) const;
 

@@ -12,7 +12,7 @@ namespace game {
     Map::Map(Camera &camera, const raylib::Vector2 size) :
         _camera(camera), _size(size)
     {
-        createTiles();
+        _createTiles();
         setOffsetToCenter();
 
         _grassTexture = raylib::Texture(
@@ -20,7 +20,30 @@ namespace game {
         );
     }
 
-    void Map::createTiles()
+    void Map::update(const float dt) const
+    {
+        for (const auto &tile : _tiles) {
+            tile->update(dt);
+        }
+    }
+
+    void Map::draw(const Window &window) const
+    {
+        for (const auto &tile : _tiles) {
+            tile->drawBackground(window);
+        }
+        for (const auto &tile : _tiles) {
+            tile->drawForeground(window);
+        }
+        if (_hoveredTile != nullptr && _hoverSize.x > 0 && _hoverSize.y > 0) {
+            if (_hoveredTile->isEmpty() && !areAllHoveredTilesEmpty()) {
+                return;
+            }
+            _highlightTiles();
+        }
+    }
+
+    void Map::_createTiles()
     {
         for (int x = 0; x < static_cast<int>(_size.x); x++) {
             for (int y = 0; y < static_cast<int>(_size.y); y++) {
@@ -37,7 +60,7 @@ namespace game {
         }
     }
 
-    void Map::highlightTiles() const
+    void Map::_highlightTiles() const
     {
         const auto targetTile =
             _hoveredTile->getLinkedTile() != nullptr
@@ -56,22 +79,6 @@ namespace game {
                 raylib::Color::White() : raylib::Color::SkyBlue(),
             _camera.getScaledValue(5.0f)
         );
-    }
-
-    void Map::draw(const Window &window) const
-    {
-        for (const auto &tile : _tiles) {
-            tile->drawBackground(window);
-        }
-        for (const auto &tile : _tiles) {
-            tile->drawForeground(window);
-        }
-        if (_hoveredTile != nullptr && _hoverSize.x > 0 && _hoverSize.y > 0) {
-            if (_hoveredTile->isEmpty() && !areAllHoveredTilesEmpty()) {
-                return;
-            }
-            highlightTiles();
-        }
     }
 
     std::shared_ptr<Tile> Map::getTile(const raylib::Vector2 index) const
