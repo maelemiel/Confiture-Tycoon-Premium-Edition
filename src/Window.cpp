@@ -7,53 +7,47 @@
 #include "Window.hpp"
 
 namespace game {
-    Window::Window(raylib::Vector2 size)
+    Window::Window(raylib::Vector2 size) :
+        _window(static_cast<int>(size.x), static_cast<int>(size.y), "Idle Jeuconfiture Tycoon", FLAG_WINDOW_RESIZABLE),
+        _texture(static_cast<int>(size.x), static_cast<int>(size.y)),
+        _windowIcon("assets/window_icon.png")
     {
-        _window = std::make_unique<raylib::Window>(
-            size.x,
-            size.y,
-            "Idle Jeuconfiture Tycoon",
-            FLAG_WINDOW_RESIZABLE
-        );
-        _texture = std::make_unique<raylib::RenderTexture>(
-            size.x,
-            size.y
-        );
-        _window->SetTargetFPS(120);
-        _window->SetExitKey(KEY_NULL);
+        _window.SetTargetFPS(120);
+        _window.SetExitKey(KEY_NULL);
+        _window.SetIcon(_windowIcon);
         _isOpen = true;
     }
 
-    void Window::beginDraw() const
+    void Window::beginDraw()
     {
-        _texture->BeginMode();
+        _texture.BeginMode();
     }
 
-    void Window::endDraw() const
+    void Window::endDraw()
     {
         const auto sourceRect = raylib::Rectangle(
             0,
             0,
-            static_cast<float>(_texture->GetTexture().width),
-            static_cast<float>(-_texture->GetTexture().height)
+            static_cast<float>(_texture.GetTexture().width),
+            static_cast<float>(-_texture.GetTexture().height)
         );
         const auto destRect = raylib::Rectangle(
             0,
             0,
-            static_cast<float>(_window->GetWidth()),
-            static_cast<float>(_window->GetHeight())
+            static_cast<float>(_window.GetWidth()),
+            static_cast<float>(_window.GetHeight())
         );
 
-        _texture->EndMode();
-        _window->BeginDrawing();
-        _texture->GetTexture().Draw(
+        _texture.EndMode();
+        _window.BeginDrawing();
+        _texture.GetTexture().Draw(
             sourceRect,
             destRect,
             raylib::Vector2(0, 0),
             0.0f,
             raylib::Color::White()
         );
-        _window->EndDrawing();
+        _window.EndDrawing();
     }
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -62,8 +56,9 @@ namespace game {
         ClearBackground(color);
     }
 
-    raylib::Vector2 Window::getSize() const {
-        const auto texture = _texture->GetTexture();
+    raylib::Vector2 Window::getSize()
+    {
+        const auto texture = _texture.GetTexture();
 
         return {
             static_cast<float>(texture.width),
@@ -76,18 +71,18 @@ namespace game {
         if (!_isOpen) {
             return false;
         }
-        _isOpen = !_window->ShouldClose();
+        _isOpen = !_window.ShouldClose();
         return _isOpen;
     }
 
-    raylib::Vector2 Window::getMousePosition() const
+    raylib::Vector2 Window::getMousePosition()
     {
         const auto xScale =
-            static_cast<float>(_texture->GetTexture().width) /
-                _window->GetSize().x;
+            static_cast<float>(_texture.GetTexture().width) /
+                _window.GetSize().x;
         const auto yScale =
-            static_cast<float>(_texture->GetTexture().height) /
-                _window->GetSize().y;
+            static_cast<float>(_texture.GetTexture().height) /
+                _window.GetSize().y;
 
         const auto [x, y] = GetMousePosition();
         return {
@@ -96,8 +91,8 @@ namespace game {
         };
     }
 
-    raylib::Window &Window::getRaylibWindow() const
+    raylib::Window &Window::getRaylibWindow()
     {
-        return *_window;
+        return _window;
     }
 } // game

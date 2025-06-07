@@ -50,14 +50,14 @@ namespace game
         _mouseScrollDelta = GetMouseWheelMoveV();
     }
 
-    void Game::update() const
+    void Game::update()
     {
         const auto deltaTime = _window.getRaylibWindow().GetFrameTime();
 
         _currentScene->update(deltaTime);
     }
 
-    void Game::draw() const
+    void Game::draw()
     {
         _window.beginDraw();
         _currentScene->draw();
