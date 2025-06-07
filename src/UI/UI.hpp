@@ -82,6 +82,8 @@ namespace game
             logoWood("assets/UI/wood.png"),
             frameStone("assets/UI/resources_frame.png"),
             logoStone("assets/UI/stone.png"),
+            _guiTempTexture("assets/UI/guitemp.png"),
+            _guiTempScale(0.7f),
             oxygenRateText(""),
             oxygenRateColor(BLACK),
             resourcesRateText(""),
@@ -91,9 +93,7 @@ namespace game
             woodRateColor(BLACK),
             stoneAmountText("0"),
             stoneRateText(""),
-            stoneRateColor(BLACK),
-            _guiTempTexture("assets/UI/guitemp.png"),
-            _guiTempScale(0.7f)
+            stoneRateColor(BLACK)
         {
             barOxySize = 5;
             barOxyPosition = {25, 20};
