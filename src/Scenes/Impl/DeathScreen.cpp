@@ -46,7 +46,6 @@ namespace game::scene {
         };
         const auto gradientBeginColor = raylib::Color(255, 189, 223);
         const auto gradientEndColor = raylib::Color(255, 200, 230);
-        auto scale = _getScale();
         const auto position = raylib::Vector2(
             0, 0);
         background.DrawGradientV(gradientBeginColor, gradientEndColor);
