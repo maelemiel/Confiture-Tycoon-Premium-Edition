@@ -6,7 +6,7 @@
     #define PARTICLESYSTEM_HPP
 
     #include <list>
-#include <random>
+    #include <random>
 
     #include "Camera.hpp"
     #include "Particle.hpp"
@@ -26,6 +26,8 @@ namespace game::particle
         float _maxLifetime;
         raylib::Color _minColor;
         raylib::Color _maxColor;
+        float _minSize;
+        float _maxSize;
 
         // --- Random ---
         std::default_random_engine _randomGenerator;
@@ -33,13 +35,13 @@ namespace game::particle
         std::uniform_real_distribution<float> _yVelocityDistribution;
         std::uniform_real_distribution<float> _lifetimeDistribution;
         std::uniform_real_distribution<float> _colorDistribution;
+        std::uniform_real_distribution<float> _sizeDistribution;
         std::uniform_real_distribution<float> _renderDistanceDistribution;
-
-        void _computeDistributions();
 
         [[nodiscard]] raylib::Vector2 _getRandomVelocity();
         [[nodiscard]] float _getRandomLifetime();
         [[nodiscard]] raylib::Color _getRandomColor();
+        [[nodiscard]] float _getRandomSize();
         [[nodiscard]] float _getRandomRenderDistance();
 
     public:
@@ -70,6 +72,11 @@ namespace game::particle
         void setColor(raylib::Color minColor, raylib::Color maxColor);
         void setMinColor(raylib::Color minColor);
         void setMaxColor(raylib::Color maxColor);
+
+        void setSize(float size);
+        void setSize(float minSize, float maxSize);
+        void setMinSize(float minSize);
+        void setMaxSize(float maxSize);
 
         [[nodiscard]] const Camera &getCamera() const;
     };

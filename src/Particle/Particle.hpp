@@ -18,6 +18,7 @@ namespace game::particle
         raylib::Vector2 _velocity;
         float _lifetime;
         raylib::Color _color;
+        float _size;
         float _antiLag;
 
     public:
@@ -27,6 +28,7 @@ namespace game::particle
             raylib::Vector2 velocity,
             float lifetime,
             raylib::Color color,
+            float size,
             float antiLag = 1.0f
         );
 

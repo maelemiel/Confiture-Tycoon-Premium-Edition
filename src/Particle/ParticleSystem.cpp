@@ -21,27 +21,29 @@ namespace game::particle
     ParticleSystem::ParticleSystem(const Camera &camera,
         const raylib::Vector2 position) :
         _camera(camera), _position(position), _isSpawning(true),
-        _minLifetime(0), _maxLifetime(100), _randomGenerator(getRandomSeed())
-    {}
-
-    void ParticleSystem::_computeDistributions()
+        _minLifetime(), _maxLifetime(), _minSize(), _maxSize(),
+        _randomGenerator(getRandomSeed())
     {
-        _xVelocityDistribution = std::uniform_real_distribution(
-            _minVelocity.x,
-            _maxVelocity.x
-        );
-        _yVelocityDistribution = std::uniform_real_distribution(
-            _minVelocity.y,
-            _maxVelocity.y
-        );
-        _lifetimeDistribution = std::uniform_real_distribution(
-            _minLifetime,
-            _maxLifetime
-        );
-        _colorDistribution = std::uniform_real_distribution(0.0f, 1.0f);
         _renderDistanceDistribution = std::uniform_real_distribution(
             _camera.getMinZoom(),
             _camera.getMaxZoom()
+        );
+
+        setVelocity(
+            raylib::Vector2::Zero(),
+            raylib::Vector2::One()
+        );
+        setLifetime(
+            0.0f,
+            1.0f
+        );
+        setColor(
+            raylib::Color::Black(),
+            raylib::Color::White()
+        );
+        setSize(
+            0.0f,
+            1.0f
         );
     }
 
@@ -78,6 +80,11 @@ namespace game::particle
         };
     }
 
+    float ParticleSystem::_getRandomSize()
+    {
+        return _sizeDistribution(_randomGenerator);
+    }
+
     float ParticleSystem::_getRandomRenderDistance()
     {
         return _renderDistanceDistribution(_randomGenerator);
@@ -92,6 +99,7 @@ namespace game::particle
                 _getRandomVelocity(),
                 _getRandomLifetime(),
                 _getRandomColor(),
+                _getRandomSize(),
                 _getRandomRenderDistance()
             );
         }
@@ -140,7 +148,14 @@ namespace game::particle
     {
         _minVelocity = minVelocity;
         _maxVelocity = maxVelocity;
-        _computeDistributions();
+        _xVelocityDistribution = std::uniform_real_distribution(
+            _minVelocity.x,
+            _maxVelocity.x
+        );
+        _yVelocityDistribution = std::uniform_real_distribution(
+            _minVelocity.y,
+            _maxVelocity.y
+        );
     }
 
     void ParticleSystem::setMinVelocity(const raylib::Vector2 minVelocity)
@@ -153,19 +168,23 @@ namespace game::particle
         setVelocity(_minVelocity, maxVelocity);
     }
 
-    void ParticleSystem::setLifetime(float minLifetime, float maxLifetime)
+    void ParticleSystem::setLifetime(const float minLifetime,
+        const float maxLifetime)
     {
         _minLifetime = minLifetime;
         _maxLifetime = maxLifetime;
-        _computeDistributions();
+        _lifetimeDistribution = std::uniform_real_distribution(
+            _minLifetime,
+            _maxLifetime
+        );
     }
 
-    void ParticleSystem::setMinLifetime(float minLifetime)
+    void ParticleSystem::setMinLifetime(const float minLifetime)
     {
         setLifetime(minLifetime, _maxLifetime);
     }
 
-    void ParticleSystem::setMaxLifetime(float maxLifetime)
+    void ParticleSystem::setMaxLifetime(const float maxLifetime)
     {
         setLifetime(_minLifetime, maxLifetime);
     }
@@ -185,7 +204,7 @@ namespace game::particle
     {
         _minColor = minColor;
         _maxColor = maxColor;
-        _computeDistributions();
+        _colorDistribution = std::uniform_real_distribution(0.0f, 1.0f);
     }
 
     void ParticleSystem::setMinColor(const raylib::Color minColor)
@@ -196,5 +215,30 @@ namespace game::particle
     void ParticleSystem::setMaxColor(const raylib::Color maxColor)
     {
         setColor(_minColor, maxColor);
+    }
+
+    void ParticleSystem::setSize(const float size)
+    {
+        setSize(size, size);
+    }
+
+    void ParticleSystem::setSize(const float minSize, const float maxSize)
+    {
+        _minSize = minSize;
+        _maxSize = maxSize;
+        _sizeDistribution = std::uniform_real_distribution(
+            minSize,
+            maxSize
+        );
+    }
+
+    void ParticleSystem::setMinSize(const float minSize)
+    {
+        setSize(minSize, _maxSize);
+    }
+
+    void ParticleSystem::setMaxSize(const float maxSize)
+    {
+        setSize(_minSize, maxSize);
     }
 } // game::particle

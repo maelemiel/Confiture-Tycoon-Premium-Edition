@@ -13,11 +13,12 @@ namespace game::particle
         const raylib::Vector2 velocity,
         const float lifetime,
         const raylib::Color color,
+        const float size,
         const float antiLag
     ) :
         _particleSystem(particleSystem), _position(position),
         _velocity(velocity), _lifetime(lifetime), _color(color),
-        _antiLag(antiLag)
+        _size(size), _antiLag(antiLag)
     {}
 
     void Particle::update(const float dt)
@@ -37,8 +38,8 @@ namespace game::particle
         const auto rectangle = raylib::Rectangle(
             _position.x,
             _position.y,
-            48,
-            48.0f
+            _size,
+            _size
         );
 
         if (!camera.isRectangleInView(rectangle)) {

@@ -23,7 +23,9 @@ namespace game {
         bool _shouldRemoveParticleSystem;
 
         [[nodiscard]] std::unique_ptr<particle::ParticleSystem>
-            _getParticleSystem() const;
+            _getBadParticleSystem() const;
+        [[nodiscard]] std::unique_ptr<particle::ParticleSystem>
+            _getGoodParticleSystem() const;
 
         void _onStructureChange();
 

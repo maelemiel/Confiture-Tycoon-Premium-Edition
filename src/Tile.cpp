@@ -10,7 +10,8 @@
 #include "Map.hpp"
 
 namespace game {
-    std::unique_ptr<particle::ParticleSystem> Tile::_getParticleSystem() const
+    std::unique_ptr<particle::ParticleSystem>
+        Tile::_getBadParticleSystem() const
     {
         auto particleSystem = std::make_unique<particle::ParticleSystem>(
             _map.getCamera(),
@@ -25,16 +26,42 @@ namespace game {
             raylib::Color::LightGray(),
             raylib::Color::DarkGray()
         );
+        particleSystem->setSize(32.0f, 64.0f);
+
+        return std::move(particleSystem);
+    }
+
+    std::unique_ptr<particle::ParticleSystem>
+        Tile::_getGoodParticleSystem() const
+    {
+        auto particleSystem = std::make_unique<particle::ParticleSystem>(
+            _map.getCamera(),
+            _position * getSize() + getSize() * 0.5f
+        );
+        particleSystem->setVelocity(
+            raylib::Vector2(-30.0f, -30.0f),
+            raylib::Vector2(30.0f, 30.0f)
+        );
+        particleSystem->setLifetime(1.0f, 3.0f);
+        particleSystem->setColor(
+            raylib::Color::Yellow(),
+            raylib::Color::Orange()
+        );
+        particleSystem->setSize(8.0f, 12.0f);
 
         return std::move(particleSystem);
     }
 
     void Tile::_onStructureChange()
     {
-        if (_structure != nullptr && _structure->getPollutionEffect() > 0) {
-            _particleSystem = _getParticleSystem();
+        if (_structure != nullptr && _structure->getPollutionEffect() != 0) {
+            if (_structure->getPollutionEffect() > 0) {
+                _particleSystem = _getBadParticleSystem();
+            } else {
+                _particleSystem = _getGoodParticleSystem();
+            }
             _particleSystem->setSpawning(true);
-            _shouldRemoveParticleSystem = true;
+            _shouldRemoveParticleSystem = false;
             return;
         }
         _shouldRemoveParticleSystem = true;
