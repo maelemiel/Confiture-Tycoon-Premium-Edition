@@ -128,11 +128,11 @@ void ResourceManager::resetGame()
 
 float ResourceManager::getDualityScore() const
 {
-    return std::clamp(
+    return (std::clamp(
         static_cast<float>(_oxygenPerSecond) / static_cast<float>(_maxOxygenLevel),
         -1.0f,
         1.0f
-    );
+    )*35);
 }
 
 void ResourceManager::RessourceUpdate(
