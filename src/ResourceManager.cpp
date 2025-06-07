@@ -208,18 +208,17 @@ void ResourceManager::calculateProduction(
 
     _oxygenPerSecond = netOxygenChangeFromStructuresPerSecond - static_cast<int>(std::round(populationOxygenConsumptionPerSecond));
 
-
-    std::cout << "Production Update:" << std::endl;
-    std::cout << "  SweetSweet/s: " << _SweetSweetPerSecond << std::endl;
-    std::cout << "  Wood/s: " << _woodPerSecond << std::endl;
-    std::cout << "  Stone/s: " << _stonePerSecond << std::endl;
-    std::cout << "  Oxygen/s (from structures): " << netOxygenChangeFromStructuresPerSecond << std::endl;
-    std::cout << "  Population Oxygen Consumption/s: " << populationOxygenConsumptionPerSecond << std::endl;
-    std::cout << "  Net Total Oxygen/s: " << _oxygenPerSecond << std::endl;
-    std::cout << "  Current Oxygen Level: " << _oxygenLevel << std::endl;
-    std::cout << "  Current Wood: " << _wood << std::endl;
-    std::cout << "  Current Stone: " << _stone << std::endl;
-    std::cout << "  Population: " << _population << std::endl;
+    // std::cout << "Production Update:" << std::endl;
+    // std::cout << "  SweetSweet/s: " << _SweetSweetPerSecond << std::endl;
+    // std::cout << "  Wood/s: " << _woodPerSecond << std::endl;
+    // std::cout << "  Stone/s: " << _stonePerSecond << std::endl;
+    // std::cout << "  Oxygen/s (from structures): " << netOxygenChangeFromStructuresPerSecond << std::endl;
+    // std::cout << "  Population Oxygen Consumption/s: " << populationOxygenConsumptionPerSecond << std::endl;
+    // std::cout << "  Net Total Oxygen/s: " << _oxygenPerSecond << std::endl;
+    // std::cout << "  Current Oxygen Level: " << _oxygenLevel << std::endl;
+    // std::cout << "  Current Wood: " << _wood << std::endl;
+    // std::cout << "  Current Stone: " << _stone << std::endl;
+    // std::cout << "  Population: " << _population << std::endl;
 }
 
 void ResourceManager::updatePollution(const std::pmr::list<std::shared_ptr<Tile>>& tiles)
