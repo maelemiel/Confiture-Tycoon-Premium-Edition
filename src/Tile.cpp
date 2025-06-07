@@ -8,50 +8,126 @@
 #include <iostream>
 #include <Rectangle.hpp>
 
+#include "PerlinNoise.hpp"
 #include "Map.hpp"
 
 namespace game {
-    Tile::Tile(Map &map, const raylib::Vector2 position) : _map(map),
+    std::unique_ptr<particle::ParticleSystem>
+        Tile::_getBadParticleSystem() const
+    {
+        auto particleSystem = std::make_unique<particle::ParticleSystem>(
+            _map.getCamera(),
+            _position * getSize() + getSize() * 0.5f
+        );
+        particleSystem->setVelocity(
+            raylib::Vector2(-10.0f, -80.0f),
+            raylib::Vector2(10.0f, -10.0f)
+        );
+        particleSystem->setLifetime(1.0f, 3.0f);
+        particleSystem->setColor(
+            raylib::Color::LightGray(),
+            raylib::Color::DarkGray()
+        );
+        particleSystem->setSize(32.0f, 64.0f);
+
+        return std::move(particleSystem);
+    }
+
+    std::unique_ptr<particle::ParticleSystem>
+        Tile::_getGoodParticleSystem() const
+    {
+        auto particleSystem = std::make_unique<particle::ParticleSystem>(
+            _map.getCamera(),
+            _position * getSize() + getSize() * 0.5f
+        );
+        particleSystem->setVelocity(
+            raylib::Vector2(-30.0f, -30.0f),
+            raylib::Vector2(30.0f, 30.0f)
+        );
+        particleSystem->setLifetime(1.0f, 3.0f);
+        particleSystem->setColor(
+            raylib::Color::Yellow(),
+            raylib::Color::Orange()
+        );
+        particleSystem->setSize(8.0f, 12.0f);
+
+        return std::move(particleSystem);
+    }
+
+    void Tile::_onStructureChange()
+    {
+        if (_structure != nullptr && _structure->getPollutionEffect() != 0) {
+            if (_structure->getPollutionEffect() > 0) {
+                _particleSystem = _getBadParticleSystem();
+            } else {
+                _particleSystem = _getGoodParticleSystem();
+            }
+            _particleSystem->setSpawning(true);
+            _shouldRemoveParticleSystem = false;
+            return;
+        }
+        _shouldRemoveParticleSystem = true;
+        if (_particleSystem != nullptr) {
+            _particleSystem->setSpawning(false);
+        }
+    }
+
+    Tile::Tile(Map &map, const raylib::Vector2 position, siv::PerlinNoise::value_type noise) : _map(map),
         _position(position)
     {
+        if (noise > 0.5f) {
+            _backgroundTexture = _map.getGrassTexture();
+        } else {
+            _backgroundTexture = _map.getDirtTexture();
+        }
+
         _structure = nullptr;
         _linkedTile = nullptr;
+    }
+
+    void Tile::update(const float dt)
+    {
+        if (_particleSystem != nullptr) {
+            _particleSystem->update(dt);
+            if (_shouldRemoveParticleSystem) {
+                if (_particleSystem->getParticlesCount() == 0) {
+                    _particleSystem = nullptr;
+                    _shouldRemoveParticleSystem = false;
+                }
+            }
+        }
     }
 
     void Tile::drawBackground(const Window &window) const
     {
         const auto screenPosition = getScreenPosition();
-        const float textureScale = size / 512.0f * _map.getScale();
-        auto tint = raylib::Color::White();
+        const float textureScale = _map.getCamera().getScaledValue(size / 512.0f);
 
-        if (hasStructure()) {
-            if (Structure::IStructure &structure = getStructure();
-                structure.getPollutionEffect() < 0) {
-                tint = raylib::Color::Green();
-            } else if (structure.getPollutionEffect() > 0) {
-                tint = raylib::Color::Red();
-            }
+        if (_backgroundTexture != nullptr) {
+            _backgroundTexture->Draw(
+                screenPosition,
+                0.0f,
+                textureScale,
+                raylib::Color::White()
+            );
+        } else {
+            raylib::Rectangle(
+                screenPosition.x,
+                screenPosition.y,
+                getScreenSize().x,
+                getScreenSize().y
+            ).Draw(raylib::Color::White());
         }
-        _map.getGrassTexture().Draw(
-            screenPosition,
-            0.0f,
-            textureScale,
-            tint
-        );
     }
 
-    void Tile::drawForeground(const Window &window) const
+    void Tile::drawForeground([[maybe_unused]] const Window &window) const
     {
         const auto screenPosition = getScreenPosition();
-        const auto screenSize = getScreenSize();
-        const auto rect = raylib::Rectangle(
-            screenPosition.x,
-            screenPosition.y,
-            screenSize.x,
-            screenSize.y
-        );
-        const float textureScale = size / 512.0f * _map.getScale();
+        const float textureScale = _map.getCamera().getScaledValue(size / 512.0f);
 
+        if (_particleSystem != nullptr) {
+            _particleSystem->draw();
+        }
         if (_structure != nullptr) {
             const auto &texture = _structure->getSprite();
 
@@ -71,12 +147,10 @@ namespace game {
 
     raylib::Vector2 Tile::getScreenPosition() const
     {
-        const auto drawOffset = _map.getOffset();
-
-        return {
-            (drawOffset.x + _position.x * size) * _map.getScale(),
-            (drawOffset.y + _position.y * size) * _map.getScale()
-        };
+        return _map.getCamera().getWorldPositionAsScreenPosition(raylib::Vector2(
+            _position.x * size,
+            _position.y * size
+        ));
     }
 
     raylib::Vector2 Tile::getSize() const
@@ -90,8 +164,8 @@ namespace game {
     raylib::Vector2 Tile::getScreenSize() const
     {
         return {
-            size * _map.getScale(),
-            size * _map.getScale()
+            _map.getCamera().getScaledValue(size),
+            _map.getCamera().getScaledValue(size)
         };
     }
 
@@ -152,6 +226,7 @@ namespace game {
         const auto self = _map.getTile(_position);
 
         _structure = structure;
+        _onStructureChange();
 
         if (_structure == nullptr) {
             return;
@@ -169,6 +244,7 @@ namespace game {
                     continue;
                 }
                 neighborTile->setLinkedTile(self);
+                neighborTile->_onStructureChange();
             }
         }
     }

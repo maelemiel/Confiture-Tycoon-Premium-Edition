@@ -3,59 +3,36 @@
 //
 
 #include "Map.hpp"
+#include "PerlinNoise.hpp"
+
+#define NOISE_DONTKNOW 0.1f
 
 #include <algorithm>
-#include <iostream>
-#include <ostream>
+#include <chrono>
 
 namespace game {
-    Map::Map(const raylib::Vector2 size) : _size(size), _offset(0, 0),
-        _scale(1.0f)
+    Map::Map(Camera &camera, const raylib::Vector2 size) :
+        _camera(camera), _size(size)
     {
-        createTiles();
-        setOffsetToCenter();
-
-        _grassTexture = raylib::Texture(
+        _grassTexture = std::make_shared<raylib::Texture>(
             "assets/textures/grass.png"
         );
+        _dirtTexture = std::make_shared<raylib::Texture>(
+            "assets/textures/dirt.png"
+        );
+        _concreteTexture = std::make_shared<raylib::Texture>(
+            "assets/textures/concrete.png"
+        );
+
+        _createTiles();
+        setOffsetToCenter();
     }
 
-    void Map::createTiles()
+    void Map::update(const float dt) const
     {
-        for (int x = 0; x < static_cast<int>(_size.x); x++) {
-            for (int y = 0; y < static_cast<int>(_size.y); y++) {
-                _tiles.push_back(
-                    std::make_shared<Tile>(
-                        *this,
-                        raylib::Vector2(
-                            static_cast<float>(x),
-                            static_cast<float>(y)
-                        )
-                    )
-                );
-            }
+        for (const auto &tile : _tiles) {
+            tile->update(dt);
         }
-    }
-
-    void Map::highlightTiles() const
-    {
-        const auto targetTile =
-            _hoveredTile->getLinkedTile() != nullptr
-            ? _hoveredTile->getLinkedTile()
-            : _hoveredTile;
-        const auto hoverPosition = targetTile->getScreenPosition();
-        const auto hoverBounds = raylib::Rectangle(
-            hoverPosition.x,
-            hoverPosition.y,
-            _hoverSize.x * Tile::size * _scale,
-            _hoverSize.y * Tile::size * _scale
-        );
-
-        hoverBounds.DrawLines(
-            areAllHoveredTilesEmpty() ?
-                raylib::Color::White() : raylib::Color::SkyBlue(),
-            5.0f * _scale
-        );
     }
 
     void Map::draw(const Window &window) const
@@ -70,37 +47,51 @@ namespace game {
             if (_hoveredTile->isEmpty() && !areAllHoveredTilesEmpty()) {
                 return;
             }
-            highlightTiles();
+            _highlightTiles();
         }
     }
 
-    raylib::Vector2 Map::getOffset() const
+    void Map::_createTiles()
     {
-        return _offset;
+        const siv::PerlinNoise::seed_type seed =
+            std::chrono::system_clock::now().time_since_epoch().count();
+        const siv::PerlinNoise perlin{ seed };
+
+        for (int x = 0; x < static_cast<int>(_size.x); x++) {
+            for (int y = 0; y < static_cast<int>(_size.y); y++) {
+                _tiles.push_back(
+                    std::make_shared<Tile>(
+                        *this,
+                        raylib::Vector2(
+                            static_cast<float>(x),
+                            static_cast<float>(y)
+                        ),
+                        perlin.noise2D(x*NOISE_DONTKNOW, y*NOISE_DONTKNOW)
+                    )
+                );
+            }
+        }
     }
 
-    void Map::setOffset(const raylib::Vector2 offset)
+    void Map::_highlightTiles() const
     {
-        _offset = offset;
-    }
+        const auto targetTile =
+            _hoveredTile->getLinkedTile() != nullptr
+            ? _hoveredTile->getLinkedTile()
+            : _hoveredTile;
+        const auto hoverPosition = targetTile->getScreenPosition();
+        const auto hoverBounds = raylib::Rectangle(
+            hoverPosition.x,
+            hoverPosition.y,
+            _camera.getScaledValue(_hoverSize.x * Tile::size),
+            _camera.getScaledValue(_hoverSize.y * Tile::size)
+        );
 
-    float Map::getScale() const
-    {
-        return _scale;
-    }
-
-    void Map::setScale(const float scale)
-    {
-        _scale = std::ranges::clamp(scale, 0.05f, 10.0f);
-    }
-
-    raylib::Vector2 Map::getScreenPositionAsWorldPosition(
-        const raylib::Vector2 mousePosition) const
-    {
-        return {
-            mousePosition.x / _scale - _offset.x,
-            mousePosition.y / _scale - _offset.y
-        };
+        hoverBounds.DrawLines(
+            areAllHoveredTilesEmpty() ?
+                raylib::Color::White() : raylib::Color::SkyBlue(),
+            _camera.getScaledValue(5.0f)
+        );
     }
 
     std::shared_ptr<Tile> Map::getTile(const raylib::Vector2 index) const
@@ -163,16 +154,36 @@ namespace game {
         _hoverSize = size;
     }
 
-    const raylib::Texture &Map::getGrassTexture() const
+    std::shared_ptr<raylib::Texture> Map::getGrassTexture() const
     {
         return _grassTexture;
     }
 
+    std::shared_ptr<raylib::Texture> Map::getDirtTexture() const
+    {
+        return _dirtTexture;
+    }
+
+    std::shared_ptr<raylib::Texture> Map::getConcreteTexture() const
+    {
+        return _concreteTexture;
+    }
+
     void Map::setOffsetToCenter()
     {
-        setOffset(raylib::Vector2(
+        _camera.setOffset(raylib::Vector2(
             1920.0f * 0.5f - _size.x * Tile::size * 0.5f,
             1080.0f * 0.5f - _size.y * Tile::size * 0.5f
         ));
+    }
+
+    raylib::Vector2 Map::getSize() const
+    {
+        return _size;
+    }
+
+    Camera &Map::getCamera()
+    {
+        return _camera;
     }
 } // game

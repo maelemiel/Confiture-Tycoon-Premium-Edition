@@ -6,54 +6,53 @@
     #define MAP_HPP
 
     #include <list>
-#include <optional>
     #include <raylib-cpp.hpp>
 
+    #include "Camera.hpp"
     #include "Tile.hpp"
 
 namespace game {
     class Map {
+        Camera &_camera;
         raylib::Vector2 _size;
         std::pmr::list<std::shared_ptr<Tile>> _tiles;
-        raylib::Vector2 _offset;
-        float _scale;
         std::shared_ptr<Tile> _hoveredTile;
         raylib::Vector2 _hoverSize;
 
-        raylib::Texture _grassTexture;
+        std::shared_ptr<raylib::Texture> _grassTexture;
+        std::shared_ptr<raylib::Texture> _dirtTexture;
+        std::shared_ptr<raylib::Texture> _concreteTexture;
 
-        void createTiles();
-        void highlightTiles() const;
+        void _createTiles();
+        void _highlightTiles() const;
 
     public:
-        explicit Map(raylib::Vector2 size);
+        explicit Map(Camera &camera, raylib::Vector2 size);
 
+        void update(float dt) const;
         void draw(const Window &window) const;
 
-        [[nodiscard]] raylib::Vector2 getOffset() const;
-        void setOffset(raylib::Vector2 offset);
+        [[nodiscard]] raylib::Vector2 getSize() const;
 
-        [[nodiscard]] float getScale() const;
-        void setScale(float scale);
-
-        [[nodiscard]] raylib::Vector2 getScreenPositionAsWorldPosition(
-            raylib::Vector2 mousePosition) const;
-
-        [[nodiscard]] std::shared_ptr<Tile> getTile(raylib::Vector2 index) const;
-        [[nodiscard]] std::shared_ptr<Tile> getTileAtWorldPosition(
-            raylib::Vector2 worldPosition) const;
         [[nodiscard]] std::pmr::list<std::shared_ptr<Tile>> getTiles() const {
             return _tiles;
         }
+        [[nodiscard]] std::shared_ptr<Tile> getTile(raylib::Vector2 index) const;
+        [[nodiscard]] std::shared_ptr<Tile> getTileAtWorldPosition(
+            raylib::Vector2 worldPosition) const;
 
         void setHoveredTile(const std::shared_ptr<Tile> &tile);
         void setHoverSize(raylib::Vector2 size);
         [[nodiscard]] std::list<std::shared_ptr<Tile>> getHoveredTiles() const;
         [[nodiscard]] bool areAllHoveredTilesEmpty() const;
 
-        [[nodiscard]] const raylib::Texture &getGrassTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getGrassTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getDirtTexture() const;
+        [[nodiscard]] std::shared_ptr<raylib::Texture> getConcreteTexture() const;
 
         void setOffsetToCenter();
+
+        Camera &getCamera();
     };
 } // game
 

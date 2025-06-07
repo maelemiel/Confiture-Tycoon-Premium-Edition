@@ -9,19 +9,23 @@
     #include <memory>
     #include <string>
 
+    #include "Camera.hpp"
     #include "Map.hpp"
     #include "Window.hpp"
     #include "UI/UI.hpp"
     #include "Structures/Factory/Factory.hpp"
     #include "ResourceManager.hpp"
+    #include "Events/EventManager.hpp"
 
 namespace game
 {
     class Game
     {
         Window _window;
+        Camera _camera;
         Map _map;
         std::unique_ptr<ResourceManager> _resourceManager;
+        EventManager _eventManager;
 
         // --- Input ---
         bool _isMouseInWindow;

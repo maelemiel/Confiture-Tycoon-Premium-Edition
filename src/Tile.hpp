@@ -7,8 +7,10 @@
 
     #include <Rectangle.hpp>
 
+    #include "PerlinNoise.hpp"
     #include "Window.hpp"
-#include "Structures/Abstracts/IStructure.hpp"
+    #include "Particle/ParticleSystem.hpp"
+    #include "Structures/Abstracts/IStructure.hpp"
 
 namespace game {
     class Map;
@@ -18,12 +20,23 @@ namespace game {
         raylib::Vector2 _position;
         std::shared_ptr<Structure::IStructure> _structure;
         std::shared_ptr<Tile> _linkedTile;
+        std::shared_ptr<raylib::Texture> _backgroundTexture;
+        std::unique_ptr<particle::ParticleSystem> _particleSystem;
+        bool _shouldRemoveParticleSystem;
+
+        [[nodiscard]] std::unique_ptr<particle::ParticleSystem>
+            _getBadParticleSystem() const;
+        [[nodiscard]] std::unique_ptr<particle::ParticleSystem>
+            _getGoodParticleSystem() const;
+
+        void _onStructureChange();
 
     public:
         static constexpr float size = 64.0f;
 
-        explicit Tile(Map &map, raylib::Vector2 position);
+        explicit Tile(Map &map, raylib::Vector2 position, siv::PerlinNoise::value_type noise);
 
+        void update(float dt);
         void drawBackground(const Window &window) const;
         void drawForeground(const Window &window) const;
 
