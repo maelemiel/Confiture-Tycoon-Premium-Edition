@@ -15,7 +15,7 @@ public:
         _icon = raylib::Texture("assets/OxygenProducer/tree_icon.png");
         _sprite = raylib::Texture("assets/OxygenProducer/tree_sprite.png");
         _pollutionEffect = -5;
-        _oxigenProduction = 20;
+        _oxigenProduction = 10;
         _ressourceConsomption = 0;
         _habitantNeeded = 0;
     }

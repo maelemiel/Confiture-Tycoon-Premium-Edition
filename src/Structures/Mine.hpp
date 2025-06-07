@@ -10,7 +10,7 @@ public:
     {
         _name = "Mine";
         _resourceCost = 30;
-        _oxygenCost = 10;
+        _oxygenCost = 20;
         _size = raylib::Vector2(2, 2);
         _icon = raylib::Texture("assets/Mine/mine.png");
         _sprite = raylib::Texture("assets/Mine/mine.png");
