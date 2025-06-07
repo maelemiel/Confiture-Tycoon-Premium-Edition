@@ -8,6 +8,7 @@
     #include <memory>
     #include <raylib-cpp.hpp>
 
+#include "DualityBar.hpp"
 #include "ResourceManager.hpp"
 
 namespace game
@@ -42,6 +43,8 @@ namespace game
         float resourcesLogoSize;
         Vector2 resourcesFramePosition;
         Vector2 resourcesLogoPosition;
+
+        ui::DualityBar _dualityBar;
     
     public:
         explicit UI(ResourceManager& rm) :
@@ -80,6 +83,8 @@ namespace game
         }
 
         void draw() const;
+
+        ui::DualityBar &getDualityBar();
 
         std::string population;
         std::string resources;

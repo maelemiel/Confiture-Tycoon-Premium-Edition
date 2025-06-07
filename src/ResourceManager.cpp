@@ -94,6 +94,15 @@ void ResourceManager::resetGame()
 
 }
 
+float ResourceManager::getDualityScore() const
+{
+    return std::clamp(
+        static_cast<float>(_oxygenPerSecond) / static_cast<float>(_maxOxygenLevel),
+        -1.0f,
+        1.0f
+    );
+}
+
 void ResourceManager::RessourceUpdate(
     const std::pmr::list<std::shared_ptr<Tile>> &tiles)
 {

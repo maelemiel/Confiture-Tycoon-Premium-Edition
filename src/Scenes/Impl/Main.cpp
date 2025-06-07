@@ -72,6 +72,9 @@ namespace game::scene {
 
         _ui.resourcesRateText = (sweetSweetRate >= 0 ? "+" : "") + std::to_string(sweetSweetRate) + "/s";
         _ui.resourcesRateColor = (sweetSweetRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
+
+        _ui.getDualityBar().setLevel(_resourceManager.getDualityScore());
+
         _resourceManager.RessourceUpdate(_map.getTiles());
         _map.update(dt);
     }

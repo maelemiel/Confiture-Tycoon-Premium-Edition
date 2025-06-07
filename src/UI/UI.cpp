@@ -54,5 +54,12 @@ namespace game {
             };
             ::DrawText(resourcesRateText.c_str(), static_cast<int>(resourcesRateTextPos.x), static_cast<int>(resourcesRateTextPos.y), rateFontSize, resourcesRateColor);
         }
+
+        _dualityBar.draw();
+    }
+
+    ui::DualityBar & UI::getDualityBar()
+    {
+        return _dualityBar;
     }
 }

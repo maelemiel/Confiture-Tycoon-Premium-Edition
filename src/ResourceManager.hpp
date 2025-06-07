@@ -72,6 +72,9 @@ public:
     }
     void resetGame();
 
+    // Between -1.0 and 1.0, where 0.0 is neutral, -1.0 is full destruction, and 1.0 is full natural.
+    float getDualityScore() const;
+
 private:
     void calculateProduction(
         const std::vector<std::shared_ptr<Structure::IStructure>> &structures);
