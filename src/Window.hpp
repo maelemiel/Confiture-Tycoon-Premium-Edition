@@ -30,6 +30,8 @@ namespace game
 
         void clear(raylib::Color color) const;
 
+        [[nodiscard]] raylib::Vector2 getSize() const;
+
         [[nodiscard]] bool isOpen();
 
         [[nodiscard]] raylib::Vector2 getMousePosition() const;

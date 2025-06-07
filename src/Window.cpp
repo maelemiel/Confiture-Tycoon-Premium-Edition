@@ -62,6 +62,15 @@ namespace game {
         ClearBackground(color);
     }
 
+    raylib::Vector2 Window::getSize() const {
+        const auto texture = _texture->GetTexture();
+
+        return {
+            static_cast<float>(texture.width),
+            static_cast<float>(texture.height)
+        };
+    }
+
     bool Window::isOpen()
     {
         if (!_isOpen) {

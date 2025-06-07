@@ -22,9 +22,12 @@ namespace game
         _mouseButtonLeftReleased(false),
         _mouseButtonMiddleReleased(false),
         _mouseButtonRightReleased(false),
-        _currentScene(_mainScene),
-        _mainScene(*this)
-    {}
+        _currentScene(nullptr)
+    {
+        registerScene("splashscreen", std::make_shared<scene::Splashscreen>(*this));
+        registerScene("main", std::make_shared<scene::Main>(*this));
+        setScene("splashscreen");
+    }
 
     void Game::handleInput()
     {
@@ -51,13 +54,13 @@ namespace game
     {
         const auto deltaTime = _window.getRaylibWindow().GetFrameTime();
 
-        _currentScene.update(deltaTime);
+        _currentScene->update(deltaTime);
     }
 
     void Game::draw() const
     {
         _window.beginDraw();
-        _currentScene.draw();
+        _currentScene->draw();
         _window.getRaylibWindow().DrawFPS();
         _window.endDraw();
     }
@@ -135,5 +138,20 @@ namespace game
     raylib::Vector2 Game::getMouseScrollDelta() const
     {
         return _mouseScrollDelta;
+    }
+
+    void Game::registerScene(const std::string &name,
+        std::shared_ptr<scene::AScene> scene)
+    {
+        _scenes[name] = std::move(scene);
+    }
+
+    void Game::setScene(const std::string &name)
+    {
+        if (_scenes.contains(name)) {
+            _currentScene = _scenes[name];
+        } else {
+            std::cerr << "Scene '" << name << "' not found!" << std::endl;
+        }
     }
 } // game

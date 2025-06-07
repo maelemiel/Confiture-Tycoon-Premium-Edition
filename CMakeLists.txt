@@ -68,6 +68,8 @@ set(SOURCES
         src/Scenes/AScene.hpp
         src/Scenes/Impl/Main.cpp
         src/Scenes/Impl/Main.hpp
+        src/Scenes/Impl/Splashscreen.cpp
+        src/Scenes/Impl/Splashscreen.hpp
 )
 
 # Create executable

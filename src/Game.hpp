@@ -11,6 +11,7 @@
     #include "Window.hpp"
     #include "Scenes/AScene.hpp"
     #include "Scenes/Impl/Main.hpp"
+#include "Scenes/Impl/Splashscreen.hpp"
 
 namespace game
 {
@@ -35,8 +36,8 @@ namespace game
         raylib::Vector2 _mouseScrollDelta;
 
         // --- Scenes ---
-        scene::AScene &_currentScene;
-        scene::Main _mainScene;
+        std::map<std::string, std::shared_ptr<scene::AScene>> _scenes;
+        std::shared_ptr<scene::AScene> _currentScene;
 
     public:
         explicit Game(raylib::Vector2 windowSize);
@@ -66,6 +67,9 @@ namespace game
         [[nodiscard]] bool isMouseButtonRightReleased() const;
 
         [[nodiscard]] raylib::Vector2 getMouseScrollDelta() const;
+
+        void registerScene(const std::string &name, std::shared_ptr<scene::AScene> scene);
+        void setScene(const std::string &name);
     };
 } // game
 
