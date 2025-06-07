@@ -6,6 +6,7 @@
 
 #include <iostream>
 
+#include "Scenes/Impl/DeathScreen.hpp"
 #include "Structures/House.hpp"
 #include "Structures/Tree.hpp"
 
@@ -28,6 +29,7 @@ namespace game
         _backgroundMusic.SetLooping(true);
         registerScene("splashscreen", std::make_shared<scene::Splashscreen>(*this));
         registerScene("main", std::make_shared<scene::Main>(*this));
+        registerScene("DeathScreen", std::make_shared<scene::DeathScreen>(*this));
         setScene("splashscreen");
     }
 

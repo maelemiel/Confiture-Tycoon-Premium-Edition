@@ -6,20 +6,21 @@
 #include <iostream>
 #include <cmath>
 
+#include "Game.hpp"
+
 namespace game
 {
 
-ResourceManager::ResourceManager()
+ResourceManager::ResourceManager(Game &game)
     : _SweetSweet(10),
-      _SweetSweetPerSecond(0), _oxygenLevel(5000),
+      _SweetSweetPerSecond(0), _oxygenLevel(50),
       _maxOxygenLevel(10000), _oxygenPerSecond(0),
       _population(0),
       _wood(100),
       _woodPerSecond(0),
       _stone(100),
       _stonePerSecond(0),
-      _timeAccumulator(0.0f)
-{
+      _timeAccumulator(0.0f), _game(game) {
 }
 
 void ResourceManager::update(float deltaTime)
@@ -52,6 +53,7 @@ void ResourceManager::update(float deltaTime)
         }
         if (_oxygenLevel < 0) {
             _oxygenLevel = 0;
+            _game.setScene("DeathScreen");
             std::cout << "Oxygen level critical! People are starting to die or it's depleted." << std::endl;
         }
     }
@@ -106,6 +108,7 @@ void ResourceManager::consumeOxygen(int amount)
 {
     _oxygenLevel -= amount * GetFrameTime();
     if (_oxygenLevel < 0) {
+        _game.setScene("DeathScreen");
         std::cout << "Oxygen level critical! People are starting to die" << std::endl;
     }
 }

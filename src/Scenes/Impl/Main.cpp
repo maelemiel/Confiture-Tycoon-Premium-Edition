@@ -6,12 +6,10 @@
 #include "Game.hpp"
 
 namespace game::scene {
-    Main::Main(Game &game) :
-        AScene(game),
-        _map(game.getCamera(), raylib::Vector2(50, 50)),
-        _eventManager(_map), _ui(game, _resourceManager),
-        _selectedStructure("House")
-    {
+    Main::Main(Game &game) : AScene(game),
+                             _map(game.getCamera(), raylib::Vector2(50, 50)), _resourceManager(game),
+                             _eventManager(_map), _ui(game, _resourceManager),
+                             _selectedStructure("House") {
         _ui.setDrawerClickCallback([this](const std::string &structureName) {
             _selectedStructure = structureName;
         });

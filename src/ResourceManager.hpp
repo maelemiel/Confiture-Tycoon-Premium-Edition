@@ -9,7 +9,9 @@
 
 namespace game
 {
-class ResourceManager
+    class Game;
+
+    class ResourceManager
 {
 private:
     int _SweetSweet;
@@ -29,8 +31,10 @@ private:
 
     float _timeAccumulator;
 
+    Game &_game;
+
 public:
-    ResourceManager();
+    ResourceManager(Game &game);
 
     void update(float deltaTime);
     void updateProduction(
