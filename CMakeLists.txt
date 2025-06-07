@@ -51,6 +51,8 @@ set(SOURCES
         src/Structures/House.hpp
         src/UI/UI.cpp
         src/UI/UI.hpp
+        src/UI/Drawer.cpp
+        src/UI/Drawer.hpp
         src/Game.cpp
         src/Game.hpp
         src/main.cpp

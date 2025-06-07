@@ -14,9 +14,9 @@ ResourceManager::ResourceManager()
       _SweetSweetPerSecond(0), _oxygenLevel(5000),
       _maxOxygenLevel(10000), _oxygenPerSecond(0),
       _population(0),
-      _wood(50),
+      _wood(100),
       _woodPerSecond(0),
-      _stone(50),
+      _stone(100),
       _stonePerSecond(0),
       _timeAccumulator(0.0f)
 {
@@ -75,6 +75,16 @@ bool ResourceManager::spendSweetSweet(int amount)
 void ResourceManager::addSweetSweet(int amount)
 {
     _SweetSweet += amount;
+}
+
+void ResourceManager::addWood(int amount)
+{
+    _wood += amount;
+}
+
+void ResourceManager::addStone(int amount)
+{
+    _stone += amount;
 }
 
 float ResourceManager::getOxygenPercentage() const

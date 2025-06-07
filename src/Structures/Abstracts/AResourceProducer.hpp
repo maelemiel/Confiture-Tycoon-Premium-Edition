@@ -18,6 +18,8 @@ public:
     string &getName() { return _name; }
     int getResourceCost() { return _resourceCost; }
     int getOxygenCost() { return _oxygenCost; }
+    int getWoodCost() { return _woodCost; }
+    int getStoneCost() { return _stoneCost; }
     raylib::Vector2 getSize() { return _size; }
     raylib::Texture &getIcon() { return _icon; }
     raylib::Texture &getSprite() { return _sprite; }
