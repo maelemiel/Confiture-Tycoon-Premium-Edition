@@ -7,8 +7,13 @@
 #include "Window.hpp"
 
 namespace game {
-    Window::Window(raylib::Vector2 size) :
-        _window(static_cast<int>(size.x), static_cast<int>(size.y), "Idle Jeuconfiture Tycoon", FLAG_WINDOW_RESIZABLE),
+    Window::Window(const raylib::Vector2 size) :
+        _window(
+            static_cast<int>(size.x),
+            static_cast<int>(size.y),
+            "Idle Jeuconfiture Tycoon (Premium Edition (Trial (Free)))",
+            FLAG_WINDOW_RESIZABLE
+        ),
         _texture(static_cast<int>(size.x), static_cast<int>(size.y)),
         _windowIcon("assets/window_icon.png")
     {
