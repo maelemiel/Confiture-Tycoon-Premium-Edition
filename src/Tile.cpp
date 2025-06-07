@@ -30,7 +30,7 @@ namespace game {
         );
         particleSystem->setSize(32.0f, 64.0f);
 
-        return std::move(particleSystem);
+        return particleSystem;
     }
 
     std::unique_ptr<particle::ParticleSystem>
@@ -51,7 +51,7 @@ namespace game {
         );
         particleSystem->setSize(8.0f, 12.0f);
 
-        return std::move(particleSystem);
+        return particleSystem;
     }
 
     void Tile::_onStructureChange()
@@ -98,7 +98,7 @@ namespace game {
         }
     }
 
-    void Tile::drawBackground(const Window &window) const
+    void Tile::drawBackground([[maybe_unused]] const Window &window) const
     {
         const auto screenPosition = getScreenPosition();
         const float textureScale = _map.getCamera().getScaledValue(size / 512.0f);

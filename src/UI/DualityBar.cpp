@@ -11,7 +11,7 @@ namespace game::ui {
         // I fucking hate this "UI" naming convention, but it's what the original code used.
         _texture("assets/UI/duality_bar.png"), _level(0.0f) {}
 
-    void DualityBar::update(float dt)
+    void DualityBar::update([[maybe_unused]] float dt)
     {}
 
     void DualityBar::draw() const
