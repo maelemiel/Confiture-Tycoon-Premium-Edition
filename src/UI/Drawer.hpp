@@ -7,12 +7,16 @@
 
 #include "DrawerButton.hpp"
 
+namespace game {
+    class Game;
+}
+
 namespace game::ui
 {
     class Drawer
     {
     public:
-        Drawer();
+        explicit Drawer(Game &game);
 
         void update(float dt);
         void draw() const;
@@ -21,6 +25,8 @@ namespace game::ui
         [[nodiscard]] raylib::Rectangle getBounds() const;
 
     private:
+        Game &_game;
+
         Vector2 _position;
         float _logoSize;
         bool _isOpen;

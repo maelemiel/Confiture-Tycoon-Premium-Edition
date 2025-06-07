@@ -14,12 +14,15 @@
 
 namespace game
 {
+    class Game;
+
     class UI
     {
+        Game &_game;
+
         ui::Drawer _drawer;
         std::string selectedStructure = "House";
         ResourceManager& _resourceManagerRef;
-        int _a; // This member seems unused. Consider removing if not needed.
         raylib::Texture logoOxy;
         raylib::Texture oxygenFrame;
         raylib::Texture populationFrame;
@@ -69,9 +72,10 @@ namespace game
         float _guiTempScale;
 
     public:
-        explicit UI(ResourceManager& rm) :
+        explicit UI(Game &game, ResourceManager& rm) :
+            _game(game),
+            _drawer(game),
             _resourceManagerRef(rm),
-            _a(0),
             logoOxy("assets/UI/oxygen_tank.png"),
             oxygenFrame("assets/UI/O2_frame.png"),
             populationFrame("assets/UI/population_frame.png"),
@@ -85,49 +89,54 @@ namespace game
             logoStone("assets/UI/stone.png"),
             _guiTempTexture("assets/UI/guitemp.png"),
             _guiTempScale(0.7f),
-            oxygenRateText(""),
             oxygenRateColor(BLACK),
-            resourcesRateText(""),
             resourcesRateColor(BLACK),
             woodAmountText("0"),
-            woodRateText(""),
             woodRateColor(BLACK),
             stoneAmountText("0"),
-            stoneRateText(""),
             stoneRateColor(BLACK)
         {
             barOxySize = 5;
             barOxyPosition = {25, 20};
-            oxyFramePosition = {barOxyPosition.x - 2 * barOxySize, barOxyPosition.y - 2 * barOxySize};
-            oxyPosition = { 10, 10 };
+            oxyFramePosition = {barOxyPosition.x - 2 * barOxySize,
+                                barOxyPosition.y - 2 * barOxySize};
+            oxyPosition = {10, 10};
             logoOxyPosition = {460, 20};
             logoOxySize = 0.2f;
 
             population = "0";
-            populationFramePosition = { 1920 - oxyFramePosition.x - 90 * barOxySize, oxyFramePosition.y};
+            populationFramePosition = {
+                1920 - oxyFramePosition.x - 90 * barOxySize,
+                oxyFramePosition.y};
             populationFrameSize = barOxySize;
-            logoPopulationPosition = { populationFramePosition.x - 110, 20};
+            logoPopulationPosition = {populationFramePosition.x - 110, 20};
             logoPopulationSize = 0.2f;
 
             resources = "0";
-            resourcesFramePosition = { populationFramePosition.x + 200, 150};
+            resourcesFramePosition = {populationFramePosition.x + 200, 150};
             resourcesFrameSize = barOxySize;
-            resourcesLogoPosition = { populationFramePosition.x + 120, 150};
+            resourcesLogoPosition = {populationFramePosition.x + 120, 150};
             resourcesLogoSize = 0.3f;
 
             float y_spacing = 120.0f;
 
-            woodFramePosition = {resourcesFramePosition.x, resourcesFramePosition.y + y_spacing};
+            woodFramePosition = {resourcesFramePosition.x,
+                                 resourcesFramePosition.y + y_spacing};
             woodFrameSize = resourcesFrameSize;
-            logoWoodPosition = {resourcesLogoPosition.x, resourcesLogoPosition.y + y_spacing};
+            logoWoodPosition = {resourcesLogoPosition.x,
+                                resourcesLogoPosition.y + y_spacing};
             logoWoodSize = resourcesLogoSize / 2.0f;
 
-            stoneFramePosition = {woodFramePosition.x, woodFramePosition.y + y_spacing};
+            stoneFramePosition = {woodFramePosition.x,
+                                  woodFramePosition.y + y_spacing};
             stoneFrameSize = resourcesFrameSize;
-            logoStonePosition = {logoWoodPosition.x, logoWoodPosition.y + y_spacing};
+            logoStonePosition = {logoWoodPosition.x,
+                                 logoWoodPosition.y + y_spacing};
             logoStoneSize = resourcesLogoSize / 2.0f;
 
-            _guiTempPosition = raylib::Vector2(0.0f, static_cast<float>(GetScreenHeight()) - (_guiTempTexture.height * _guiTempScale));
+            _guiTempPosition = raylib::Vector2(0.0f,
+                static_cast<float>(GetScreenHeight()) - (_guiTempTexture.height
+                    * _guiTempScale));
         }
 
         void draw() const;

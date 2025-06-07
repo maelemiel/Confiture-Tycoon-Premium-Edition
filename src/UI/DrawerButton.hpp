@@ -9,8 +9,14 @@
 
     #include "raylib-cpp.hpp"
 
+namespace game {
+    class Game;
+}
+
 namespace game::ui {
     class DrawerButton {
+        Game& _game;
+
         raylib::Vector2 _position;
         raylib::Texture _icon;
 
@@ -19,7 +25,7 @@ namespace game::ui {
         constexpr static float scale = 0.7f;
 
     public:
-        DrawerButton(raylib::Vector2 position, const std::string &iconPath);
+        DrawerButton(Game &game, raylib::Vector2 position, const std::string &iconPath);
 
         void update(float dt);
         void draw() const;

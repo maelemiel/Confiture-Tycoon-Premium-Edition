@@ -4,13 +4,15 @@
 
 #include "DrawerButton.hpp"
 
-namespace game::ui {
-    DrawerButton::DrawerButton(const raylib::Vector2 position, const std::string &iconPath) :
-        _position(position),
-        _icon(iconPath)
-    {}
+#include "Game.hpp"
 
-    void DrawerButton::update(float dt)
+namespace game::ui {
+    DrawerButton::DrawerButton(Game &game, const raylib::Vector2 position, const std::string &iconPath) :
+        _game(game),
+        _position(position),
+        _icon(iconPath) {}
+
+    void DrawerButton::update([[maybe_unused]] float dt)
     {
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             return;
@@ -23,7 +25,7 @@ namespace game::ui {
             static_cast<float>(_icon.GetHeight()) * scale
         };
 
-        if (CheckCollisionPointRec(GetMousePosition(), rect)) {
+        if (CheckCollisionPointRec(_game.getMousePosition(), rect)) {
             _onClickCallback();
         }
     }
