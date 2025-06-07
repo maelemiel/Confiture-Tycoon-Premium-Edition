@@ -4,6 +4,8 @@
 
 #include "ParticleSystem.hpp"
 
+#include <iostream>
+
 namespace game::particle
 {
     static long long getRandomSeed()

@@ -5,6 +5,7 @@
 #include "Tile.hpp"
 
 #include <cassert>
+#include <iostream>
 #include <Rectangle.hpp>
 
 #include "PerlinNoise.hpp"
