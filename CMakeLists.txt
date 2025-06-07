@@ -64,6 +64,12 @@ set(SOURCES
         src/Window.hpp
         src/Camera.cpp
         src/Camera.hpp
+        src/Scenes/AScene.cpp
+        src/Scenes/AScene.hpp
+        src/Scenes/Impl/Main.cpp
+        src/Scenes/Impl/Main.hpp
+        src/Scenes/Impl/Splashscreen.cpp
+        src/Scenes/Impl/Splashscreen.hpp
 )
 
 # Create executable

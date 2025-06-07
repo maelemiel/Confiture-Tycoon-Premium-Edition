@@ -3,7 +3,6 @@
 //
 
 #include "Game.hpp"
-#include <string>
 
 #include <iostream>
 
@@ -14,16 +13,21 @@ namespace game
 {
     Game::Game(const raylib::Vector2 windowSize) :
         _window(windowSize),
-        _map(_camera, raylib::Vector2(50, 50)),
-        _resourceManager(std::make_unique<ResourceManager>()),
-        _ui(*_resourceManager),
-        _eventManager(_map),
-        _isMouseInWindow(false),
+        _mouseButtonLeftDown(false),
+        _mouseButtonMiddleDown(false),
+        _mouseButtonRightDown(false),
         _mouseButtonLeftPressed(false),
         _mouseButtonMiddlePressed(false),
         _mouseButtonRightPressed(false),
-        _selectedStructure("House")
-    {}
+        _mouseButtonLeftReleased(false),
+        _mouseButtonMiddleReleased(false),
+        _mouseButtonRightReleased(false),
+        _currentScene(nullptr)
+    {
+        registerScene("splashscreen", std::make_shared<scene::Splashscreen>(*this));
+        registerScene("main", std::make_shared<scene::Main>(*this));
+        setScene("splashscreen");
+    }
 
     void Game::handleInput()
     {
@@ -43,100 +47,20 @@ namespace game
         _mouseButtonMiddleReleased = IsMouseButtonReleased(MOUSE_BUTTON_MIDDLE);
         _mouseButtonRightReleased = IsMouseButtonReleased(MOUSE_BUTTON_RIGHT);
 
-        if (IsKeyPressed(KEY_T)) {
-            _selectedStructure = "Tree";
-        } else if (IsKeyPressed(KEY_H)) {
-            _selectedStructure = "House";
-        } else if (IsKeyPressed(KEY_G)) {
-            _selectedStructure = "Generator";
-        } else if (IsKeyPressed(KEY_S)) {
-            _selectedStructure = "Mine";
-        } else if (IsKeyPressed(KEY_B)) {
-            _selectedStructure = "Grange";
-        }
-
         _mouseScrollDelta = GetMouseWheelMoveV();
     }
 
-    void Game::update()
+    void Game::update() const
     {
-        const auto mouseWorldPosition = _camera.getScreenPositionAsWorldPosition(_mousePosition);
-        const std::shared_ptr<Tile> hoverTile = _map.getTileAtWorldPosition(mouseWorldPosition);
-        const auto structure = _factory.getStructure(_selectedStructure);
+        const auto deltaTime = _window.getRaylibWindow().GetFrameTime();
 
-        if (structure != nullptr) {
-            _map.setHoverSize(structure->getSize());
-        } else {
-            _map.setHoverSize(0);
-        }
-        if (_mouseButtonMiddleDown) {
-            _camera.setOffset(_camera.getOffset() + _mouseDelta / _camera.getZoom());
-        }
-        if (_mouseScrollDelta != Vector2Zero()) {
-            const auto oldMouseOffset = _camera.getScreenPositionAsWorldPosition(_mousePosition);
-
-            _camera.setZoom(_camera.getZoom() + _mouseScrollDelta.y * 0.05f);
-
-            const auto mouseOffset = _camera.getScreenPositionAsWorldPosition(_mousePosition);
-
-            _camera.setOffset(_camera.getOffset() + (mouseOffset - oldMouseOffset));
-        }
-        _map.setHoveredTile(hoverTile);
-        if (_mouseButtonLeftDown) {
-            if (hoverTile != nullptr && !hoverTile->hasStructure()
-                && _map.areAllHoveredTilesEmpty()) {
-                hoverTile->setStructure(structure);
-            }
-        }
-        if (_mouseButtonRightDown) {
-            if (hoverTile != nullptr && hoverTile->hasStructure()) {
-                hoverTile->setStructure(nullptr);
-            }
-        }
-
-        const float deltaTime = GetFrameTime();
-
-        _resourceManager->update(deltaTime);
-        _eventManager.update(deltaTime);
-        _resourceManager->RessourceUpdate(_map.getTiles());
-        _map.update(deltaTime);
-
-        _ui.population = std::to_string(_resourceManager->getPopulation());
-        _ui.resources = std::to_string(_resourceManager->getSweetSweet());
-
-        int oxygenRate = _resourceManager->getOxygenPerSecond();
-        _ui.oxygenRateText = (oxygenRate >= 0 ? "+" : "") + std::to_string(oxygenRate) + "/s";
-        _ui.oxygenRateColor = (oxygenRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
-
-        int sweetSweetRate = _resourceManager->getSweetSweetPerSecond();
-        _ui.resourcesRateText = (sweetSweetRate >= 0 ? "+" : "") + std::to_string(sweetSweetRate) + "/s";
-        _ui.resourcesRateColor = (sweetSweetRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
-
-        _ui.woodAmountText = std::to_string(_resourceManager->getWood());
-        int woodRate = _resourceManager->getWoodPerSecond();
-        _ui.woodRateText = (woodRate >= 0 ? "+" : "") + std::to_string(woodRate) + "/s";
-        _ui.woodRateColor = (woodRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
-
-        _ui.stoneAmountText = std::to_string(_resourceManager->getStone());
-        int stoneRate = _resourceManager->getStonePerSecond();
-        _ui.stoneRateText = (stoneRate >= 0 ? "+" : "") + std::to_string(stoneRate) + "/s";
-        _ui.stoneRateColor = (stoneRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
+        _currentScene->update(deltaTime);
     }
 
     void Game::draw() const
     {
         _window.beginDraw();
-        _window.clear(raylib::Color::White());
-        _map.draw(_window);
-        _eventManager.draw(_window);
-        raylib::DrawText(
-            "Idle JeuConfiture Tycoon (a Jamsoft game)",
-            10,
-            10,
-            20,
-            BLACK
-        );
-        _ui.draw();
+        _currentScene->draw();
         _window.getRaylibWindow().DrawFPS();
         _window.endDraw();
     }
@@ -146,9 +70,88 @@ namespace game
         return _window.isOpen();
     }
 
-    std::string Game::getSelectedStructure() const
+    Window &Game::getWindow()
     {
-        return _selectedStructure;
+        return _window;
     }
 
+    Camera &Game::getCamera()
+    {
+        return _camera;
+    }
+
+    raylib::Vector2 Game::getMousePosition() const
+    {
+        return _mousePosition;
+    }
+
+    raylib::Vector2 Game::getMouseDelta() const
+    {
+        return _mouseDelta;
+    }
+
+    bool Game::isMouseButtonLeftDown() const
+    {
+        return _mouseButtonLeftDown;
+    }
+
+    bool Game::isMouseButtonMiddleDown() const
+    {
+        return _mouseButtonMiddleDown;
+    }
+
+    bool Game::isMouseButtonRightDown() const
+    {
+        return _mouseButtonRightDown;
+    }
+
+    bool Game::isMouseButtonLeftPressed() const
+    {
+        return _mouseButtonLeftPressed;
+    }
+
+    bool Game::isMouseButtonMiddlePressed() const
+    {
+        return _mouseButtonMiddlePressed;
+    }
+
+    bool Game::isMouseButtonRightPressed() const
+    {
+        return _mouseButtonRightPressed;
+    }
+
+    bool Game::isMouseButtonLeftReleased() const
+    {
+        return _mouseButtonLeftReleased;
+    }
+
+    bool Game::isMouseButtonMiddleReleased() const
+    {
+        return _mouseButtonMiddleReleased;
+    }
+
+    bool Game::isMouseButtonRightReleased() const
+    {
+        return _mouseButtonRightReleased;
+    }
+
+    raylib::Vector2 Game::getMouseScrollDelta() const
+    {
+        return _mouseScrollDelta;
+    }
+
+    void Game::registerScene(const std::string &name,
+        std::shared_ptr<scene::AScene> scene)
+    {
+        _scenes[name] = std::move(scene);
+    }
+
+    void Game::setScene(const std::string &name)
+    {
+        if (_scenes.contains(name)) {
+            _currentScene = _scenes[name];
+        } else {
+            std::cerr << "Scene '" << name << "' not found!" << std::endl;
+        }
+    }
 } // game
