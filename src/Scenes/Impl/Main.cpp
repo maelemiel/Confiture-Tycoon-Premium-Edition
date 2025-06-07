@@ -14,8 +14,10 @@ namespace game::scene {
     {}
 
     bool Main::_verifyResources(std::shared_ptr<Structure::IStructure> structure) {
-        if (structure->getResourceCost())
-            return true;
+        if (structure->getResourceCost() > _resourceManager.getSweetSweet() ||
+            structure->getStoneCost() > _resourceManager.getStone() ||
+            structure->getWoodCost() > _resourceManager.getWood())
+            return false;
         return true;
     }
 
