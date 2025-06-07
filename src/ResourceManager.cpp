@@ -13,7 +13,7 @@ namespace game
 
 ResourceManager::ResourceManager(Game &game)
     : _SweetSweet(10),
-      _SweetSweetPerSecond(0), _oxygenLevel(50),
+      _SweetSweetPerSecond(0), _oxygenLevel(5000),
       _maxOxygenLevel(10000), _oxygenPerSecond(0),
       _population(0),
       _wood(100),
