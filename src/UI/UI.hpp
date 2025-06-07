@@ -62,6 +62,11 @@ namespace game
 
         ui::DualityBar _dualityBar;
 
+        // Temporary GUI image
+        raylib::Texture _guiTempTexture;
+        raylib::Vector2 _guiTempPosition;
+        float _guiTempScale; // Added to store the scale
+
     public:
         explicit UI(ResourceManager& rm) :
             _resourceManagerRef(rm),
@@ -86,7 +91,9 @@ namespace game
             woodRateColor(BLACK),
             stoneAmountText("0"),
             stoneRateText(""),
-            stoneRateColor(BLACK)
+            stoneRateColor(BLACK),
+            _guiTempTexture("assets/UI/guitemp.png"),
+            _guiTempScale(0.7f)
         {
             barOxySize = 5;
             barOxyPosition = {25, 20};
@@ -118,6 +125,8 @@ namespace game
             stoneFrameSize = resourcesFrameSize;
             logoStonePosition = {logoWoodPosition.x, logoWoodPosition.y + y_spacing};
             logoStoneSize = resourcesLogoSize / 2.0f;
+
+            _guiTempPosition = raylib::Vector2(0.0f, static_cast<float>(GetScreenHeight()) - (_guiTempTexture.height * _guiTempScale));
         }
 
         void draw() const;

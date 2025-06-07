@@ -85,6 +85,19 @@ namespace game {
         }
 
         _dualityBar.draw();
+
+        if (_guiTempTexture.id > 0) {
+            Rectangle sourceRec = { 0.0f, 0.0f, (float)_guiTempTexture.width, (float)_guiTempTexture.height };
+            Rectangle destRec = { 
+                _guiTempPosition.x, 
+                _guiTempPosition.y, 
+                _guiTempTexture.width * _guiTempScale, 
+                _guiTempTexture.height * _guiTempScale 
+            };
+            Vector2 origin = { 0.0f, 0.0f };
+
+            DrawTexturePro(_guiTempTexture, sourceRec, destRec, origin, 0.0f, WHITE);
+        }
     }
 
     ui::DualityBar & UI::getDualityBar()

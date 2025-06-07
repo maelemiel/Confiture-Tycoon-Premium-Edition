@@ -10,7 +10,7 @@ public:
     {
         _name = "Grange";
         _resourceCost = 25;
-        _oxygenCost = 5;
+        _oxygenCost = 20;
         _size = raylib::Vector2(3, 3);
         _icon = raylib::Texture("assets/Grange/grange.png");
         _sprite = raylib::Texture("assets/Grange/grange.png");
