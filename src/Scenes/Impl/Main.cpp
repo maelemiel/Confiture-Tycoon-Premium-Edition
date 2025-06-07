@@ -1,0 +1,77 @@
+//
+// Created by Charles Mahoudeau on 6/7/25.
+//
+
+#include "Main.hpp"
+#include "Game.hpp"
+
+namespace game::scene {
+    Main::Main(Game &game) :
+        AScene(game),
+        _map(game.getCamera(), raylib::Vector2(50, 50)),
+        _eventManager(_map), _ui(_resourceManager),
+        _selectedStructure("House")
+    {}
+
+    void Main::update(const float dt)
+    {
+        auto &game = getGame();
+        auto &camera = game.getCamera();
+        const auto mouseWorldPosition = camera.getScreenPositionAsWorldPosition(game.getMousePosition());
+        const std::shared_ptr<Tile> hoverTile = _map.getTileAtWorldPosition(mouseWorldPosition);
+        const auto structure = _factory.getStructure(_selectedStructure);
+
+        if (IsKeyPressed(KEY_T)) {
+            _selectedStructure = "Tree";
+        } else if (IsKeyPressed(KEY_H)) {
+            _selectedStructure = "House";
+        } else if (IsKeyPressed(KEY_G)) {
+            _selectedStructure = "Generator";
+        }
+        if (structure != nullptr) {
+            _map.setHoverSize(structure->getSize());
+        } else {
+            _map.setHoverSize(0);
+        }
+        if (game.isMouseButtonMiddleDown()) {
+            camera.setOffset(camera.getOffset() + game.getMouseDelta() / camera.getZoom());
+        }
+        if (game.getMouseScrollDelta() != Vector2Zero()) {
+            const auto oldMouseOffset = camera.getScreenPositionAsWorldPosition(game.getMousePosition());
+
+            camera.setZoom(camera.getZoom() + game.getMouseScrollDelta().y * 0.05f);
+
+            const auto mouseOffset = camera.getScreenPositionAsWorldPosition(game.getMousePosition());
+
+            camera.setOffset(camera.getOffset() + (mouseOffset - oldMouseOffset));
+        }
+        _map.setHoveredTile(hoverTile);
+        if (game.isMouseButtonLeftDown()) {
+            if (hoverTile != nullptr && !hoverTile->hasStructure()
+                && _map.areAllHoveredTilesEmpty()) {
+                hoverTile->setStructure(structure);
+            }
+        }
+        if (game.isMouseButtonRightDown()) {
+            if (hoverTile != nullptr && hoverTile->hasStructure()) {
+                hoverTile->setStructure(nullptr);
+            }
+        }
+
+        _resourceManager.update(dt);
+        _eventManager.update(dt);
+        _resourceManager.RessourceUpdate(_map.getTiles());
+        _map.update(dt);
+    }
+
+    void Main::draw() const
+    {
+        auto &game = getGame();
+        const auto &window = game.getWindow();
+
+        window.clear(raylib::Color::White());
+        _map.draw(window);
+        _eventManager.draw(window);
+        _ui.draw();
+    }
+} // game::scene
