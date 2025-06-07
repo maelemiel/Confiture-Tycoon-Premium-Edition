@@ -4,6 +4,8 @@
 
 #include "Map.hpp"
 #include "PerlinNoise.hpp"
+#include "Structures/Abstracts/IStructure.hpp"
+#include "Structures/Abstracts/AOxygenProducer.hpp"
 
 #define NOISE_DONTKNOW 0.1f
 
@@ -149,9 +151,35 @@ namespace game {
         });
     }
 
+    bool Map::canPlaceStructureOnHoveredTiles(const std::shared_ptr<Structure::IStructure>& structure) const
+    {
+        if (!areAllHoveredTilesEmpty()) {
+            return false;
+        }
+        
+        // Check if trying to place an oxygen producer
+        if (auto oxygenProducer = std::dynamic_pointer_cast<Structure::AOxygenProducer>(structure)) {
+            // For oxygen producers, check all hovered tiles for pollution
+            return ranges::all_of(getHoveredTiles(), [](const std::shared_ptr<Tile> &tile) {
+                if (tile == nullptr) {
+                    return false;
+                }
+                return tile->canPlaceOxygenProducer();
+            });
+        }
+        
+        // For non-oxygen producers, normal placement rules apply
+        return true;
+    }
+
     void Map::setHoverSize(const raylib::Vector2 size)
     {
         _hoverSize = size;
+    }
+
+    void Map::setCurrentStructure(const std::shared_ptr<Structure::IStructure>& structure)
+    {
+        _currentStructure = structure;
     }
 
     std::shared_ptr<raylib::Texture> Map::getGrassTexture() const

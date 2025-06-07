@@ -73,7 +73,7 @@ namespace game {
     }
 
     Tile::Tile(Map &map, const raylib::Vector2 position, siv::PerlinNoise::value_type noise) : _map(map),
-        _position(position)
+        _position(position), _pollutionLevel(0), _tileColor(raylib::Color::White())
     {
         if (noise > 0.5f) {
             _backgroundTexture = _map.getGrassTexture();
@@ -83,6 +83,7 @@ namespace game {
 
         _structure = nullptr;
         _linkedTile = nullptr;
+        updateTileColor();
     }
 
     void Tile::update(const float dt)
@@ -103,12 +104,15 @@ namespace game {
         const auto screenPosition = getScreenPosition();
         const float textureScale = _map.getCamera().getScaledValue(size / 512.0f);
 
+        // Utiliser la couleur de pollution de cette tuile (déjà propagée correctement)
+        raylib::Color colorToUse = _tileColor;
+
         if (_backgroundTexture != nullptr) {
             _backgroundTexture->Draw(
                 screenPosition,
                 0.0f,
                 textureScale,
-                raylib::Color::White()
+                colorToUse  // Appliquer la couleur de pollution de cette tuile
             );
         } else {
             raylib::Rectangle(
@@ -116,7 +120,7 @@ namespace game {
                 screenPosition.y,
                 getScreenSize().x,
                 getScreenSize().y
-            ).Draw(raylib::Color::White());
+            ).Draw(colorToUse);  // Appliquer la couleur de pollution de cette tuile
         }
     }
 
@@ -135,7 +139,7 @@ namespace game {
                 screenPosition,
                 0.0f,
                 textureScale,
-                raylib::Color::White()
+                raylib::Color::White()  // Garder la couleur normale du bâtiment
             );
         }
     }
@@ -270,5 +274,141 @@ namespace game {
     {
         assert(linkedTile.get() != this);
         _linkedTile = linkedTile;
+    }
+
+    int Tile::getPollutionLevel() const
+    {
+        return _pollutionLevel;
+    }
+
+    void Tile::setPollutionLevel(int level)
+    {
+        _pollutionLevel = std::max(0, level);
+        updateTileColor();
+        
+        // Si cette tuile a une structure, propager la pollution aux tuiles liées
+        if (_structure != nullptr) {
+            const auto self = _map.getTile(_position);
+            for (int x = 0; x < static_cast<int>(_structure->getSize().x); x++) {
+                for (int y = 0; y < static_cast<int>(_structure->getSize().y); y++) {
+                    const auto neighborTile = _map.getTile(
+                        raylib::Vector2(
+                            _position.x + static_cast<float>(x),
+                            _position.y + static_cast<float>(y)
+                        )
+                    );
+
+                    if (neighborTile != nullptr && neighborTile != self) {
+                        neighborTile->_pollutionLevel = _pollutionLevel;
+                        neighborTile->updateTileColor();
+                    }
+                }
+            }
+        }
+        
+        // Propager la pollution aux tuiles voisines
+        propagatePollutionToNeighbors();
+    }
+
+    void Tile::addPollution(int amount)
+    {
+        _pollutionLevel += amount;
+        if (_pollutionLevel < 0) {
+            _pollutionLevel = 0;
+        }
+        updateTileColor();
+        
+        // Si cette tuile a une structure, propager la pollution aux tuiles liées
+        if (_structure != nullptr) {
+            const auto self = _map.getTile(_position);
+            for (int x = 0; x < static_cast<int>(_structure->getSize().x); x++) {
+                for (int y = 0; y < static_cast<int>(_structure->getSize().y); y++) {
+                    const auto neighborTile = _map.getTile(
+                        raylib::Vector2(
+                            _position.x + static_cast<float>(x),
+                            _position.y + static_cast<float>(y)
+                        )
+                    );
+
+                    if (neighborTile != nullptr && neighborTile != self) {
+                        neighborTile->_pollutionLevel = _pollutionLevel;
+                        neighborTile->updateTileColor();
+                    }
+                }
+            }
+        }
+        
+        // Propager la pollution aux tuiles voisines
+        propagatePollutionToNeighbors();
+    }
+
+    bool Tile::isPolluted() const
+    {
+        return _pollutionLevel > 10; // Seuil de pollution critique
+    }
+
+    bool Tile::canPlaceOxygenProducer() const
+    {
+        // Cannot place trees on polluted soil (marron clair et plus)
+        if (_pollutionLevel > 5) {
+            return false;
+        }
+        // Check if tile is empty without modifying state
+        if (_linkedTile != nullptr) {
+            return _linkedTile->canPlaceOxygenProducer();
+        }
+        return _structure == nullptr;
+    }
+
+    void Tile::updateTileColor()
+    {
+        if (_pollutionLevel <= 0) {
+            _tileColor = raylib::Color::White(); // Normal
+        } else if (_pollutionLevel <= 5) {
+            _tileColor = raylib::Color(255, 250, 200, 255); // Légèrement jaune
+        } else if (_pollutionLevel <= 10) {
+            _tileColor = raylib::Color(255, 200, 150, 255); // Orange clair
+        } else if (_pollutionLevel <= 20) {
+            _tileColor = raylib::Color(200, 150, 100, 255); // Marron clair
+        } else {
+            _tileColor = raylib::Color(150, 100, 50, 255); // Marron foncé - très pollué
+        }
+    }
+
+    void Tile::propagatePollutionToNeighbors()
+    {
+        if (_pollutionLevel <= 5) {
+            return; // Pas assez de pollution pour se propager
+        }
+
+        // Propager la pollution aux 8 tuiles voisines
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) {
+                    continue; // Skip la tuile actuelle
+                }
+
+                const auto neighborTile = _map.getTile(
+                    raylib::Vector2(
+                        _position.x + static_cast<float>(dx),
+                        _position.y + static_cast<float>(dy)
+                    )
+                );
+
+                if (neighborTile == nullptr) {
+                    continue; // Tuile hors limites
+                }
+
+                // Calculer le niveau de pollution à propager (diminué)
+                int propagatedPollution = _pollutionLevel - 5;
+                if (propagatedPollution > 0) {
+                    // Appliquer seulement si la pollution propagée est plus élevée
+                    if (neighborTile->_pollutionLevel < propagatedPollution) {
+                        neighborTile->_pollutionLevel = propagatedPollution;
+                        neighborTile->updateTileColor();
+                    }
+                }
+            }
+        }
     }
 } // game

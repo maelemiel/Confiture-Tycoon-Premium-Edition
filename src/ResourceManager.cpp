@@ -153,6 +153,7 @@ void ResourceManager::RessourceUpdate(
     }
     if (!structures.empty()) {
         calculateProduction(structures);
+        updatePollution(tiles);
     }
 }
 
@@ -219,5 +220,69 @@ void ResourceManager::calculateProduction(
     std::cout << "  Current Wood: " << _wood << std::endl;
     std::cout << "  Current Stone: " << _stone << std::endl;
     std::cout << "  Population: " << _population << std::endl;
+}
+
+void ResourceManager::updatePollution(const std::pmr::list<std::shared_ptr<Tile>>& tiles)
+{
+    // Reset pollution levels first
+    for (const auto& tile : tiles) {
+        tile->setPollutionLevel(0);
+    }
+    
+    // Apply pollution from structures
+    for (const auto& tile : tiles) {
+        if (tile->isEmpty() || tile->getLinkedTile() != nullptr) {
+            continue;
+        }
+        
+        auto structure = tile->getStructureSharedPtr();
+        if (!structure) continue;
+        
+        int pollutionEffect = structure->getPollutionEffect();
+        if (pollutionEffect > 0) { // Structure pollue
+            // Polluer la tuile elle-même
+            tile->addPollution(pollutionEffect * 2);
+            
+            // Polluer toutes les tuiles occupées par le bâtiment (tuiles liées)
+            raylib::Vector2 structureSize = structure->getSize();
+            raylib::Vector2 structurePos = tile->getPosition();
+            
+            // Appliquer la pollution à toutes les tuiles du bâtiment
+            for (int x = 0; x < static_cast<int>(structureSize.x); x++) {
+                for (int y = 0; y < static_cast<int>(structureSize.y); y++) {
+                    raylib::Vector2 linkedTilePos = raylib::Vector2(
+                        structurePos.x + static_cast<float>(x),
+                        structurePos.y + static_cast<float>(y)
+                    );
+                    
+                    // Trouver la tuile à cette position
+                    for (const auto& linkedTile : tiles) {
+                        if (linkedTile->getPosition().x == linkedTilePos.x && 
+                            linkedTile->getPosition().y == linkedTilePos.y) {
+                            linkedTile->addPollution(pollutionEffect * 2);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // Polluer les tuiles voisines (rayon de 3 tuiles)
+            int pollutionRadius = 3;
+            
+            for (const auto& targetTile : tiles) {
+                raylib::Vector2 targetPos = targetTile->getPosition();
+                float distance = sqrt(pow(targetPos.x - structurePos.x, 2) + 
+                                    pow(targetPos.y - structurePos.y, 2));
+                
+                if (distance <= pollutionRadius && distance > 0) {
+                    // Pollution diminue avec la distance
+                    int pollutionAmount = static_cast<int>(pollutionEffect * (1.0f - distance / pollutionRadius));
+                    if (pollutionAmount > 0) {
+                        targetTile->addPollution(pollutionAmount);
+                    }
+                }
+            }
+        }
+    }
 }
 } // namespace game
