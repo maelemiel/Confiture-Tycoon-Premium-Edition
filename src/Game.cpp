@@ -22,8 +22,10 @@ namespace game
         _mouseButtonLeftReleased(false),
         _mouseButtonMiddleReleased(false),
         _mouseButtonRightReleased(false),
-        _currentScene(nullptr)
+        _currentScene(nullptr),
+        _backgroundMusic("assets/musics/background.mp3")
     {
+        _backgroundMusic.SetLooping(true);
         registerScene("splashscreen", std::make_shared<scene::Splashscreen>(*this));
         registerScene("main", std::make_shared<scene::Main>(*this));
         setScene("splashscreen");
@@ -54,6 +56,7 @@ namespace game
     {
         const auto deltaTime = _window.getRaylibWindow().GetFrameTime();
 
+        _backgroundMusic.Update();
         _currentScene->update(deltaTime);
     }
 
@@ -149,6 +152,11 @@ namespace game
     void Game::setScene(const std::string &name)
     {
         if (_scenes.contains(name)) {
+            if (name != "splashscreen") {
+                _backgroundMusic.Play();
+            } else {
+                _backgroundMusic.Stop();
+            }
             _currentScene = _scenes[name];
         } else {
             std::cerr << "Scene '" << name << "' not found!" << std::endl;
