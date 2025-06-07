@@ -9,7 +9,7 @@ namespace game
 
 ResourceManager::ResourceManager()
     : _SweetSweet(100),
-      _SweetSweetPerSecond(0), _oxygenLevel(1000),
+      _SweetSweetPerSecond(0), _oxygenLevel(0),
       _maxOxygenLevel(100000), _oxygenPerSecond(0),
       _population(0),
       _timeAccumulator(0.0f)
@@ -61,7 +61,7 @@ float ResourceManager::getOxygenPercentage() const
 
 void ResourceManager::addOxygen(int amount)
 {
-    _oxygenLevel += amount;
+    _oxygenLevel += amount * GetFrameTime() * GetFrameTime();
     if (_oxygenLevel > _maxOxygenLevel) {
         _oxygenLevel = _maxOxygenLevel;
     }
@@ -69,7 +69,7 @@ void ResourceManager::addOxygen(int amount)
 
 void ResourceManager::consumeOxygen(int amount)
 {
-    _oxygenLevel -= amount;
+    _oxygenLevel -= amount * GetFrameTime();
     if (_oxygenLevel < 0) {
         std::cout << "Oxygen level critical! People are starting to die" << std::endl;
     }
@@ -143,9 +143,12 @@ void ResourceManager::calculateProduction(
         }
     }
 
+    addOxygen(_oxygenPerSecond);
+    consumeOxygen(_population * 0.01);
     std::cout << "Production Update:" << std::endl;
     std::cout << "  SweetSweet/s: " << _SweetSweetPerSecond << std::endl;
     std::cout << "  Oxygen/s: " << _oxygenPerSecond << std::endl;
+    std::cout << "  Oxygen: " << _oxygenLevel << std::endl;
     std::cout << "  Population: " << _population << std::endl;
 }
 } // namespace game

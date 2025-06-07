@@ -3,13 +3,24 @@
 //
 
 #include "UI.hpp"
-
 #include <raylib-cpp.hpp>
+#include "ResourceManager.hpp"
 
 namespace game {
     void UI::draw() const {
+        float oxygenPercentage = _resourceManagerRef.getOxygenLevel() / static_cast<float>(_resourceManagerRef.getMaxOxygenLevel());
+        if (_resourceManagerRef.getMaxOxygenLevel() == 0) {
+            oxygenPercentage = 0;
+        }
+        printf("Oxygen Level: %d, Max: %d, Percentage: %f\n", _resourceManagerRef.getOxygenLevel(), _resourceManagerRef.getMaxOxygenLevel(), oxygenPercentage);
+        float barWidth = 86.0f;
+        float barHeight = 21.0f;
+
+        Rectangle sourceRect = {0, 0, barWidth * oxygenPercentage, barHeight};
+        Rectangle destRect = {barOxyPosition.x, barOxyPosition.y, barOxySize * barWidth * oxygenPercentage, barOxySize * barHeight};
+
         oxygenFrame.Draw(oxyFramePosition, 0, barOxySize);
-        barOxy.Draw(barOxyPosition, 0, barOxySize);
+        DrawTexturePro(barOxy, sourceRect, destRect, {0, 0}, 0, WHITE);
         logoOxy.Draw(logoOxyPosition, 0, logoOxySize);
 
         populationFrame.Draw(populationFramePosition, 0, populationFrameSize);
