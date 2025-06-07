@@ -25,6 +25,7 @@ namespace game::scene
         void _placeStructure(Game &game, std::shared_ptr<Tile> hoverTile,
         std::shared_ptr<Structure::IStructure> structure);
         void _takeResources(std::shared_ptr<Structure::IStructure> structure);
+        bool _verifyResources(std::shared_ptr<Structure::IStructure> structure);
 
     public:
         explicit Main(Game &game);

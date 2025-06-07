@@ -13,15 +13,21 @@ namespace game::scene {
         _selectedStructure("House")
     {}
 
+    bool Main::_verifyResources(std::shared_ptr<Structure::IStructure> structure) {
+        if (structure->getResourceCost())
+            return true;
+        return true;
+    }
+
     void Main::_takeResources(std::shared_ptr<Structure::IStructure> structure) {
-        _resourceManager.addSweetSweet(structure->getResourceCost());
-        _resourceManager.addWood(structure->getWoodCost());
-        _resourceManager.addStone(structure->getStoneCost());
+        _resourceManager.addSweetSweet(-structure->getResourceCost());
+        _resourceManager.addWood(-structure->getWoodCost());
+        _resourceManager.addStone(-structure->getStoneCost());
     }
 
     void Main::_placeStructure(Game &game, std::shared_ptr<Tile> hoverTile,
         std::shared_ptr<Structure::IStructure> structure) {
-        if (game.isMouseButtonLeftDown()) {
+        if (game.isMouseButtonLeftDown() && _verifyResources(structure)) {
             if (hoverTile != nullptr && !hoverTile->hasStructure()
                 && _map.areAllHoveredTilesEmpty()) {
                 _takeResources(structure);

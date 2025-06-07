@@ -31,6 +31,8 @@ public:
     string &getName() override { return _name; }
     int getResourceCost() override { return _resourceCost; }
     int getOxygenCost() override { return _oxygenCost; }
+    int getWoodCost() { return _woodCost; }
+    int getStoneCost() { return _stoneCost; }
     raylib::Vector2 getSize() override { return _size; }
     raylib::Texture &getIcon() override { return _icon; }
     raylib::Texture &getSprite() override { return _sprite; }
