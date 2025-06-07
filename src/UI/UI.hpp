@@ -10,12 +10,15 @@
 
     #include "DualityBar.hpp"
     #include "ResourceManager.hpp"
+    #include "Drawer.hpp"
 
 namespace game
 {
     class UI
     {
     private:
+        Drawer _drawer;
+        std::string selectedStructure = "House";
         ResourceManager& _resourceManagerRef;
         int _a; // This member seems unused. Consider removing if not needed.
         raylib::Texture logoOxy;
@@ -62,10 +65,9 @@ namespace game
 
         ui::DualityBar _dualityBar;
 
-        // Temporary GUI image
         raylib::Texture _guiTempTexture;
         raylib::Vector2 _guiTempPosition;
-        float _guiTempScale; // Added to store the scale
+        float _guiTempScale;
 
     public:
         explicit UI(ResourceManager& rm) :
@@ -95,6 +97,9 @@ namespace game
             stoneRateText(""),
             stoneRateColor(BLACK)
         {
+            
+            _drawer.selectedStructurePtr = &selectedStructure;
+            
             barOxySize = 5;
             barOxyPosition = {25, 20};
             oxyFramePosition = {barOxyPosition.x - 2 * barOxySize, barOxyPosition.y - 2 * barOxySize};
@@ -130,6 +135,8 @@ namespace game
         }
 
         void draw() const;
+        void update();
+        ui::DualityBar &getDualityBar() const;
 
         ui::DualityBar &getDualityBar();
 

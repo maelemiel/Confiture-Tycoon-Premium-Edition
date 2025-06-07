@@ -65,6 +65,7 @@ namespace game::scene {
 
         _resourceManager.update(dt);
         _eventManager.update(dt);
+        _ui.update();
         _resourceManager.RessourceUpdate(_map.getTiles());
         _map.update(dt);
 
