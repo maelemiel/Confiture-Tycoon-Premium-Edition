@@ -49,6 +49,10 @@ namespace game
             _selectedStructure = "House";
         } else if (IsKeyPressed(KEY_G)) {
             _selectedStructure = "Generator";
+        } else if (IsKeyPressed(KEY_S)) {
+            _selectedStructure = "Mine";
+        } else if (IsKeyPressed(KEY_B)) {
+            _selectedStructure = "Grange";
         }
 
         _mouseScrollDelta = GetMouseWheelMoveV();

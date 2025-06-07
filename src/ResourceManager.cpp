@@ -2,6 +2,7 @@
 #include "Structures/Abstracts/AHabitation.hpp"
 #include "Structures/Abstracts/AOxygenProducer.hpp"
 #include "Structures/Abstracts/AResourceProducer.hpp"
+#include "Structures/Abstracts/ABasicResourceProducer.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -163,11 +164,21 @@ void ResourceManager::calculateProduction(
             _SweetSweetPerSecond -= oxygenProducer->getRessourceConsumption();
         }
 
-        if (auto resourceProducer =
-                std::dynamic_pointer_cast<Structure::AResourceProducer>(
-                    structure)) {
-            _SweetSweetPerSecond += resourceProducer->getResourceProduction();
-            netOxygenChangeFromStructuresPerSecond -= resourceProducer->getOxygenConsumption();
+        if (auto sweetSweetProducer =
+                std::dynamic_pointer_cast<Structure::AResourceProducer>(structure)) {
+            if (!std::dynamic_pointer_cast<Structure::ABasicResourceProducer>(structure)) {
+                 _SweetSweetPerSecond += sweetSweetProducer->getResourceProduction();
+                 netOxygenChangeFromStructuresPerSecond -= sweetSweetProducer->getOxygenConsumption();
+            }
+        }
+        if (auto basicProducer =
+                std::dynamic_pointer_cast<Structure::ABasicResourceProducer>(structure)) {
+            if (basicProducer->getProducedBasicResourceType() == Structure::BasicResourceType::WOOD) {
+                _woodPerSecond += basicProducer->getBasicResourceProductionAmount();
+            } else if (basicProducer->getProducedBasicResourceType() == Structure::BasicResourceType::STONE) {
+                _stonePerSecond += basicProducer->getBasicResourceProductionAmount();
+            }
+            netOxygenChangeFromStructuresPerSecond -= basicProducer->getOxygenConsumption();
         }
     }
 
