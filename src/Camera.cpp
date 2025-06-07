@@ -98,10 +98,6 @@ namespace game {
         if (rectangle.width <= 0 || rectangle.height <= 0) {
             return false;
         }
-        if (rectangle.x >= _screenRectangle.width ||
-            rectangle.y >= _screenRectangle.height) {
-            return false;
-        }
         const auto screenPosition = getWorldPositionAsScreenPosition(
             raylib::Vector2(rectangle.x, rectangle.y)
         );
