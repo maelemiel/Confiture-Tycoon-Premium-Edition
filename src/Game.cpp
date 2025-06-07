@@ -3,6 +3,7 @@
 //
 
 #include "Game.hpp"
+#include <string>
 
 #include <iostream>
 
@@ -95,6 +96,17 @@ namespace game
         _eventManager.update(deltaTime);
         _resourceManager->RessourceUpdate(_map.getTiles());
         _map.update(deltaTime);
+
+        _ui.population = std::to_string(_resourceManager->getPopulation());
+        _ui.resources = std::to_string(_resourceManager->getSweetSweet());
+
+        int oxygenRate = _resourceManager->getOxygenPerSecond();
+        _ui.oxygenRateText = (oxygenRate >= 0 ? "+" : "") + std::to_string(oxygenRate) + "/s";
+        _ui.oxygenRateColor = (oxygenRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
+
+        int sweetSweetRate = _resourceManager->getSweetSweetPerSecond();
+        _ui.resourcesRateText = (sweetSweetRate >= 0 ? "+" : "") + std::to_string(sweetSweetRate) + "/s";
+        _ui.resourcesRateColor = (sweetSweetRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
     }
 
     void Game::draw() const
