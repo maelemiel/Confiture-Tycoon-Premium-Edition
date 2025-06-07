@@ -9,8 +9,10 @@ namespace game::scene {
     Main::Main(Game &game) :
         AScene(game),
         _map(game.getCamera(), raylib::Vector2(50, 50)),
-        _eventManager(_map), _ui(game, _resourceManager),
-        _selectedStructure("House")
+        _eventManager(_map),
+        _ui(game, _resourceManager),
+        _selectedStructure("House"),
+        _background("assets/background.png")
     {
         _ui.setDrawerClickCallback([this](const std::string &structureName) {
             _selectedStructure = structureName;
@@ -137,7 +139,7 @@ namespace game::scene {
         auto &game = getGame();
         const auto &window = game.getWindow();
 
-        window.clear(raylib::Color::White());
+        _background.Draw();
         _map.draw(window);
         _eventManager.draw(window);
         _ui.draw();
