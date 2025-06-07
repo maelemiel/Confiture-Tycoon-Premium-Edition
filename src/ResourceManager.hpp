@@ -98,6 +98,7 @@ public:
 private:
     void calculateProduction(
         const std::vector<std::shared_ptr<Structure::IStructure>> &structures);
+    void updatePollution(const std::pmr::list<std::shared_ptr<Tile>>& tiles);
 };
 } // namespace game
 

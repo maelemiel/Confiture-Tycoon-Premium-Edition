@@ -38,8 +38,10 @@ namespace game::scene {
         }
         if (structure != nullptr) {
             _map.setHoverSize(structure->getSize());
+            _map.setCurrentStructure(structure);
         } else {
             _map.setHoverSize(0);
+            _map.setCurrentStructure(nullptr);
         }
         _map.setHoveredTile(hoverTile);
         if (game.isMouseButtonMiddleDown()) {
@@ -71,11 +73,10 @@ namespace game::scene {
     void Main::_placeStructure(Game &game, std::shared_ptr<Tile> hoverTile,
         std::shared_ptr<Structure::IStructure> structure) {
         if (game.isMouseButtonLeftDown() && _verifyResources(structure)) {
-            if (hoverTile != nullptr && !hoverTile->hasStructure()
-                && _map.areAllHoveredTilesEmpty()) {
+            if (hoverTile != nullptr && _map.canPlaceStructureOnHoveredTiles(structure)) {
                 _takeResources(structure);
                 hoverTile->setStructure(structure);
-                }
+            }
         }
     }
 
