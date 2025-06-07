@@ -27,7 +27,12 @@ namespace game::scene {
             _selectedStructure = "House";
         } else if (IsKeyPressed(KEY_G)) {
             _selectedStructure = "Generator";
+        } else if (IsKeyPressed(KEY_S)) {
+            _selectedStructure = "Mine";
+        } else if (IsKeyPressed(KEY_B)) {
+            _selectedStructure = "Grange";
         }
+
         if (structure != nullptr) {
             _map.setHoverSize(structure->getSize());
         } else {
@@ -60,23 +65,31 @@ namespace game::scene {
 
         _resourceManager.update(dt);
         _eventManager.update(dt);
+        _resourceManager.RessourceUpdate(_map.getTiles());
+        _map.update(dt);
+
         _ui.population = std::to_string(_resourceManager.getPopulation());
         _ui.resources = std::to_string(_resourceManager.getSweetSweet());
 
-        const int oxygenRate = _resourceManager.getOxygenPerSecond();
-
+        int oxygenRate = _resourceManager.getOxygenPerSecond();
         _ui.oxygenRateText = (oxygenRate >= 0 ? "+" : "") + std::to_string(oxygenRate) + "/s";
         _ui.oxygenRateColor = (oxygenRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
 
-        const int sweetSweetRate = _resourceManager.getSweetSweetPerSecond();
-
+        int sweetSweetRate = _resourceManager.getSweetSweetPerSecond();
         _ui.resourcesRateText = (sweetSweetRate >= 0 ? "+" : "") + std::to_string(sweetSweetRate) + "/s";
         _ui.resourcesRateColor = (sweetSweetRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
 
-        _ui.getDualityBar().setLevel(_resourceManager.getDualityScore());
+        _ui.woodAmountText = std::to_string(_resourceManager.getWood());
+        int woodRate = _resourceManager.getWoodPerSecond();
+        _ui.woodRateText = (woodRate >= 0 ? "+" : "") + std::to_string(woodRate) + "/s";
+        _ui.woodRateColor = (woodRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
 
-        _resourceManager.RessourceUpdate(_map.getTiles());
-        _map.update(dt);
+        _ui.stoneAmountText = std::to_string(_resourceManager.getStone());
+        int stoneRate = _resourceManager.getStonePerSecond();
+        _ui.stoneRateText = (stoneRate >= 0 ? "+" : "") + std::to_string(stoneRate) + "/s";
+        _ui.stoneRateColor = (stoneRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
+
+        _ui.getDualityBar().setLevel(_resourceManager.getDualityScore());
     }
 
     void Main::draw() const
