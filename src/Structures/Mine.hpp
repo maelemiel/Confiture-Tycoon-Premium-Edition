@@ -19,7 +19,7 @@ public:
         _pollutionEffect = 0;
 
         _producedBasicResourceType = BasicResourceType::STONE;
-        _basicResourceProductionAmount = 1;
+        _basicResourceProductionAmount = 5;
         _oxygenConsumption = 5;
         _habitantNeeded = 2;
     }

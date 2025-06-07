@@ -17,7 +17,7 @@ public:
         _icon = raylib::Texture2D("assets/Habitation/house_icon.png");
         _sprite = raylib::Texture2D("assets/Habitation/house_sprite.png");
         _pollutionEffect = 0;
-        _habitantCap = 4;
+        _habitantCap = 5;
     }
 
     ~House() override = default;
