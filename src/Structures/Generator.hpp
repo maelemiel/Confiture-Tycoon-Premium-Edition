@@ -17,7 +17,7 @@ public:
         _icon = raylib::Texture2D("assets/RessourceProducer/generator_icon.png");
         _sprite = raylib::Texture2D("assets/RessourceProducer/generator_sprite.png");
         _pollutionEffect = 10;
-        _resourceProduction = 15;
+        _resourceProduction = 2;
         _oxygenConsumption = 10;
         _habitantNeeded = 5;
     }

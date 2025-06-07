@@ -19,7 +19,7 @@ public:
         _pollutionEffect = 0;
 
         _producedBasicResourceType = BasicResourceType::WOOD;
-        _basicResourceProductionAmount = 5;
+        _basicResourceProductionAmount = 2;
         _oxygenConsumption = 2;
         _habitantNeeded = 1;
     }

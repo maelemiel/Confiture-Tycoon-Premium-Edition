@@ -173,6 +173,8 @@ void ResourceManager::calculateProduction(
                 std::dynamic_pointer_cast<Structure::AHabitation>(structure)) {
             _population += habitation->getHabitationCap();
             _SweetSweetPerSecond -= habitation->getResourceCost();
+            _woodPerSecond -= 1;
+            _stonePerSecond -= 1;
             netOxygenChangeFromStructuresPerSecond -= habitation->getOxygenCost();
         }
 
