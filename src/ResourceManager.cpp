@@ -3,13 +3,14 @@
 #include "Structures/Abstracts/AOxygenProducer.hpp"
 #include "Structures/Abstracts/AResourceProducer.hpp"
 #include <iostream>
+#include <cmath> // For std::round
 
 namespace game
 {
 
 ResourceManager::ResourceManager()
     : _SweetSweet(100),
-      _SweetSweetPerSecond(0), _oxygenLevel(0),
+      _SweetSweetPerSecond(0), _oxygenLevel(10000),
       _maxOxygenLevel(100000), _oxygenPerSecond(0),
       _population(0),
       _timeAccumulator(0.0f)
@@ -27,8 +28,13 @@ void ResourceManager::update(float deltaTime)
         _SweetSweet += _SweetSweetPerSecond;
 
         _oxygenLevel += _oxygenPerSecond;
+
         if (_oxygenLevel > _maxOxygenLevel) {
             _oxygenLevel = _maxOxygenLevel;
+        }
+        if (_oxygenLevel < 0) {
+            _oxygenLevel = 0; // Clamp oxygen at 0
+            std::cout << "Oxygen level critical! People are starting to die or it's depleted." << std::endl;
         }
     }
 }
@@ -55,6 +61,7 @@ void ResourceManager::addSweetSweet(int amount)
 
 float ResourceManager::getOxygenPercentage() const
 {
+    if (_maxOxygenLevel == 0) return 0.0f;
     return static_cast<float>(_oxygenLevel) /
         static_cast<float>(_maxOxygenLevel);
 }
@@ -79,7 +86,7 @@ void ResourceManager::resetGame()
 {
     _SweetSweet = 100;
     _SweetSweetPerSecond = 0;
-    _oxygenLevel = 1000;
+    _oxygenLevel = 10000;
     _maxOxygenLevel = 100000;
     _oxygenPerSecond = 0;
     _population = 0;
@@ -112,7 +119,7 @@ void ResourceManager::calculateProduction(
     const std::vector<std::shared_ptr<Structure::IStructure>> &structures)
 {
     _SweetSweetPerSecond = 0;
-    _oxygenPerSecond = 0;
+    int netOxygenChangeFromStructuresPerSecond = 0;
     _population = 0;
 
     for (const auto &structure : structures) {
@@ -123,32 +130,35 @@ void ResourceManager::calculateProduction(
                 std::dynamic_pointer_cast<Structure::AHabitation>(structure)) {
             _population += habitation->getHabitationCap();
             _SweetSweetPerSecond -= habitation->getResourceCost();
-            _oxygenPerSecond -= habitation->getOxygenCost();
+            netOxygenChangeFromStructuresPerSecond -= habitation->getOxygenCost();
         }
 
         if (auto oxygenProducer =
                 std::dynamic_pointer_cast<Structure::AOxygenProducer>(
                     structure)) {
-            _oxygenPerSecond += oxygenProducer->getOxygenProduction();
+            netOxygenChangeFromStructuresPerSecond += oxygenProducer->getOxygenProduction();
             _SweetSweetPerSecond -= oxygenProducer->getRessourceConsumption();
-            _population -= oxygenProducer->getHabitantNeeded();
         }
 
         if (auto resourceProducer =
                 std::dynamic_pointer_cast<Structure::AResourceProducer>(
                     structure)) {
             _SweetSweetPerSecond += resourceProducer->getResourceProduction();
-            _oxygenPerSecond -= resourceProducer->getOxygenConsumption();
-            _population -= resourceProducer->getHabitantNeeded();
+            netOxygenChangeFromStructuresPerSecond -= resourceProducer->getOxygenConsumption();
         }
     }
 
-    addOxygen(_oxygenPerSecond);
-    consumeOxygen(_population * 0.01);
+    float populationOxygenConsumptionPerSecond = static_cast<float>(_population) * 0.05f;
+
+    _oxygenPerSecond = netOxygenChangeFromStructuresPerSecond - static_cast<int>(std::round(populationOxygenConsumptionPerSecond));
+
+
     std::cout << "Production Update:" << std::endl;
     std::cout << "  SweetSweet/s: " << _SweetSweetPerSecond << std::endl;
-    std::cout << "  Oxygen/s: " << _oxygenPerSecond << std::endl;
-    std::cout << "  Oxygen: " << _oxygenLevel << std::endl;
+    std::cout << "  Oxygen/s (from structures): " << netOxygenChangeFromStructuresPerSecond << std::endl;
+    std::cout << "  Population Oxygen Consumption/s: " << populationOxygenConsumptionPerSecond << std::endl;
+    std::cout << "  Net Total Oxygen/s: " << _oxygenPerSecond << std::endl;
+    std::cout << "  Current Oxygen Level: " << _oxygenLevel << std::endl;
     std::cout << "  Population: " << _population << std::endl;
 }
 } // namespace game
