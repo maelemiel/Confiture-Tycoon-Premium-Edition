@@ -39,6 +39,10 @@ namespace game
         std::map<std::string, std::shared_ptr<scene::AScene>> _scenes;
         std::shared_ptr<scene::AScene> _currentScene;
 
+        // --- Global game data ---
+        raylib::AudioDevice _audioDevice;
+        raylib::Music _backgroundMusic;
+
     public:
         explicit Game(raylib::Vector2 windowSize);
 
