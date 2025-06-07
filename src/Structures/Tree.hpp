@@ -9,8 +9,10 @@ public:
     Tree()
     {
         _name = "Tree";
-        _resourceCost = 10;
-        _oxygenCost = 5;
+        _resourceCost = 0;
+        _woodCost = 10;
+        _stoneCost = 0;
+        _oxygenCost = 0;
         _size = raylib::Vector2(1, 1);
         _icon = raylib::Texture("assets/OxygenProducer/tree_icon.png");
         _sprite = raylib::Texture("assets/OxygenProducer/tree_sprite.png");

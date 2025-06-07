@@ -48,6 +48,8 @@ public:
     }
     bool spendSweetSweet(int amount);
     void addSweetSweet(int amount);
+    void addStone(int amount);
+    void addWood(int amount);
 
     int getOxygenLevel() const
     {

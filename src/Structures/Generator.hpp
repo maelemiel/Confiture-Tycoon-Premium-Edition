@@ -9,8 +9,10 @@ public:
     Generator()
     {
         _name = "Generator";
-        _resourceCost = 40;
-        _oxygenCost = 20;
+        _resourceCost = 0;
+        _woodCost = 10;
+        _stoneCost = 30;
+        _oxygenCost = 30;
         _size = raylib::Vector2(2, 2);
         _icon = raylib::Texture2D("assets/RessourceProducer/generator_icon.png");
         _sprite = raylib::Texture2D("assets/RessourceProducer/generator_sprite.png");

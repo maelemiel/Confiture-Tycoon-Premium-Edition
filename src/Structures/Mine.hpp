@@ -9,8 +9,10 @@ public:
     Mine()
     {
         _name = "Mine";
-        _resourceCost = 30;
+        _resourceCost = 0;
         _oxygenCost = 20;
+        _woodCost = 20;
+        _stoneCost = 20;
         _size = raylib::Vector2(2, 2);
         _icon = raylib::Texture("assets/Mine/mine.png");
         _sprite = raylib::Texture("assets/Mine/mine.png");

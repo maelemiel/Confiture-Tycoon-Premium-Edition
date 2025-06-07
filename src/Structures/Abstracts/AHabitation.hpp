@@ -17,6 +17,8 @@ public:
     // Interface getters
     string &getName() { return _name; }
     int getResourceCost() { return _resourceCost; }
+    int getWoodCost() { return _woodCost; }
+    int getStoneCost() { return _stoneCost; }
     int getOxygenCost() { return _oxygenCost; }
     raylib::Vector2 getSize() { return _size; }
     raylib::Texture &getIcon() { return _icon; }

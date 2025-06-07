@@ -13,6 +13,23 @@ namespace game::scene {
         _selectedStructure("House")
     {}
 
+    void Main::_takeResources(std::shared_ptr<Structure::IStructure> structure) {
+        _resourceManager.addSweetSweet(structure->getResourceCost());
+        _resourceManager.addWood(structure->getWoodCost());
+        _resourceManager.addStone(structure->getStoneCost());
+    }
+
+    void Main::_placeStructure(Game &game, std::shared_ptr<Tile> hoverTile,
+        std::shared_ptr<Structure::IStructure> structure) {
+        if (game.isMouseButtonLeftDown()) {
+            if (hoverTile != nullptr && !hoverTile->hasStructure()
+                && _map.areAllHoveredTilesEmpty()) {
+                _takeResources(structure);
+                hoverTile->setStructure(structure);
+                }
+        }
+    }
+
     void Main::update(const float dt)
     {
         auto &game = getGame();
@@ -51,12 +68,7 @@ namespace game::scene {
             camera.setOffset(camera.getOffset() + (mouseOffset - oldMouseOffset));
         }
         _map.setHoveredTile(hoverTile);
-        if (game.isMouseButtonLeftDown()) {
-            if (hoverTile != nullptr && !hoverTile->hasStructure()
-                && _map.areAllHoveredTilesEmpty()) {
-                hoverTile->setStructure(structure);
-            }
-        }
+        _placeStructure(game, hoverTile, structure);
         if (game.isMouseButtonRightDown()) {
             if (hoverTile != nullptr && hoverTile->hasStructure()) {
                 hoverTile->setStructure(nullptr);

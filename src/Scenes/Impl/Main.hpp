@@ -22,6 +22,10 @@ namespace game::scene
         std::string _selectedStructure;
         Structures::Factory _factory;
 
+        void _placeStructure(Game &game, std::shared_ptr<Tile> hoverTile,
+        std::shared_ptr<Structure::IStructure> structure);
+        void _takeResources(std::shared_ptr<Structure::IStructure> structure);
+
     public:
         explicit Main(Game &game);
 

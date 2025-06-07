@@ -77,6 +77,16 @@ void ResourceManager::addSweetSweet(int amount)
     _SweetSweet += amount;
 }
 
+void ResourceManager::addWood(int amount)
+{
+    _wood += amount;
+}
+
+void ResourceManager::addStone(int amount)
+{
+    _stone += amount;
+}
+
 float ResourceManager::getOxygenPercentage() const
 {
     if (_maxOxygenLevel == 0) return 0.0f;

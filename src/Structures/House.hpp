@@ -9,7 +9,9 @@ public:
     House()
     {
         _name = "House";
-        _resourceCost = 1;
+        _resourceCost = 5;
+        _woodCost = 5;
+        _stoneCost = 0;
         _oxygenCost = 5;
         _size = raylib::Vector2(2, 2);
         _icon = raylib::Texture2D("assets/Habitation/house_icon.png");
