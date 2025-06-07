@@ -16,7 +16,7 @@ namespace game
     {
     private:
         ResourceManager& _resourceManagerRef;
-        int _a; // This member seems unused. Consider removing if not needed.
+        int _a;
         raylib::Texture logoOxy;
         raylib::Texture oxygenFrame;
         raylib::Texture populationFrame;
@@ -25,6 +25,12 @@ namespace game
         raylib::Texture barOxy;
         raylib::Texture resourcesFrame;
         raylib::Texture resourcesLogo;
+
+        raylib::Texture frameWood;
+        raylib::Texture logoWood;
+
+        raylib::Texture frameStone;
+        raylib::Texture logoStone;
 
         Vector2 oxyPosition;
         Vector2 oxyFramePosition;
@@ -42,6 +48,16 @@ namespace game
         float resourcesLogoSize;
         Vector2 resourcesFramePosition;
         Vector2 resourcesLogoPosition;
+
+        float woodFrameSize;
+        float logoWoodSize;
+        Vector2 woodFramePosition;
+        Vector2 logoWoodPosition;
+
+        float stoneFrameSize;
+        float logoStoneSize;
+        Vector2 stoneFramePosition;
+        Vector2 logoStonePosition;
     
     public:
         explicit UI(ResourceManager& rm) :
@@ -54,10 +70,20 @@ namespace game
             barOxy("assets/UI/O2_bar.png"),
             resourcesFrame("assets/UI/resources_frame.png"),
             resourcesLogo("assets/UI/resources_logo.png"),
+            frameWood("assets/UI/resources_frame.png"),
+            logoWood("assets/UI/wood.png"),
+            frameStone("assets/UI/resources_frame.png"),
+            logoStone("assets/UI/stone.png"),
             oxygenRateText(""),
             oxygenRateColor(BLACK),
             resourcesRateText(""),
-            resourcesRateColor(BLACK)
+            resourcesRateColor(BLACK),
+            woodAmountText("0"),
+            woodRateText(""),
+            woodRateColor(BLACK),
+            stoneAmountText("0"),
+            stoneRateText(""),
+            stoneRateColor(BLACK)
         {
             barOxySize = 5;
             barOxyPosition = {25, 20};
@@ -77,6 +103,18 @@ namespace game
             resourcesFrameSize = barOxySize;
             resourcesLogoPosition = { populationFramePosition.x + 120, 150};
             resourcesLogoSize = 0.3f;
+
+            float y_spacing = 120.0f;
+
+            woodFramePosition = {resourcesFramePosition.x, resourcesFramePosition.y + y_spacing};
+            woodFrameSize = resourcesFrameSize;
+            logoWoodPosition = {resourcesLogoPosition.x, resourcesLogoPosition.y + y_spacing};
+            logoWoodSize = resourcesLogoSize / 2.0f;
+
+            stoneFramePosition = {woodFramePosition.x, woodFramePosition.y + y_spacing};
+            stoneFrameSize = resourcesFrameSize;
+            logoStonePosition = {logoWoodPosition.x, logoWoodPosition.y + y_spacing};
+            logoStoneSize = resourcesLogoSize / 2.0f;
         }
 
         void draw() const;
@@ -87,6 +125,14 @@ namespace game
         raylib::Color oxygenRateColor;
         std::string resourcesRateText;
         raylib::Color resourcesRateColor;
+
+        std::string woodAmountText;
+        std::string woodRateText;
+        raylib::Color woodRateColor;
+
+        std::string stoneAmountText;
+        std::string stoneRateText;
+        raylib::Color stoneRateColor;
     };
 } // game
 

@@ -3,7 +3,7 @@
 #include "Structures/Abstracts/AOxygenProducer.hpp"
 #include "Structures/Abstracts/AResourceProducer.hpp"
 #include <iostream>
-#include <cmath> // For std::round
+#include <cmath>
 
 namespace game
 {
@@ -13,6 +13,10 @@ ResourceManager::ResourceManager()
       _SweetSweetPerSecond(0), _oxygenLevel(10000),
       _maxOxygenLevel(100000), _oxygenPerSecond(0),
       _population(0),
+      _wood(0),
+      _woodPerSecond(0),
+      _stone(0),
+      _stonePerSecond(0),
       _timeAccumulator(0.0f)
 {
 }
@@ -26,6 +30,19 @@ void ResourceManager::update(float deltaTime)
         _timeAccumulator -= 1.0f;
 
         _SweetSweet += _SweetSweetPerSecond;
+        if (_SweetSweet < 0) {
+            _SweetSweet = 0;
+        }
+
+        _wood += _woodPerSecond;
+        if (_wood < 0) {
+            _wood = 0;
+        }
+
+        _stone += _stonePerSecond;
+        if (_stone < 0) {
+            _stone = 0;
+        }
 
         _oxygenLevel += _oxygenPerSecond;
 
@@ -33,7 +50,7 @@ void ResourceManager::update(float deltaTime)
             _oxygenLevel = _maxOxygenLevel;
         }
         if (_oxygenLevel < 0) {
-            _oxygenLevel = 0; // Clamp oxygen at 0
+            _oxygenLevel = 0;
             std::cout << "Oxygen level critical! People are starting to die or it's depleted." << std::endl;
         }
     }
@@ -90,6 +107,10 @@ void ResourceManager::resetGame()
     _maxOxygenLevel = 100000;
     _oxygenPerSecond = 0;
     _population = 0;
+    _wood = 0;
+    _woodPerSecond = 0;
+    _stone = 0;
+    _stonePerSecond = 0;
     _timeAccumulator = 0.0f;
 
 }
@@ -119,6 +140,8 @@ void ResourceManager::calculateProduction(
     const std::vector<std::shared_ptr<Structure::IStructure>> &structures)
 {
     _SweetSweetPerSecond = 0;
+    _woodPerSecond = 0;
+    _stonePerSecond = 0;
     int netOxygenChangeFromStructuresPerSecond = 0;
     _population = 0;
 
@@ -155,10 +178,14 @@ void ResourceManager::calculateProduction(
 
     std::cout << "Production Update:" << std::endl;
     std::cout << "  SweetSweet/s: " << _SweetSweetPerSecond << std::endl;
+    std::cout << "  Wood/s: " << _woodPerSecond << std::endl;
+    std::cout << "  Stone/s: " << _stonePerSecond << std::endl;
     std::cout << "  Oxygen/s (from structures): " << netOxygenChangeFromStructuresPerSecond << std::endl;
     std::cout << "  Population Oxygen Consumption/s: " << populationOxygenConsumptionPerSecond << std::endl;
     std::cout << "  Net Total Oxygen/s: " << _oxygenPerSecond << std::endl;
     std::cout << "  Current Oxygen Level: " << _oxygenLevel << std::endl;
+    std::cout << "  Current Wood: " << _wood << std::endl;
+    std::cout << "  Current Stone: " << _stone << std::endl;
     std::cout << "  Population: " << _population << std::endl;
 }
 } // namespace game

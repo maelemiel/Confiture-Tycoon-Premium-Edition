@@ -107,6 +107,16 @@ namespace game
         int sweetSweetRate = _resourceManager->getSweetSweetPerSecond();
         _ui.resourcesRateText = (sweetSweetRate >= 0 ? "+" : "") + std::to_string(sweetSweetRate) + "/s";
         _ui.resourcesRateColor = (sweetSweetRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
+
+        _ui.woodAmountText = std::to_string(_resourceManager->getWood());
+        int woodRate = _resourceManager->getWoodPerSecond();
+        _ui.woodRateText = (woodRate >= 0 ? "+" : "") + std::to_string(woodRate) + "/s";
+        _ui.woodRateColor = (woodRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
+
+        _ui.stoneAmountText = std::to_string(_resourceManager->getStone());
+        int stoneRate = _resourceManager->getStonePerSecond();
+        _ui.stoneRateText = (stoneRate >= 0 ? "+" : "") + std::to_string(stoneRate) + "/s";
+        _ui.stoneRateColor = (stoneRate >= 0 ? raylib::Color::Green() : raylib::Color::Red());
     }
 
     void Game::draw() const

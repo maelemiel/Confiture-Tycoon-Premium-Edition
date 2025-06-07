@@ -15,28 +15,29 @@ private:
     int _SweetSweet;
     int _SweetSweetPerSecond;
 
-    // 🌬️ Oxygen System
     int _oxygenLevel;
     int _maxOxygenLevel;
     int _oxygenPerSecond;
 
-    // 👥 Population System
     int _population;
 
-    // ⏰ Time management
+    int _wood;
+    int _woodPerSecond;
+
+    int _stone;
+    int _stonePerSecond;
+
     float _timeAccumulator;
 
 public:
     ResourceManager();
 
-    // 📊 Update system
     void update(float deltaTime);
     void updateProduction(
         const std::vector<std::shared_ptr<Structure::IStructure>> &structures);
     void RessourceUpdate(
         const std::pmr::list<std::shared_ptr<Tile>> &tiles);
 
-    // 🍯 SweetSweet Management
     int getSweetSweet() const
     {
         return _SweetSweet;
@@ -48,7 +49,6 @@ public:
     bool spendSweetSweet(int amount);
     void addSweetSweet(int amount);
 
-    // 🌬️ Oxygen Management
     int getOxygenLevel() const
     {
         return _oxygenLevel;
@@ -65,11 +65,29 @@ public:
     void addOxygen(int amount);
     void consumeOxygen(int amount);
 
-    // 👥 Population Management
     int getPopulation() const
     {
         return _population;
     }
+
+    int getWood() const
+    {
+        return _wood;
+    }
+    int getWoodPerSecond() const
+    {
+        return _woodPerSecond;
+    }
+
+    int getStone() const
+    {
+        return _stone;
+    }
+    int getStonePerSecond() const
+    {
+        return _stonePerSecond;
+    }
+
     void resetGame();
 
 private:

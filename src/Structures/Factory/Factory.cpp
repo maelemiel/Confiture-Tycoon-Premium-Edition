@@ -2,6 +2,7 @@
 #include "Structures/Tree.hpp"
 #include "Structures/Generator.hpp"
 #include "Structures/House.hpp"
+#include "Structures/Mine.hpp"
 
 namespace Structures {
 
