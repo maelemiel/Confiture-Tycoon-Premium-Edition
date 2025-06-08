@@ -27,6 +27,7 @@ namespace game::scene
         std::shared_ptr<Structure::IStructure> structure);
         void _takeResources(std::shared_ptr<Structure::IStructure> structure);
         bool _verifyResources(std::shared_ptr<Structure::IStructure> structure);
+        int _calculateTotalHabitantNeeded(std::shared_ptr<Structure::IStructure> newStructure = nullptr) const;
 
         void _updateMouse(float dt);
 

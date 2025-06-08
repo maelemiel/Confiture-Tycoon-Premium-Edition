@@ -4,6 +4,7 @@
 
 #include "Main.hpp"
 #include "Game.hpp"
+#include <iostream>
 
 namespace game::scene {
     Main::Main(Game &game) :
@@ -23,10 +24,38 @@ namespace game::scene {
     bool Main::_verifyResources(std::shared_ptr<Structure::IStructure> structure) {
         if (structure->getResourceCost() > _resourceManager.getSweetSweet() ||
             structure->getStoneCost() > _resourceManager.getStone() ||
-            structure->getWoodCost() > _resourceManager.getWood() ||
-            structure->getHabitantNeeded() > _resourceManager.getPopulation())
+            structure->getWoodCost() > _resourceManager.getWood())
+            return false;
+
+        int totalHabitantNeeded = _calculateTotalHabitantNeeded(structure);
+        int currentPopulation = _resourceManager.getPopulation();
+
+        std::cout << "=== Inhabitant Check ===" << std::endl;
+        std::cout << "Current population: " << currentPopulation << std::endl;
+        std::cout << "Total inhabitants needed (all buildings + new one): " << totalHabitantNeeded << std::endl;
+        std::cout << "Can place? " << (totalHabitantNeeded <= currentPopulation ? "YES" : "NO") << std::endl;
+        std::cout << "=========================" << std::endl;
+
+        if (totalHabitantNeeded > currentPopulation)
             return false;
         return true;
+    }
+
+    int Main::_calculateTotalHabitantNeeded(std::shared_ptr<Structure::IStructure> newStructure) const {
+        int totalNeeded = 0;
+
+        for (const auto& tile : _map.getTiles()) {
+            if (tile->hasStructure() && tile->getLinkedTile() == nullptr) {
+                auto structure = tile->getStructureSharedPtr();
+                if (structure) {
+                    totalNeeded += structure->getHabitantNeeded();
+                }
+            }
+        }
+        if (newStructure) {
+            totalNeeded += newStructure->getHabitantNeeded();
+        }
+        return totalNeeded;
     }
 
     void Main::_updateMouse([[maybe_unused]] float dt)
