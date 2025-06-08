@@ -24,6 +24,7 @@ public:
     raylib::Texture &getIcon() { return _icon; }
     raylib::Texture &getSprite() { return _sprite; }
     int getPollutionEffect() { return _pollutionEffect; }
+    int getHabitantNeeded() const { return _habitantNeeded; }
 
     // Abstract getters
     int getHabitationCap() const { return _habitantCap; }

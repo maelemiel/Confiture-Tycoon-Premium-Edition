@@ -25,6 +25,7 @@ public:
     virtual raylib::Texture &getIcon() = 0;
     virtual raylib::Texture &getSprite() = 0;
     virtual int getPollutionEffect() = 0;
+    virtual int getHabitantNeeded() const = 0;
 
 protected:
     string _name;
@@ -36,6 +37,7 @@ protected:
     raylib::Texture _icon;
     raylib::Texture _sprite;
     int _pollutionEffect;
+    int _habitantNeeded;
 };
 }
 

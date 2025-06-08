@@ -18,6 +18,7 @@ public:
         _sprite = raylib::Texture2D("assets/Habitation/house_sprite.png");
         _pollutionEffect = 0;
         _habitantCap = 5;
+        _habitantNeeded = 0;
     }
 
     ~House() override = default;

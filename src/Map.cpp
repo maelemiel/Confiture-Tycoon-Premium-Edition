@@ -156,10 +156,7 @@ namespace game {
         if (!areAllHoveredTilesEmpty()) {
             return false;
         }
-        
-        // Check if trying to place an oxygen producer
         if (auto oxygenProducer = std::dynamic_pointer_cast<Structure::AOxygenProducer>(structure)) {
-            // For oxygen producers, check all hovered tiles for pollution
             return ranges::all_of(getHoveredTiles(), [](const std::shared_ptr<Tile> &tile) {
                 if (tile == nullptr) {
                     return false;
@@ -167,8 +164,7 @@ namespace game {
                 return tile->canPlaceOxygenProducer();
             });
         }
-        
-        // For non-oxygen producers, normal placement rules apply
+
         return true;
     }
 
