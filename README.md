@@ -1,4 +1,4 @@
-# 🏭💰 ULTRA DUAL DEATH RUN 2 DELUXE EDITION REMASTERED 💰🏭
+# 🏭💰 Jeuconfiture Tycoon (Premium Edition (Trial (Free))) Ultra HD (480p) Deluxe Edition (Remastered) Demo 2 - Uwunity - v69.420 💰🏭
 ## *Le TYCOON Post-Apocalyptique le Plus CHAOTIQUE de l'Univers* 💸
 
 ```
