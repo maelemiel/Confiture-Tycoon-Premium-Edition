@@ -101,9 +101,9 @@ The game explores themes of industrial development versus environmental responsi
 ## Contributing
 
 This project was developed for educational purposes as part of a game jam.
-[Charles Mahoudeau's Github](https://github.com/Charles-Mahoudeau)
-[quent1111's GitHub](https://github.com/quent1111)
-[EstebanPeroz's GitHub](https://github.com/EstebanPeroz)
-[ChifuyuOnWish's GitHub](https://github.com/ChifuyuOnWish)
-[Gbrl-ht's GitHub](https://github.com/Gbrl-ht)
-[maelemiel's GitHub](https://github.com/maelemiel)
+- [Charles Mahoudeau's Github](https://github.com/Charles-Mahoudeau)
+- [quent1111's GitHub](https://github.com/quent1111)
+- [EstebanPeroz's GitHub](https://github.com/EstebanPeroz)
+- [ChifuyuOnWish's GitHub](https://github.com/ChifuyuOnWish)
+- [Gbrl-ht's GitHub](https://github.com/Gbrl-ht)
+- [maelemiel's GitHub](https://github.com/maelemiel)
